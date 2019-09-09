@@ -131,6 +131,7 @@ android {
         applicationId "com.borrachariasbeta"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
@@ -188,12 +189,17 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
+    // Firebase dependencies
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-auth:17.0.0"
+    
     implementation project(':@react-native-community_geolocation')
     implementation(project(':react-native-maps')){
        exclude group: 'com.google.android.gms', module: 'play-services-base'
        exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
+    implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
 
     implementation project(':react-native-vector-icons')
@@ -202,7 +208,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':@react-native-mapbox-gl_maps')
-    
+
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")
@@ -220,3 +226,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services'

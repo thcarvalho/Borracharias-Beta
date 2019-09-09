@@ -1,14 +1,62 @@
-import React from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // 6.2.2
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+/* eslint-disable prettier/prettier */
+import React, {Component} from 'react';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import firebase from "react-native-firebase";
 
-const botaoPressionado = () => {
-		Alert.alert('Carregando');
-	};
+let autenticacao = firebase.auth();
 
-class CadastroUsuario extends React.Component {
+export default class CadastroUsuario extends Component {
+  state = {
+    email: '',
+    password: '',
+  }
+
+  emailChange = (email) => {
+    this.setState({ email })
+  }
+  passwordChange = (password) => {
+    this.setState({ password })
+  }
+  sucessoCadastro(){
+    alert('Cadastro efetuado com sucesso!');
+    this.props.navigation.navigate('Login');
+  }
+
+  botaoPressionado() {
+    let email = this.state.email;
+    let password = this.state.password;
+    if (email === '' || password === '') {
+      alert('Por favor, preencha os campos');
+    } else {
+      autenticacao.createUserWithEmailAndPassword(email, password)
+        .then(() => { this.sucessoCadastro() })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/email-already-in-use':
+              Alert('Esse email já está cadastrado');
+              break;
+            case 'auth/invalid-email':
+              Alert('Esse email é invalido');
+              break;
+            case 'auth/weak-password':
+              Alert('A senha deve ter no minimo 6 caracteres');
+              break;
+            default:
+              Alert('Erro ao realizar cadastro')
+          }
+        })
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -16,14 +64,35 @@ class CadastroUsuario extends React.Component {
           <Text style={styles.titulo}>Cadastro Usuario</Text>
 
           <View>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Nome'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Email'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Senha'/>
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Nome"
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+              onChangeText={this.emailChange}
+              value={this.state.email}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Senha"
+              secureTextEntry
+              onChangeText={this.passwordChange}
+              value={this.state.senha}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
 
-             <View style={styles.centralizar}>
-            <TouchableOpacity onPress={botaoPressionado} style={styles.botao}>
-						<Text>Concluir</Text>
-					  </TouchableOpacity>
+            <View style={styles.centralizar}>
+              <TouchableOpacity onPress={() => { this.botaoPressionado() }} style={styles.botao}>
+                <Text>Concluir</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -32,31 +101,51 @@ class CadastroUsuario extends React.Component {
   }
 }
 
-class CadastroBorracharia extends React.Component {
+/*class CadastroBorracharia extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View  style={styles.tela}>
+        <View style={styles.tela}>
           <Text style={styles.titulo}>Cadastro Borracharia</Text>
 
           <View>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Nome'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='CNPJ'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Endereço'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Email'/>
-            <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Senha'/>
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Nome"
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="CNPJ"
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Endereço"
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+            />
+            <TextInput
+              style={styles.caixasTexto}
+              underlineColorAndroid="transparent"
+              placeholder="Senha"
+            />
 
             <View style={styles.centralizar}>
-          <TouchableOpacity onPress={botaoPressionado} style={styles.botao}>
-						<Text>Concluir</Text>
-					</TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.botaoPressionado() }} style={styles.botao}>
+                <Text>Concluir</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </View>
     );
   }
-}
+}*/
 
 class IconWithBadge extends React.Component {
   render() {
@@ -106,11 +195,11 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   return <IconComponent name={iconName} size={30} color={tintColor} />;
 };
 
-export default createAppContainer(
+/*export default createAppContainer(
   createBottomTabNavigator(
     {
-     Usuario: { screen: CadastroUsuario},
-     Borracharia: { screen: CadastroBorracharia},
+      Usuario: { screen: CadastroUsuario },
+      Borracharia: { screen: CadastroBorracharia },
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -118,56 +207,53 @@ export default createAppContainer(
           getTabBarIcon(navigation, focused, tintColor),
       }),
       tabBarOptions: {
-        activeBackgroundColor: '#E0FFFF' ,
+        activeBackgroundColor: '#E0FFFF',
         activeTintColor: '#2F4F4F',
 
         inativeBackgroundColor: '#fff',
         inactiveTintColor: 'gray',
       },
-    }
-  )
-);
+    },
+  ),
+);*/
 
 const styles = StyleSheet.create({
-    container: {
-			backgroundColor: '#3CB371',
-			flex: 1,
-			alignItems: 'center',
-			flexDirection: 'center',
-      justifyContent: 'space-between'
-		},
-		tela: {
-		  flexDirection: 'center',
-      justifyContent: 'space-between',
-	    alignItems: 'center',
-		},
-    centralizar: {
-      flexDirection: 'center',
-      justifyContent: 'space-between',
-	    alignItems: 'center',
-    },
-    titulo: {
-		  marginTop: 70,
-		  marginBottom: 30,
-			color: '#fff',
-			fontSize: 38,
-			fontFamily: 'Arial',
-			fontWeight: 'bold',
-		},
-    caixasTexto: {
-		  width: 250,
-			borderRadius: 10,
-			backgroundColor: '#fff',
-			padding: 8,
-			marginBottom: 10
-		},
-    botao: {
-		  alignItems: 'center',
-		  width: 80,
-			borderRadius: 8,
-			backgroundColor: '#E0FFFF',
-			padding: 12,
-			marginTop: 25,
-			marginBottom: 25
-		},
+  container: {
+    backgroundColor: '#3CB371',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  tela: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  centralizar: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  titulo: {
+    marginTop: 70,
+    marginBottom: 30,
+    color: '#fff',
+    fontSize: 38,
+    fontFamily: 'Arial',
+    fontWeight: 'bold',
+  },
+  caixasTexto: {
+    width: 250,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    padding: 8,
+    marginBottom: 10,
+  },
+  botao: {
+    alignItems: 'center',
+    width: 80,
+    borderRadius: 8,
+    backgroundColor: '#E0FFFF',
+    padding: 12,
+    marginTop: 25,
+    marginBottom: 25,
+  },
 });

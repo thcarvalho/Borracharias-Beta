@@ -36,6 +36,8 @@ target 'BorrachariasBeta' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'BorrachariasBetaTests' do
     inherit! :search_paths
     # Pods for testing

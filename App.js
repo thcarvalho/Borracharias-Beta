@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,16 +8,14 @@ import {
   StatusBar,
 } from 'react-native';
 
-import Routes from "./src/routes";
+import Routes from './src/routes';
+import Login from './src/components/login';
+import Cadastro from './src/components/cadastro';
 
 const App = () => {
-  return (
-    <Routes/>
-  );
+  return <Routes />;
 };
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default App;

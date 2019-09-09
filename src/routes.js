@@ -1,35 +1,14 @@
 import React, { Component } from 'react';
 
-import { View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { View } from 'react-native';
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 
-import { createDrawerNavigator, createAppContainer, DrawerItems } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import SwitchNavigator from "./switch-navigator";
+import DrawerNavigation from "./drawer-navigation";
 
-import BottomNavigation from "./bottom-navigation";
-import Settings from "./components/settings";
+const mainNavigation = createSwitchNavigator({
+    SwitchNavigator,
+    DrawerNavigation,
+});
 
-const drawerNavigation = createDrawerNavigator(
-    {
-        Principal: {
-            screen: BottomNavigation,
-            navigationOptions: ({focused}) => ({
-                drawerIcon: <Icon name="home" size={20} color={focused ? "#fff" : "#000"} />,
-            }),
-        },
-        Configurações: {
-            screen: Settings,
-            navigationOptions: ({focused}) => ({
-                drawerIcon: <Icon name="cog" size={20} color={focused ? "#fff" : "#000"} />,
-            }),
-        },
-    },
-    {
-        overlayColor: 'rgba(0,0,0,0.4)',
-        contentOptions: {
-            activeTintColor: '#fff',
-            activeBackgroundColor: '#51b890',
-        },
-    }
-    )
-
-export default createAppContainer(drawerNavigation);
+export default createAppContainer(mainNavigation);
