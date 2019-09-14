@@ -12,13 +12,14 @@ import firebase from "react-native-firebase";
 
 let autenticacao = firebase.auth();
 
-export default class TelaPrincipal extends Component {
+export default class Login extends Component {
   state = {
     email: '',
     password: '',
+    autenticado: null,
   }
 
-  botaoPressionado() {
+  logarUsuario() {
     let email = this.state.email;
     let password = this.state.password;
     autenticacao
@@ -44,7 +45,9 @@ export default class TelaPrincipal extends Component {
   verificarUsuario(){
     autenticacao.onAuthStateChanged(user => {
       if (user) {
-        return true;
+        this.setState({
+          autenticado: true,
+        })
       }
       return null;
       }
@@ -69,7 +72,7 @@ export default class TelaPrincipal extends Component {
   }
 
   render() {
-    if (this.verificarUsuario()) {
+    if (this.state.autenticado === true) {
       this.props.navigation.navigate('Principal');
     }
     return (
@@ -98,7 +101,7 @@ export default class TelaPrincipal extends Component {
             autoCorrect={false}
           />
 
-          <TouchableOpacity onPress={() => { this.botaoPressionado() }} style={styles.botao}>
+          <TouchableOpacity onPress={() => { this.logarUsuario() }} style={styles.botao}>
             <Text>ENTRAR</Text>
           </TouchableOpacity>
 

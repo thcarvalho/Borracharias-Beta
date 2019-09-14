@@ -5,12 +5,14 @@ import { View } from 'react-native';
 import {
     createDrawerNavigator,
     createAppContainer,
-    DrawerItems,
 } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BottomNavigation from './bottom-navigation';
 import Settings from './components/settings';
+import Adicionar from "./components/adicionar";
+import Sugerir from "./components/sugerir";
+
 const drawerNavigation = createDrawerNavigator(
     {
         Principal: {
@@ -29,6 +31,22 @@ const drawerNavigation = createDrawerNavigator(
                 ),
             }),
         },
+        Sugerir: {
+            screen: Sugerir,
+            navigationOptions: ({ focused }) => ({
+                drawerIcon: (
+                    <Icon name="paper-plane" size={20} color={focused ? '#fff' : '#000'} />
+                ),
+            }),
+        },
+        Adicionar: {
+            screen: Adicionar,
+            navigationOptions: ({ focused }) => ({
+                drawerIcon: (
+                    <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />
+                ),
+            }),
+        }
     },
     {
         overlayColor: 'rgba(0,0,0,0.4)',

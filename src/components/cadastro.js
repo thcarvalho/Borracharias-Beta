@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -12,32 +12,40 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from "react-native-firebase";
 
-let autenticacao = firebase.auth();
+let auth = firebase.auth();
 
 export default class CadastroUsuario extends Component {
   state = {
+    nome: '',
     email: '',
     password: '',
   }
 
+  ref = firebase.firestore().collection('usuarios');
+
+  nomeChange = (nome) => {
+    this.setState({ nome });
+  }
   emailChange = (email) => {
-    this.setState({ email })
+    this.setState({ email });
   }
   passwordChange = (password) => {
-    this.setState({ password })
+    this.setState({ password });
   }
-  sucessoCadastro(){
+  sucessoCadastro() {
     alert('Cadastro efetuado com sucesso!');
     this.props.navigation.navigate('Login');
   }
 
-  botaoPressionado() {
+  cadastrarUsuario() {
     let email = this.state.email;
     let password = this.state.password;
+    let nome = this.state.nome;
     if (email === '' || password === '') {
       alert('Por favor, preencha os campos');
     } else {
-      autenticacao.createUserWithEmailAndPassword(email, password)
+      //Criar Autenticação por Email
+      auth.createUserWithEmailAndPassword(email, password)
         .then(() => { this.sucessoCadastro() })
         .catch(error => {
           switch (error.code) {
@@ -51,9 +59,15 @@ export default class CadastroUsuario extends Component {
               Alert('A senha deve ter no minimo 6 caracteres');
               break;
             default:
-              Alert('Erro ao realizar cadastro')
+              Alert('Erro ao realizar cadastro');
           }
-        })
+        });
+      //Adicionar ao Banco
+      this.ref.add({
+        nome: this.state.nome,
+        email: this.state.email,
+        userType: 'Comum',
+      });
     }
   }
 
@@ -68,6 +82,8 @@ export default class CadastroUsuario extends Component {
               style={styles.caixasTexto}
               underlineColorAndroid="transparent"
               placeholder="Nome"
+              value={this.state.nome}
+              onChangeText={this.nomeChange}
             />
             <TextInput
               style={styles.caixasTexto}
@@ -90,7 +106,7 @@ export default class CadastroUsuario extends Component {
             />
 
             <View style={styles.centralizar}>
-              <TouchableOpacity onPress={() => { this.botaoPressionado() }} style={styles.botao}>
+              <TouchableOpacity onPress={() => { this.cadastrarUsuario() }} style={styles.botao}>
                 <Text>Concluir</Text>
               </TouchableOpacity>
             </View>
