@@ -38,15 +38,25 @@ export default class TelaPrincipal extends Component {
           default:
             alert('Erro ao realizar login');
         }
-      })
+      });
   }
   
+  verificarUsuario(){
+    autenticacao.onAuthStateChanged(user => {
+      if (user) {
+        return true;
+      }
+      return null;
+      }
+    );
+  }
+
   emailChange = (email) => {
-    this.setState({email})
-  }
+    this.setState({email});
+  };
   passwordChange = (password) => {
-    this.setState({password})
-  }
+    this.setState({password});
+  };
   
   sucessoLogin() {
     this.props.navigation.navigate('Principal');
@@ -58,14 +68,10 @@ export default class TelaPrincipal extends Component {
     this.props.navigation.navigate('Cadastro');
   }
 
-
   render() {
-    if (autenticacao.currentUser !== null) {
-      return(
-        this.props.navigation.navigate('Principal')
-      )
+    if (this.verificarUsuario()) {
+      this.props.navigation.navigate('Principal');
     }
-
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
