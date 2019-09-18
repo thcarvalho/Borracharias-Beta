@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default class Adicionar extends Component {
+export default class CadastrarDestinacao extends Component {
     render() {
        return (
          <View style={{flex: 1}}>
