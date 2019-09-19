@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-import Cadastro from "./components/cadastro";
+import Cadastro from "./components/CadastrarUsuario";
 import Switch from "./switch-navigator";
 import Login from './components/login';
 
