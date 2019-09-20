@@ -40,7 +40,7 @@ const drawerNavigation = createDrawerNavigator(
             }),
         },
         Adicionar: {
-            screen: Adicionar,
+            screen: CadastrarDestinacao,
             navigationOptions: ({ focused }) => ({
                 drawerIcon: (
                     <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />

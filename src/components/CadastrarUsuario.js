@@ -41,11 +41,12 @@ export default class CadastroUsuario extends Component {
     let email = this.state.email;
     let password = this.state.password;
     let nome = this.state.nome;
-    if (email === '' || password === '') {
+    if (email === '' || password === '' || nome === '') {
       alert('Por favor, preencha os campos');
     } else {
       //Criar Autenticação por Email
-      auth.createUserWithEmailAndPassword(email, password)
+      auth
+        .createUserWithEmailAndPassword(email, password)
         .then(() => { this.sucessoCadastro() })
         .catch(error => {
           switch (error.code) {
