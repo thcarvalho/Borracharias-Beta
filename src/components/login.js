@@ -65,7 +65,8 @@ export default class Login extends Component {
     this.props.navigation.navigate('Principal');
   }
   esqueceuSenha() {
-    Alert.alert('Informar email para enviar nova senha');
+    this.props.navigation.navigate('Esquceu a Sennha');
+    //Alert.alert('Informar email para enviar nova senha');
   }
   cadastro() {
     this.props.navigation.navigate('Cadastro');
