@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BottomNavigation from './bottom-navigation';
 import Settings from './components/settings';
-import Adicionar from "./components/adicionar";
+import CadastrarDestinacao from "./components/CadastrarDestinacao";
 import Sugerir from "./components/sugerir";
 
 const drawerNavigation = createDrawerNavigator(
@@ -40,7 +40,7 @@ const drawerNavigation = createDrawerNavigator(
             }),
         },
         Adicionar: {
-            screen: Adicionar,
+            screen: CadastrarDestinacao,
             navigationOptions: ({ focused }) => ({
                 drawerIcon: (
                     <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />

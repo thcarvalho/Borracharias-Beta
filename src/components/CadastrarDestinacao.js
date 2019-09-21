@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default class Adicionar extends Component {
+export default class CadastrarDestinacao extends Component {
     render() {
        return (
          <View style={{flex: 1}}>
@@ -12,6 +12,7 @@ export default class Adicionar extends Component {
            </TouchableOpacity>
            <Text style={{textAlign: 'center', textAlignVertical: 'center'}}>Adicionar Eco ponto</Text>
    
+<<<<<<< HEAD:src/components/adicionar.js
 
           <TextInput 
                 style={styles.caixasTexto}
@@ -93,3 +94,9 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 });
+=======
+         </View>
+       );
+     }
+   }
+>>>>>>> 35c0576fd2251a05581d9430c998ac25f85e91bc:src/components/CadastrarDestinacao.js

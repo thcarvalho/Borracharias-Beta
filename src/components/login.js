@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import firebase from "react-native-firebase";
 
-let autenticacao = firebase.auth();
+let auth = firebase.auth();
 
 export default class Login extends Component {
   state = {
@@ -22,7 +22,11 @@ export default class Login extends Component {
   logarUsuario() {
     let email = this.state.email;
     let password = this.state.password;
-    autenticacao
+
+    if (email === '' || password === '') {
+      alert('Por favor, preencha os campos');
+    } else {
+    auth
       .signInWithEmailAndPassword(email, password)
       .then(() => { this.sucessoLogin() })
       .catch(error => {
@@ -40,6 +44,7 @@ export default class Login extends Component {
             alert('Erro ao realizar login');
         }
       });
+    }
   }
   
   verificarUsuario(){
