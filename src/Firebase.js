@@ -3,14 +3,32 @@ import React, { Component } from 'react';
 import firebase from "react-native-firebase";
 
 let auth = firebase.auth();
-let ref = firebase.firestore().collection('usuarios');
+let refUsuarios = firebase.firestore().collection('usuarios');
+let refDestinacoes = firebase.firestore().collection('destinacoes');
 
-export function cadastrarNoBanco(nome, email) {
-  ref.add({
+export function cadastrarUsuarios(nome, email) {
+  refUsuarios.add({
     nome,
     email,
     userType: 'Comum',
   });
+}
+export function cadastrarDestinacao(ecoponto, telefone, endereco, numero, cep, cidade, estado, latitude, longitude) {
+  refDestinacoes.add({
+    ecoponto,
+    telefone,
+    endereco,
+    numero,
+    cep,
+    cidade,
+    estado,
+    latitude,
+    longitude,
+  })
+  .then(() => {
+    alert('Nova destinação adicionada');
+  })
+  .catch((error) => console.log(error));
 }
 
 export const autenticarUsuario = (email, password, nome, reactComponentContext) => {
@@ -25,7 +43,7 @@ export const autenticarUsuario = (email, password, nome, reactComponentContext) 
           alert('Cadastro efetuado com sucesso!');
           reactComponentContext.props.navigation.navigate('Login');
           //Adicionar ao banco
-          ref.add({
+          refUsuarios.add({
             nome,
             email,
             userType: 'Comum',
@@ -86,4 +104,13 @@ export function verificarAutenticacao(reactComponentContext) {
     }
   }
   );
+}
+
+export function recuperarDestinacoes(reactComponentContext) {
+  refDestinacoes.onSnapshot((snapshot) => {
+      snapshot.forEach(doc => {
+        console.log(doc.data());
+        reactComponentContext.mostrarDestinacoes(doc);
+      });
+  });
 }
