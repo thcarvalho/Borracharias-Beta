@@ -7,6 +7,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Cadastro from "./components/CadastrarUsuario";
 import EsqueceuSenha from "./components/EsqueceuSenha";
 import Login from './components/login';
+import EsqueceuSenha from "./components/esqueceuSenha";
 
 const mainNavigation = createStackNavigator(
     {
@@ -22,6 +23,12 @@ const mainNavigation = createStackNavigator(
                 title: 'Cadastro',
             })
         },
+        EsqueceuSenha:{
+            screen: EsqueceuSenha,
+            navigationOptions: () =>({
+                title: 'Esqueceu a senha?',
+            })
+        }
         EsqueceuSenha:{
             screen: EsqueceuSenha,
             navigationOptions: () =>({

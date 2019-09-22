@@ -65,7 +65,7 @@ export default class CadastrarDestinacao extends Component {
                 <TouchableOpacity style={styles.botao} onPress={this.botaoPressionado}>
                     <Text>Enviar</Text>
                 </TouchableOpacity>
-                </View>
+              </View>
         );
     }
 }
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-    caixasTexto: {
+  caixasTexto: {
     width: 250,
     borderRadius: 10,
     backgroundColor: '#fff',
