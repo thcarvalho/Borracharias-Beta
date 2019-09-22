@@ -30,11 +30,6 @@ export default class Login extends Component {
     this.setState({password});
   };
   
-  esqueceuSenha() {
-    this.props.navigation.navigate('Esquceu a Sennha');
-    //Alert.alert('Informar email para enviar nova senha');
-  }
-
   render() {
     const { email, password} = this.state;
     return (

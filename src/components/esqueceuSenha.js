@@ -5,11 +5,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert } from 'react-native';
-
-const botaoPressionado = () => {
-	Alert.alert('Email enviado');
-};
+  Alert 
+} from 'react-native';
 
 export default class EsqueceuSenha extends React.Component {
   render() {
@@ -22,7 +19,7 @@ export default class EsqueceuSenha extends React.Component {
         <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Email'/>
         
          <View>
-            <TouchableOpacity onPress={botaoPressionado} style={styles.botao}>
+            <TouchableOpacity onPress={() => {alert('Email enviado');}} style={styles.botao}>
 		           <Text>Enviar</Text>
 	         </TouchableOpacity>
             </View>
@@ -36,7 +33,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#3CB371',
       flex: 1,
       alignItems: 'center',
-      flexDirection: 'center',
         },
   titulo: {
       marginTop: 150,
@@ -56,7 +52,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       padding: 14,
       marginBottom: 10,
-      marginTop: 30
+      marginTop: 30,
   },
     botao: {
         alignItems: 'center',
@@ -66,5 +62,4 @@ const styles = StyleSheet.create({
         padding: 15,
         marginTop: 25,
     },
-    
 });
