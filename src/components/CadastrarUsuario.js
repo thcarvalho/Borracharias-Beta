@@ -9,10 +9,9 @@ import {
   Alert,
 } from 'react-native';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import firebase from "react-native-firebase";
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 
-let auth = firebase.auth();
+import {autenticarUsuario} from '../Firebase';
 
 export default class CadastroUsuario extends Component {
   state = {
@@ -20,8 +19,6 @@ export default class CadastroUsuario extends Component {
     email: '',
     password: '',
   }
-
-  ref = firebase.firestore().collection('usuarios');
 
   nomeChange = (nome) => {
     this.setState({ nome });
@@ -32,58 +29,19 @@ export default class CadastroUsuario extends Component {
   passwordChange = (password) => {
     this.setState({ password });
   }
-  sucessoCadastro() {
-    alert('Cadastro efetuado com sucesso!');
-    this.props.navigation.navigate('Login');
-  }
-
-  cadastrarUsuario() {
-    let email = this.state.email;
-    let password = this.state.password;
-    let nome = this.state.nome;
-    if (email === '' || password === '' || nome === '') {
-      alert('Por favor, preencha os campos');
-    } else {
-      //Criar Autenticação por Email
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => { this.sucessoCadastro() })
-        .catch(error => {
-          switch (error.code) {
-            case 'auth/email-already-in-use':
-              Alert('Esse email já está cadastrado');
-              break;
-            case 'auth/invalid-email':
-              Alert('Esse email é invalido');
-              break;
-            case 'auth/weak-password':
-              Alert('A senha deve ter no minimo 6 caracteres');
-              break;
-            default:
-              Alert('Erro ao realizar cadastro');
-          }
-        });
-      //Adicionar ao Banco
-      this.ref.add({
-        nome: this.state.nome,
-        email: this.state.email,
-        userType: 'Comum',
-      });
-    }
-  }
-
+ 
   render() {
+    const {nome, email, password} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
           <Text style={styles.titulo}>Cadastro Usuario</Text>
-
           <View>
             <TextInput
               style={styles.caixasTexto}
               underlineColorAndroid="transparent"
               placeholder="Nome"
-              value={this.state.nome}
+              value={nome}
               onChangeText={this.nomeChange}
             />
             <TextInput
@@ -91,7 +49,7 @@ export default class CadastroUsuario extends Component {
               underlineColorAndroid="transparent"
               placeholder="Email"
               onChangeText={this.emailChange}
-              value={this.state.email}
+              value={email}
               autoCapitalize="none"
               autoCorrect={false}
             />
@@ -101,13 +59,13 @@ export default class CadastroUsuario extends Component {
               placeholder="Senha"
               secureTextEntry
               onChangeText={this.passwordChange}
-              value={this.state.senha}
+              value={password}
               autoCapitalize="none"
               autoCorrect={false}
             />
 
             <View style={styles.centralizar}>
-              <TouchableOpacity onPress={() => { this.cadastrarUsuario() }} style={styles.botao}>
+              <TouchableOpacity onPress={() => {autenticarUsuario(email, password, nome, this)}} style={styles.botao}>
                 <Text>Concluir</Text>
               </TouchableOpacity>
             </View>

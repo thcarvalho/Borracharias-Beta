@@ -7,7 +7,7 @@ import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Artigos from './components/artigos';
-import Maps from './components/maps';
+import Maps from './components/Maps';
 import Lista from './components/lista';
 
 const bottomNavigation = createMaterialBottomTabNavigator(

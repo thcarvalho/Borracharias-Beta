@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -8,9 +9,8 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import firebase from "react-native-firebase";
 
-let auth = firebase.auth();
+import { verificarAutenticacao,logarUsuario } from "../Firebase";
 
 export default class Login extends Component {
   state = {
@@ -18,47 +18,11 @@ export default class Login extends Component {
     password: '',
     autenticado: null,
   }
-
-  logarUsuario() {
-    let email = this.state.email;
-    let password = this.state.password;
-
-    if (email === '' || password === '') {
-      alert('Por favor, preencha os campos');
-    } else {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => { this.sucessoLogin() })
-      .catch(error => {
-        switch (error.code) {
-          case 'auth/wrong-password':
-            alert('Senha incorreta');
-            break;
-          case 'auth/invalid-email':
-            alert('Esse email é invalido');
-            break;
-          case 'auth/user-not-found':
-            alert('Usuario não encontrado');
-            break;
-          default:
-            alert('Erro ao realizar login');
-        }
-      });
+  async componentWillMount(){
+    if (verificarAutenticacao(this)) {
+      this.setState({autenticado: true});
     }
   }
-  
-  verificarUsuario(){
-    autenticacao.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          autenticado: true,
-        })
-      }
-      return null;
-      }
-    );
-  }
-
   emailChange = (email) => {
     this.setState({email});
   };
@@ -66,20 +30,12 @@ export default class Login extends Component {
     this.setState({password});
   };
   
-  sucessoLogin() {
-    this.props.navigation.navigate('Principal');
-  }
   esqueceuSenha() {
     Alert.alert('Informar email para enviar nova senha');
   }
-  cadastro() {
-    this.props.navigation.navigate('Cadastro');
-  }
 
   render() {
-    if (this.state.autenticado === true) {
-      this.props.navigation.navigate('Principal');
-    }
+    const { email, password} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
@@ -90,7 +46,7 @@ export default class Login extends Component {
             underlineColorAndroid="transparent"
             placeholder="Email"
             onChangeText={this.emailChange}
-            value={this.state.email}
+            value={email}
             autoCapitalize="none"
             autoCorrect={false}
           />
@@ -101,20 +57,20 @@ export default class Login extends Component {
             underlineColorAndroid="transparent"
             placeholder="Senha"
             onChangeText={this.passwordChange}
-            value={this.state.senha}
+            value={password}
             autoCapitalize="none"
             autoCorrect={false}
           />
 
-          <TouchableOpacity onPress={() => { this.logarUsuario() }} style={styles.botao}>
+          <TouchableOpacity onPress={() => { logarUsuario(email,password,this); }} style={styles.botao}>
             <Text>ENTRAR</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { this.esqueceuSenha() }}>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate('EsqueceuSenha'); }}>
             <Text style={styles.links}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { this.cadastro() }}>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cadastro'); }}>
             <Text style={styles.links}>Cadastre-se</Text>
           </TouchableOpacity>
         </View>
