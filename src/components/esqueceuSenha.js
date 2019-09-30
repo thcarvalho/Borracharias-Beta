@@ -35,7 +35,7 @@ export default class EsqueceuSenha extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: '#3CB371',
+      backgroundColor: '#009688',
       flex: 1,
       alignItems: 'center',
         },
