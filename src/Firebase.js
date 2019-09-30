@@ -25,10 +25,10 @@ export function cadastrarDestinacao(ecoponto, telefone, endereco, numero, cep, c
     latitude,
     longitude,
   })
-  .then(() => {
-    alert('Nova destinação adicionada');
-  })
-  .catch((error) => console.log(error));
+    .then(() => {
+      alert('Obrigado pela sugestão!');
+    })
+    .catch((error) => console.log(error));
 }
 
 export const autenticarUsuario = (email, password, nome, reactComponentContext) => {
@@ -108,9 +108,20 @@ export function verificarAutenticacao(reactComponentContext) {
 
 export function recuperarDestinacoes(reactComponentContext) {
   refDestinacoes.onSnapshot((snapshot) => {
-      snapshot.forEach(doc => {
-        console.log(doc.data());
-        reactComponentContext.mostrarDestinacoes(doc);
-      });
+    snapshot.forEach(doc => {
+      console.log(doc.data());
+      reactComponentContext.mostrarDestinacoes(doc);
+    });
   });
 }
+// export function recuperarTipoUsuario(){
+//   let usuarioAtual = auth.currentUser.email;
+//   console.log(usuarioAtual);
+//   refUsuarios.where("email", "==", usuarioAtual)
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.forEach(doc => {
+//       console.log(doc.data().userType);
+//     })
+//   })
+// }
