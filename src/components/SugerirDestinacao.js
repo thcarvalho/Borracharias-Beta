@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Alert, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { cadastrarDestinacao } from "../Firebase";
+import Geocoder from 'react-native-geocoding';
 import { ScrollView } from 'react-native-gesture-handler';
-
-export default class CadastrarDestinacao extends Component {
+Geocoder.init("AIzaSyBGKCuuDcjsWjiXKPY27se2ShLmOgn-Y4Q", { language: "pt-br" });
+export default class Sugerir extends Component {
   state = {
     ecoponto: '',
     telefone: '',
@@ -40,18 +42,49 @@ export default class CadastrarDestinacao extends Component {
     this.setState({ estado });
   }
 
-  
+  cadastrarDestinacao() {
+    const { ecoponto, telefone, endereco, numero, cep, cidade, estado } = this.state;
+    let latitude = '';
+    let longitude = '';
+    if (endereco === '' || numero === '' || cep === '' || cidade === '' || estado === '') {
+      alert('Faltam dados obrigatórios');
+    } else {
+      let enderecoCompleto = endereco + ' ' + numero + ' ' + cep + ' ' + cidade + ' ' + estado;
+      Geocoder.from(enderecoCompleto)
+        .then(json => {
+          let location = json.results[0].geometry.location;
+          latitude = location.lat;
+          longitude = location.lng;
+          console.log(location);
+          console.log(enderecoCompleto);
+          cadastrarDestinacao(ecoponto, telefone, endereco, numero, cep, cidade, estado, latitude, longitude);
+          this.setState({
+            ecoponto: '',
+            telefone: '',
+            endereco: '',
+            numero: '',
+            cep: '',
+            cidade: '',
+            estado: '',
+            latitude: '',
+            longitude: '',
+          })
+        })
+        .catch(error => console.log(error));
+    }
+  }
 
   render() {
     const { ecoponto, telefone, endereco, numero, cep, cidade, estado } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
-        <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+        <TouchableOpacity style={{ padding: 20, backgroundColor: '#009688' }} onPress={this.props.navigation.openDrawer}>
           <Icon name="bars" size={30} color={'#ddd'} />
         </TouchableOpacity>
-        <Text style={{ textAlign: 'center', textAlignVertical: 'center' }}>Adicionar Ecoponto</Text>
+        <View style={styles.container}>
+          <Text style={{ textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20, fontSize: 24 }}>Sugerir novo eco ponto</Text>
 
-        <TextInput
+          <TextInput
           style={styles.caixasTexto}
           underlineColorAndroid="transparent"
           placeholder="Nome do Ecoponto"
@@ -106,9 +139,10 @@ export default class CadastrarDestinacao extends Component {
           value={estado}
         />
 
-        <TouchableOpacity style={styles.botao} onPress={() => { this.cadastrarDestinacao() }}>
-          <Text>Enviar</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.botao} onPress={() => { this.cadastrarDestinacao() }}>
+            <Text>Enviar</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     );
   }
@@ -117,7 +151,7 @@ export default class CadastrarDestinacao extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3CB371',
+    backgroundColor: '#009688',
     flex: 1,
     alignItems: 'center',
   },
