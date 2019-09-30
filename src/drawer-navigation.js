@@ -10,8 +10,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BottomNavigation from './bottom-navigation';
 import Settings from './components/settings';
-import CadastrarDestinacao from "./components/CadastrarDestinacao";
-import Sugerir from "./components/sugerir";
+// import CadastrarDestinacao from "./components/CadastrarDestinacao";
+import Sugerir from "./components/SugerirDestinacao";
+
+// import { recuperarTipoUsuario } from "./Firebase";
+
+// recuperarTipoUsuario();
 
 const drawerNavigation = createDrawerNavigator(
     {
@@ -39,20 +43,20 @@ const drawerNavigation = createDrawerNavigator(
                 ),
             }),
         },
-        Adicionar: {
-            screen: CadastrarDestinacao,
-            navigationOptions: ({ focused }) => ({
-                drawerIcon: (
-                    <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />
-                ),
-            }),
-        }
+        // Adicionar: {
+        //     screen: CadastrarDestinacao,
+        //     navigationOptions: ({ focused }) => ({
+        //         drawerIcon: (
+        //             <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />
+        //         ),
+        //     }),
+        // }
     },
     {
         overlayColor: 'rgba(0,0,0,0.4)',
         contentOptions: {
             activeTintColor: '#fff',
-            activeBackgroundColor: '#51b890',
+            activeBackgroundColor: '#009688',
         },
     },
 );
