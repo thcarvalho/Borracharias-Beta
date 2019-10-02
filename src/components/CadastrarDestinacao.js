@@ -21,9 +21,6 @@ export default class CadastrarDestinacao extends Component {
   ecopontoChange = (ecoponto) => {
     this.setState({ ecoponto });
   }
-  telefoneChange = (telefone) => {
-    this.setState({ telefone });
-  }
   enderecoChange = (endereco) => {
     this.setState({ endereco });
   }
@@ -39,7 +36,9 @@ export default class CadastrarDestinacao extends Component {
   estadoChange = (estado) => {
     this.setState({ estado });
   }
-
+  telefoneChange = (telefone) => {
+    this.setState({ telefone });
+  }
   
 
   render() {
@@ -57,14 +56,6 @@ export default class CadastrarDestinacao extends Component {
           placeholder="Nome do Ecoponto"
           onChangeText={this.ecopontoChange}
           value={ecoponto}
-        />
-
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Telefone"
-          onChangeText={this.telefoneChange}
-          value={telefone}
         />
 
         <TextInput
@@ -104,6 +95,14 @@ export default class CadastrarDestinacao extends Component {
           placeholder="Estado"
           onChangeText={this.estadoChange}
           value={estado}
+        />
+
+<TextInput
+          style={styles.caixasTexto}
+          underlineColorAndroid="transparent"
+          placeholder="Telefone"
+          onChangeText={this.telefoneChange}
+          value={telefone}
         />
 
         <TouchableOpacity style={styles.botao} onPress={() => { this.cadastrarDestinacao() }}>

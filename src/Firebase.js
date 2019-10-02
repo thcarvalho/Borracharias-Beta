@@ -13,12 +13,13 @@ export function cadastrarUsuarios(nome, email) {
     userType: 'Comum',
   });
 }
-export function cadastrarDestinacao(ecoponto, telefone, endereco, numero, cep, cidade, estado, latitude, longitude) {
+export function cadastrarDestinacao(ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude) {
   refDestinacoes.add({
     ecoponto,
     telefone,
     endereco,
     numero,
+    bairro,
     cep,
     cidade,
     estado,

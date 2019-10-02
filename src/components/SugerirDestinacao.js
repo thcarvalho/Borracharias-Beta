@@ -13,6 +13,7 @@ export default class Sugerir extends Component {
     telefone: '',
     endereco: '',
     numero: '',
+    bairro: '',
     cep: '',
     cidade: '',
     estado: '',
@@ -32,6 +33,9 @@ export default class Sugerir extends Component {
   numeroChange = (numero) => {
     this.setState({ numero });
   }
+  bairroChange = (bairro) => {
+    this.setState({ bairro });
+  }
   cepChange = (cep) => {
     this.setState({ cep });
   }
@@ -43,13 +47,13 @@ export default class Sugerir extends Component {
   }
 
   cadastrarDestinacao() {
-    const { ecoponto, telefone, endereco, numero, cep, cidade, estado } = this.state;
+    const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     let latitude = '';
     let longitude = '';
-    if (endereco === '' || numero === '' || cep === '' || cidade === '' || estado === '') {
+    if (endereco === '' || numero === '' || bairro === '' || cep === '' || cidade === '' || estado === '') {
       alert('Faltam dados obrigatórios');
     } else {
-      let enderecoCompleto = endereco + ' ' + numero + ' ' + cep + ' ' + cidade + ' ' + estado;
+      let enderecoCompleto = endereco + ' ' + numero + ' ' + bairro + ' ' + cep + ' ' + cidade + ' ' + estado;
       Geocoder.from(enderecoCompleto)
         .then(json => {
           let location = json.results[0].geometry.location;
@@ -57,12 +61,13 @@ export default class Sugerir extends Component {
           longitude = location.lng;
           console.log(location);
           console.log(enderecoCompleto);
-          cadastrarDestinacao(ecoponto, telefone, endereco, numero, cep, cidade, estado, latitude, longitude);
+          cadastrarDestinacao(ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude);
           this.setState({
             ecoponto: '',
             telefone: '',
             endereco: '',
             numero: '',
+            bairro: '',
             cep: '',
             cidade: '',
             estado: '',
@@ -75,7 +80,7 @@ export default class Sugerir extends Component {
   }
 
   render() {
-    const { ecoponto, telefone, endereco, numero, cep, cidade, estado } = this.state;
+    const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
         <TouchableOpacity style={{ padding: 20, backgroundColor: '#009688' }} onPress={this.props.navigation.openDrawer}>
@@ -85,59 +90,69 @@ export default class Sugerir extends Component {
           <Text style={{ textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20, fontSize: 24 }}>Sugerir novo eco ponto</Text>
 
           <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Nome do Ecoponto"
-          onChangeText={this.ecopontoChange}
-          value={ecoponto}
-        />
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Nome do Ecoponto"
+            onChangeText={this.ecopontoChange}
+            value={ecoponto}
+          />
 
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Telefone"
-          onChangeText={this.telefoneChange}
-          value={telefone}
-        />
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Endereço"
+            onChangeText={this.enderecoChange}
+            value={endereco}
+          />
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Numero"
+            onChangeText={this.numeroChange}
+            value={numero}
+          />
 
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Endereço"
-          onChangeText={this.enderecoChange}
-          value={endereco}
-        />
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Numero"
-          onChangeText={this.numeroChange}
-          value={numero}
-        />
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Bairro"
+            onChangeText={this.bairroChange}
+            value={bairro}
+          />
 
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="CEP"
-          onChangeText={this.cepChange}
-          value={cep}
-        />
 
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Cidade"
-          onChangeText={this.cidadeChange}
-          value={cidade}
-        />
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="CEP"
+            onChangeText={this.cepChange}
+            value={cep}
+          />
 
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid="transparent"
-          placeholder="Estado"
-          onChangeText={this.estadoChange}
-          value={estado}
-        />
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Cidade"
+            onChangeText={this.cidadeChange}
+            value={cidade}
+          />
+
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Estado"
+            onChangeText={this.estadoChange}
+            value={estado}
+          />
+
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Telefone"
+            onChangeText={this.telefoneChange}
+            value={telefone}
+          />
+
 
           <TouchableOpacity style={styles.botao} onPress={() => { this.cadastrarDestinacao() }}>
             <Text>Enviar</Text>
