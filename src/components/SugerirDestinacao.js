@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { cadastrarDestinacao } from "../Firebase";
+
 import Geocoder from 'react-native-geocoding';
 import { ScrollView } from 'react-native-gesture-handler';
+
+var cepPromise = require("cep-promise");
+
+import Firebase from "../Firebase";
+
 Geocoder.init("AIzaSyBGKCuuDcjsWjiXKPY27se2ShLmOgn-Y4Q", { language: "pt-br" });
 export default class Sugerir extends Component {
   state = {
@@ -20,37 +25,13 @@ export default class Sugerir extends Component {
     latitude: '',
     longitude: '',
   }
+  Firebase = new Firebase();
 
-  ecopontoChange = (ecoponto) => {
-    this.setState({ ecoponto });
-  }
-  telefoneChange = (telefone) => {
-    this.setState({ telefone });
-  }
-  enderecoChange = (endereco) => {
-    this.setState({ endereco });
-  }
-  numeroChange = (numero) => {
-    this.setState({ numero });
-  }
-  bairroChange = (bairro) => {
-    this.setState({ bairro });
-  }
-  cepChange = (cep) => {
-    this.setState({ cep });
-  }
-  cidadeChange = (cidade) => {
-    this.setState({ cidade });
-  }
-  estadoChange = (estado) => {
-    this.setState({ estado });
-  }
-
-  cadastrarDestinacao() {
+  enviarSugestao() {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     let latitude = '';
     let longitude = '';
-    if (endereco === '' || numero === '' || bairro === '' || cep === '' || cidade === '' || estado === '') {
+    if (ecoponto === '' || endereco === '' || numero === '' || bairro === '' || cep === '' || cidade === '' || estado === '') {
       alert('Faltam dados obrigatórios');
     } else {
       let enderecoCompleto = endereco + ' ' + numero + ' ' + bairro + ' ' + cep + ' ' + cidade + ' ' + estado;
@@ -61,7 +42,11 @@ export default class Sugerir extends Component {
           longitude = location.lng;
           console.log(location);
           console.log(enderecoCompleto);
-          cadastrarDestinacao(ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude);
+          this.Firebase.sugerirDestinacao(ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude)
+            .then(() => {
+              alert('Obrigado pela sugestão!');
+            })
+            .catch((error) => console.log(error));
           this.setState({
             ecoponto: '',
             telefone: '',
@@ -79,6 +64,20 @@ export default class Sugerir extends Component {
     }
   }
 
+  recuperarCEP(cep) {
+    cepPromise(cep)
+    .then((CEP) => {
+      console.log(CEP);
+        this.setState({
+          estado: CEP.state,
+          cidade: CEP.city,
+          bairro: CEP.neighborhood,
+          endereco: CEP.street,
+        })
+      })
+      .catch(error => console.log(error))
+  }
+
   render() {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     return (
@@ -93,47 +92,49 @@ export default class Sugerir extends Component {
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
             placeholder="Nome do Ecoponto"
-            onChangeText={this.ecopontoChange}
+            onChangeText={(ecoponto) => { this.setState({ ecoponto }) }}
             value={ecoponto}
           />
 
           <TextInput
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
-            placeholder="Endereço"
-            onChangeText={this.enderecoChange}
-            value={endereco}
-          />
-          <TextInput
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Numero"
-            onChangeText={this.numeroChange}
-            value={numero}
-          />
-
-          <TextInput
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Bairro"
-            onChangeText={this.bairroChange}
-            value={bairro}
-          />
-
-
-          <TextInput
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
             placeholder="CEP"
-            onChangeText={this.cepChange}
+            onChangeText={(cep) => { this.setState({ cep }) }}
+            onBlur={() => { this.recuperarCEP(cep) }}
             value={cep}
           />
 
           <TextInput
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
+            placeholder="Endereço"
+            onChangeText={(endereco) => { this.setState({ endereco }) }}
+            value={endereco}
+          />
+
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Bairro"
+            onChangeText={(bairro) => { this.setState({ bairro }) }}
+            value={bairro}
+          />
+
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
+            placeholder="Numero"
+            onChangeText={(numero) => { this.setState({ numero }) }}
+            value={numero}
+          />
+
+
+          <TextInput
+            style={styles.caixasTexto}
+            underlineColorAndroid="transparent"
             placeholder="Cidade"
-            onChangeText={this.cidadeChange}
+            onChangeText={(cidade) => { this.setState({ cidade }) }}
             value={cidade}
           />
 
@@ -141,7 +142,7 @@ export default class Sugerir extends Component {
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
             placeholder="Estado"
-            onChangeText={this.estadoChange}
+            onChangeText={(estado) => { this.setState({ estado }) }}
             value={estado}
           />
 
@@ -149,12 +150,12 @@ export default class Sugerir extends Component {
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
             placeholder="Telefone"
-            onChangeText={this.telefoneChange}
+            onChangeText={(telefone) => { this.setState({ telefone }) }}
             value={telefone}
           />
 
 
-          <TouchableOpacity style={styles.botao} onPress={() => { this.cadastrarDestinacao() }}>
+          <TouchableOpacity style={styles.botao} onPress={() => { this.enviarSugestao() }}>
             <Text>Enviar</Text>
           </TouchableOpacity>
         </View>

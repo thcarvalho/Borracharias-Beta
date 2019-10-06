@@ -6,25 +6,56 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert
 } from 'react-native';
 
-const botaoPressionado = () => {
-	Alert.alert('Email enviado');
-};
+import Firebase from "../Firebase";
 
 export default class EsqueceuSenha extends React.Component {
+state = {
+  email: '',
+}
+Firebase = new Firebase()
+
+redefinirSenha(email){
+  this.Firebase.enviarRedefinicaoSenha(email)
+    .then(() => {
+      alert("Cheque seu email")
+      this.props.navigation.navigate("Login");
+    })
+    .catch((error) => {
+      switch (error.code) {
+        case 'auth/invalid-email':
+          alert("O email informado é invalido");
+          break;
+        case 'auth/user-not-found':
+          alert("Email não cadastrado");
+          break;
+        default:
+          alert("Não foi possivel enviar o email")
+          console.log(error.code);
+          break;
+      }
+    })
+};
+
   render() {
+    const {email} = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.titulo}>Esqueceu a senha?</Text>
         
         <Text style={styles.texto}>Informe seu e-mail para que possa redefinir a senha</Text>
         
-        <TextInput style={styles.caixasTexto} underlineColorAndroid='transparent' placeholder='Email'/>
+        <TextInput 
+          style={styles.caixasTexto} 
+          underlineColorAndroid='transparent' 
+          placeholder='Email'
+          value={email}
+          onChangeText={(email) => {this.setState({email})}}
+        />
         
          <View>
-            <TouchableOpacity onPress={botaoPressionado} style={styles.botao}>
+            <TouchableOpacity onPress={() => {this.redefinirSenha(email)}} style={styles.botao}>
 		           <Text>Enviar</Text>
 	         </TouchableOpacity>
             </View>

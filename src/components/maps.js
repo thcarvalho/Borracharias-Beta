@@ -1,18 +1,17 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import MapView,{ Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
-import { recuperarDestinacoes } from "../Firebase";
+import Firebase from "../Firebase";
 
 export default class Maps extends Component {
   state = {
@@ -20,28 +19,47 @@ export default class Maps extends Component {
     region: null,
     markers: [],
   };
-  
-  async mostrarDestinacoes(doc){
+  Firebase = new Firebase();
+
+
+
+  mostrarDestinacoes(doc) {
     let id = doc.id;
     let latitude = doc.data().latitude;
     let longitude = doc.data().longitude;
     let title = doc.data().ecoponto;
-    let description = doc.data().endereco + ', ' + doc.data().numero + ' - ' + doc.data().telefone;
-    
-    this.setState({ markers: this.state.markers.concat([{
-      id,
-      coordinate: {
-        latitude,
-        longitude,
-      },
-      title,
-      description,
-    }]) });
+    let telefone = (doc.data().telefone == '') ? ' ' : (' - Tel: ' + doc.data().telefone);
+    let description = doc.data().endereco + ', ' + doc.data().numero + telefone;
+
+    console.log(description);
+
+    this.setState({
+      markers: this.state.markers.concat([{
+        id,
+        coordinate: {
+          latitude,
+          longitude,
+        },
+        title,
+        description,
+      }])
+    });
+
+  }
+
+  componentWillMount() {
+    this.Firebase.refDestinacoes
+      .where("visivel", "==", true)
+      .onSnapshot(snapshot => {
+        this.setState({ markers: [] });
+        snapshot.forEach(doc => {
+          this.mostrarDestinacoes(doc);
+        });
+      });
   }
 
   async componentDidMount() {
-  recuperarDestinacoes(this);
-  Geolocation.getCurrentPosition(
+    Geolocation.getCurrentPosition(
       position => {
         this.setState({
           region: {
@@ -64,7 +82,7 @@ export default class Maps extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <MapView
           style={styles.map}
           initialRegion={this.state.region}
@@ -74,10 +92,10 @@ export default class Maps extends Component {
           followUserLocation
         >
           {this.state.markers.map(marker => (
-            <Marker 
-            coordinate={marker.coordinate}
-            title={marker.title}
-            description={marker.description}
+            <Marker
+              coordinate={marker.coordinate}
+              title={marker.title}
+              description={marker.description}
             />
           ))}
         </MapView>

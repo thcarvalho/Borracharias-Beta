@@ -11,7 +11,7 @@ import {
 
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {autenticarUsuario} from '../Firebase';
+import Firebase from '../Firebase';
 
 export default class CadastroUsuario extends Component {
   state = {
@@ -19,19 +19,44 @@ export default class CadastroUsuario extends Component {
     email: '',
     password: '',
   }
+  Firebase = new Firebase();
 
-  nomeChange = (nome) => {
-    this.setState({ nome });
+  cadastrarUsuario(email, password, nome) {
+    if (email === '' || password === '' || nome === '') {
+      alert("Faltam dados obrigatórios");
+    } else {
+      this.Firebase.autenticarUsuarioF(email, password)
+        .then(() => {
+          try {
+            alert('Cadastro efetuado com sucesso!');
+            this.props.navigation.navigate('Login');
+
+            //Adicionar ao banco
+            this.Firebase.cadastrarUsuarioF(nome, email)
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/email-already-in-use':
+              alert('Esse email já está cadastrado');
+              break;
+            case 'auth/invalid-email':
+              alert('Esse email é invalido');
+              break;
+            case 'auth/weak-password':
+              alert('A senha deve ter no minimo 6 caracteres');
+              break;
+            default:
+              alert('Erro ao realizar cadastro');
+          }
+        });
+    }
   }
-  emailChange = (email) => {
-    this.setState({ email });
-  }
-  passwordChange = (password) => {
-    this.setState({ password });
-  }
- 
+
   render() {
-    const {nome, email, password} = this.state;
+    const { nome, email, password } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
@@ -42,14 +67,15 @@ export default class CadastroUsuario extends Component {
               underlineColorAndroid="transparent"
               placeholder="Nome"
               value={nome}
-              onChangeText={this.nomeChange}
+              onChangeText={(nome) => { this.setState({ nome }) }}
             />
             <TextInput
               style={styles.caixasTexto}
               underlineColorAndroid="transparent"
               placeholder="Email"
-              onChangeText={this.emailChange}
+              onChangeText={(email) => { this.setState({ email }) }}
               value={email}
+              keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
             />
@@ -58,14 +84,14 @@ export default class CadastroUsuario extends Component {
               underlineColorAndroid="transparent"
               placeholder="Senha"
               secureTextEntry
-              onChangeText={this.passwordChange}
+              onChangeText={(password) => { this.setState({ password }) }}
               value={password}
               autoCapitalize="none"
               autoCorrect={false}
             />
 
             <View style={styles.centralizar}>
-              <TouchableOpacity onPress={() => {autenticarUsuario(email, password, nome, this)}} style={styles.botao}>
+              <TouchableOpacity onPress={() => { this.cadastrarUsuario(email, password, nome) }} style={styles.botao}>
                 <Text>Concluir</Text>
               </TouchableOpacity>
             </View>

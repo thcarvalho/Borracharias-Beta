@@ -4,26 +4,41 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
-import { recuperarSugestoes } from "../Firebase";
+import Firebase from "../Firebase";
 
 export default class CadastrarDestinacao extends Component {
   state = {
     sugestoes: [],
-
   };
+  Firebase = new Firebase();
 
-  aceitarSugestao(){
-    alert("Sugestao aceita")
+
+  aceitarSugestao(id) {    
+    this.Firebase.refDestinacoes
+      .doc(id)
+      .update({
+        visivel: true,
+      })
+      .then(() => {
+        alert("Sugestao aceita");
+      })
+      .catch((error) => console.log(error))
   }
-  recusarSugestao(){
-    alert("Sugestao recusada")
+  recusarSugestao(id) {
+    this.Firebase.refDestinacoes
+      .doc(id)
+      .delete()
+      .then(() => {
+        alert("Sugestao recusada");
+      })
+      .catch((error) => console.log(error))
   }
 
-  mostrarDestinacoes(doc){
+
+  mostrarSugestoes(doc) {
     let id = doc.id;
     let nome = doc.data().ecoponto;
     let descricao = doc.data().endereco + ', ' + doc.data().bairro + ', ' + doc.data().numero;
-
     this.setState({
       sugestoes: this.state.sugestoes.concat([{
         id,
@@ -33,12 +48,20 @@ export default class CadastrarDestinacao extends Component {
     });
   }
 
-  componentWillMount(){
-    recuperarSugestoes(this);
+  componentWillMount() {
+    this.Firebase.refDestinacoes
+      .where("visivel", "==", false)
+      .onSnapshot(snapshot => {
+        this.setState({ sugestoes: [] });
+        snapshot.forEach(doc => {
+          console.log(doc.data());
+          this.mostrarSugestoes(doc);
+        });
+      });
   }
 
   render() {
-    const {sugestoes} = this.state;
+    const { sugestoes } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
         <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
@@ -47,18 +70,18 @@ export default class CadastrarDestinacao extends Component {
         <Text style={{ textAlign: 'center', textAlignVertical: 'center' }}>Adicionar Ecoponto</Text>
         {
           sugestoes.length === 0
-          ? (
-            <Text>Nenhuma sugestao pendente</Text>
-          ) : (
-            sugestoes.map(sugestao => (
-              <View>
-                <Text onPress={() => {this.aceitarSugestao()}}>NOME ECOPONTO: {sugestao.nome}</Text>
-                <Text onPress={() => {this.recusarSugestao()}}>ENDERECO: {sugestao.descricao}</Text>
-              </View>
-            ))
-          )
+            ? (
+              <Text>Nenhuma sugestao pendente</Text>
+            ) : (
+              sugestoes.map(sugestao => (
+                <View>
+                  <Text onPress={() => { this.aceitarSugestao(sugestao.id) }}>NOME ECOPONTO: {sugestao.nome}</Text>
+                  <Text onPress={() => { this.recusarSugestao(sugestao.id) }}>ENDERECO: {sugestao.descricao}</Text>
+                </View>
+              ))
+            )
         }
-        
+
       </ScrollView>
     );
   }

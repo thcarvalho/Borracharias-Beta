@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import firebase from "react-native-firebase";
+
+import Firebase from "../Firebase";
 
 export default class Settings extends Component {
-  logout(){
-    firebase.auth().signOut();
-    this.props.navigation.navigate('Login');
-  }
+  Firebase = new Firebase()
   render() {
     return(
       <View style={{ flex: 1 }}>
@@ -26,7 +24,7 @@ export default class Settings extends Component {
               <Text>Resetar Senha</Text>
             </TouchableOpacity>    
 
-            <TouchableOpacity onPress={() => {this.logout()}}>
+            <TouchableOpacity onPress={() => {this.Firebase.logout()}}>
               <Text style={{textAlign: 'center', textAlignVertical: 'center'}}>Sair</Text>
             </TouchableOpacity>
         </View>
