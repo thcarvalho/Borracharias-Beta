@@ -12,7 +12,7 @@ export default class Settings extends Component {
     return(
       <View style={{ flex: 1 }}>
         <TouchableOpacity style={{padding: 20}} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={30} color={'#ddd'}/>
+          <Icon name="bars" size={20} color={'#ddd'}/>
         </TouchableOpacity>
 
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
