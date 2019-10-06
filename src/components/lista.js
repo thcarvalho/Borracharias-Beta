@@ -72,9 +72,9 @@ export default class Lista extends Component {
     const {destinacoes, pesquisa} = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{backgroundColor: '#009688', flexDirection: 'row'}}>
-          <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
-            <Icon name="bars" size={30} color={'#fff'} />
+        <View style={{backgroundColor: '#009688', flexDirection: 'row', elevation: 3}}>
+          <TouchableOpacity style={{ padding: 20, paddingVertical: 25 }} onPress={this.props.navigation.openDrawer}>
+            <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
           <SearchBar
             round
@@ -83,7 +83,7 @@ export default class Lista extends Component {
               backgroundColor: "#009688",
               borderBottomColor: 'transparent',
               borderTopColor: 'transparent',
-              width: '75%',
+              width: '73%',
               paddingHorizontal: 0,
             }}
             inputStyle={{
@@ -100,8 +100,8 @@ export default class Lista extends Component {
             onChangeText={(pesquisa) => this.setState({pesquisa})}
             value={pesquisa}
           />
-          <TouchableOpacity style={{ paddingTop: 20, paddingRight: 20}}>
-              <Icon name="ellipsis-v" size={25} color={'#fff'} />
+          <TouchableOpacity style={{ paddingVertical: 25}}>
+              <Icon name="sort-amount-up" size={20} color={'#fff'} />
           </TouchableOpacity>
         </View>
         <FlatList
