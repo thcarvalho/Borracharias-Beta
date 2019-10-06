@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ListItem } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 
 import { recuperarDestinacoes } from "../Firebase";
 
@@ -27,6 +27,17 @@ async componentDidMount(){
   recuperarDestinacoes(this);
 }
 
+keyExtractor = (item, index ) => index.toString()
+
+renderItem = ({ item }) => (
+  <ListItem
+    title = {destinacao.name}
+    subtitle = {destinacao.descricao}
+    bottomDivider
+    chevron
+  />
+)
+
   render() {
     return (
       <ScrollView style={{flex: 1}}>
@@ -35,10 +46,14 @@ async componentDidMount(){
         </TouchableOpacity>
         <Text style={{textAlign: 'center', textAlignVertical: 'center'}}>Lista</Text>
         {this.state.destinacoes.map(destinacao => (
-            <View>
-              <Text>NOME ECOPONTO: {destinacao.nome}</Text>
-              <Text>ENDERECO: {destinacao.descricao}</Text>
-            </View>
+
+        <View>
+          <FlatList
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+          data={this.mostrarDestinacoes}
+          />      
+        </View>
         ))}
       </ScrollView>
     );
