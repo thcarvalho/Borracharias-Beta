@@ -83,7 +83,7 @@ export default class Sugerir extends Component {
     return (
       <ScrollView style={{ flex: 1 }}>
         <TouchableOpacity style={{ padding: 20, backgroundColor: '#009688' }} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={30} color={'#ddd'} />
+          <Icon name="bars" size={20} color={'#ddd'} />
         </TouchableOpacity>
         <View style={styles.container}>
           <Text style={{ textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20, fontSize: 24 }}>Sugerir novo eco ponto</Text>
