@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { View, TouchableOpacity, Text, TextInput, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { ScrollView } from 'react-native-gesture-handler';
 import { recuperarSugestoes } from "../Firebase";
 
@@ -37,54 +37,81 @@ export default class CadastrarDestinacao extends Component {
     recuperarSugestoes(this);
   }
 
+  renderSeparator = () => {
+    return(
+      <View
+      style={{
+        height: 2,
+        width: '100%',
+        backgroundColor: '#CED0CE',
+        marginLeft: '0%',
+      }}
+      />
+    );
+  };
+  
+  renderFooter = () => {
+    return(
+    <View style={{paddingVertical:20, borderTopWidth:1, borderTopColor: '#CED0CE'}}>
+      <ActivityIndicator animating size="large"/>
+    </View>
+    );
+  };
+
   render() {
     const {sugestoes} = this.state;
     return (
-      <ScrollView style={{ flex: 1 }}>
-        <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity style={{ padding: 20, backgroundColor:'#009688' }} onPress={this.props.navigation.openDrawer}>
           <Icon name="bars" size={30} color={'#ddd'} />
         </TouchableOpacity>
-        <Text style={{ textAlign: 'center', textAlignVertical: 'center' }}>Adicionar Ecoponto</Text>
+        
         {
           sugestoes.length === 0
           ? (
             <Text>Nenhuma sugestao pendente</Text>
           ) : (
-            sugestoes.map(sugestao => (
-              <View>
-                <Text onPress={() => {this.aceitarSugestao()}}>NOME ECOPONTO: {sugestao.nome}</Text>
-                <Text onPress={() => {this.recusarSugestao()}}>ENDERECO: {sugestao.descricao}</Text>
+        <ScrollView>
+          <FlatList
+            data={this.state.sugestoes}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={this.renderSeparator}
+            ListFooterComponent={this.renderFooter}
+            renderItem={({ item }) => (
+              <View style={styles.container}>
+                <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20}}>
+              <Text style={styles.titulo}>{item.nome}</Text>
+              <Icon name="pluscircleo" size={27} color={'#000'} backgroundColor={'red'} onPress={() => {this.aceitarSugestao()}}/>
               </View>
-            ))
+              <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20, alignContent: 'flex-end', paddingTop: 4}}>
+              <Text style={styles.subtitulo}>{item.descricao}</Text>
+              <Icon name="delete" size={27} color={'#000'} onPress={() => {this.recusarSugestao()}}/>
+              </View>
+              </View>
+          )}
+        />
+      </ScrollView>
           )
         }
         
-      </ScrollView>
-    );
+      </View>
+    )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3CB371',
-    flex: 1,
-    alignItems: 'center',
+      marginLeft: 8,
+      marginTop: 8,
+      paddingVertical: 5,
   },
-  caixasTexto: {
-    width: 250,
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    padding: 8,
-    marginBottom: 10,
+  titulo: {
+    fontSize: 22,
   },
-  botao: {
-    alignItems: 'center',
-    width: 80,
-    borderRadius: 8,
-    backgroundColor: '#E0FFFF',
-    padding: 10,
-    marginTop: 25,
-    marginBottom: 25,
-  },
+  subtitulo: {
+    fontSize:18,
+    color: '#696969',
+    width: '92%',
+    height: '90%'
+  }
 });
