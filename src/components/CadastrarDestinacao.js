@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { View, TouchableOpacity, Text, TextInput, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import IconFA from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../Firebase";
-
 export default class CadastrarDestinacao extends Component {
   state = {
     sugestoes: [],
+    isLoading: true,
   };
+
   Firebase = new Firebase();
 
 
@@ -44,7 +46,8 @@ export default class CadastrarDestinacao extends Component {
         id,
         nome,
         descricao,
-      }])
+      }]),
+      isLoading: false,
     });
   }
 
@@ -60,54 +63,83 @@ export default class CadastrarDestinacao extends Component {
       });
   }
 
-  render() {
-    const { sugestoes } = this.state;
-    return (
-      <ScrollView style={{ flex: 1 }}>
-        <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={30} color={'#ddd'} />
-        </TouchableOpacity>
-        <Text style={{ textAlign: 'center', textAlignVertical: 'center' }}>Adicionar Ecoponto</Text>
-        {
-          sugestoes.length === 0
-            ? (
-              <Text>Nenhuma sugestao pendente</Text>
-            ) : (
-              sugestoes.map(sugestao => (
-                <View>
-                  <Text onPress={() => { this.aceitarSugestao(sugestao.id) }}>NOME ECOPONTO: {sugestao.nome}</Text>
-                  <Text onPress={() => { this.recusarSugestao(sugestao.id) }}>ENDERECO: {sugestao.descricao}</Text>
-                </View>
-              ))
-            )
-        }
-
-      </ScrollView>
+  renderSeparator = () => {
+    return(
+      <View
+      style={{
+        height: 2,
+        width: '100%',
+        backgroundColor: '#CED0CE',
+        marginLeft: '0%',
+      }}
+      />
     );
+  };
+  
+  renderFooter = () => {
+    return (
+      <View style={{ paddingVertical: 20, borderTopWidth: 1, borderTopColor: '#CED0CE' }}>
+        <ActivityIndicator animating={this.state.isLoading ? true : false} size="large" />
+      </View>
+    );
+  };
+
+  render() {
+    const {sugestoes, isLoading} = this.state;
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3}}>
+          <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+            <IconFA name="bars" size={20} color={'#fff'} />
+          </TouchableOpacity>
+          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20}}>Cadastrar Destinação</Text>
+        </View>
+        {
+          sugestoes.length === 0 && isLoading === false
+          ? (
+            <Text style={{textAlign: 'center', textAlignVertical: 'center'}}>Nenhuma sugestao pendente</Text>
+          ) : (
+            <ScrollView>
+              <FlatList
+                data={this.state.sugestoes}
+                keyExtractor={item => item.id}
+                ItemSeparatorComponent={this.renderSeparator}
+                ListFooterComponent={this.renderFooter}
+                renderItem={({ item }) => (
+                  <View style={styles.container}>
+                    <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20}}>
+                      <Text style={styles.titulo}>{item.nome}</Text>
+                      <Icon name="pluscircleo" size={27} color={'#000'} backgroundColor={'red'} onPress={() => {this.aceitarSugestao(item.id)}}/>
+                    </View>
+                    <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20, alignContent: 'flex-end', paddingTop: 4}}>
+                      <Text style={styles.subtitulo}>{item.descricao}</Text>
+                      <Icon name="delete" size={27} color={'#000'} onPress={() => {this.recusarSugestao(item.id)}}/>
+                    </View>
+                  </View>
+                )}
+              />
+            </ScrollView>
+          )
+        }
+        
+      </View>
+    )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3CB371',
-    flex: 1,
-    alignItems: 'center',
+      marginLeft: 8,
+      marginTop: 8,
+      paddingVertical: 5,
   },
-  caixasTexto: {
-    width: 250,
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    padding: 8,
-    marginBottom: 10,
+  titulo: {
+    fontSize: 22,
   },
-  botao: {
-    alignItems: 'center',
-    width: 80,
-    borderRadius: 8,
-    backgroundColor: '#E0FFFF',
-    padding: 10,
-    marginTop: 25,
-    marginBottom: 25,
-  },
+  subtitulo: {
+    fontSize:18,
+    color: '#696969',
+    width: '92%',
+    height: '90%'
+  }
 });
