@@ -90,6 +90,8 @@ export default class Maps extends Component {
           loadingEnabled
           showsUserLocation
           followUserLocation
+          showsCompass={false}
+          ref={map => {this.map = map}}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -102,7 +104,7 @@ export default class Maps extends Component {
         <TouchableOpacity
           style={styles.toggle}
           onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={30} color={'#ccc'} />
+          <Icon name="bars" size={20} color={'#ccc'} />
         </TouchableOpacity>
       </View>
     );
