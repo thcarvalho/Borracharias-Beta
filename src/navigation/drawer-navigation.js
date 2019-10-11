@@ -1,18 +1,41 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import {
     createDrawerNavigator,
     createAppContainer,
+    SafeAreaView,
+    DrawerItems,
 } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import CadastrarDestinacao from "../components/CadastrarDestinacao";
 import BottomNavigation from './bottom-navigation';
-import Settings from '../components/settings';
+import CadastrarDestinacao from "../components/CadastrarDestinacao";
 import Sugerir from "../components/SugerirDestinacao";
 import Logout from "../components/logout";
+import Avatares from "../components/avatar";
+
+const DrawerContent = props => (
+    <SafeAreaView style={{flex: 1 }}>
+
+        <SafeAreaView style={{flex: 1, backgroundColor: '#00695c',}} forceInset={{ top: "always", horizontal: "never" }}>
+        <View style={{flex: 1,marginTop: 40, justifyContent: "center"}}>
+            <Avatares />
+            </View>
+        </SafeAreaView>
+
+        <ScrollView style={{marginTop: 120, }}>
+            <DrawerItems {...props} />
+        </ScrollView>
+
+        <SafeAreaView style={{flex: 1}} forceInset={{ bottom: "always", horizontal: "never" }}>
+        <View style={{flex: 1, marginTop: 55, justifyContent: "center"}}>
+            <Logout />
+        </View>
+        </SafeAreaView>
+    </SafeAreaView>
+);
 
 const DrawerNavigation = createDrawerNavigator(
     {
@@ -21,14 +44,6 @@ const DrawerNavigation = createDrawerNavigator(
             navigationOptions: ({ focused }) => ({
                 drawerIcon: (
                     <Icon name="home" size={20} color={focused ? '#fff' : '#000'} />
-                ),
-            }),
-        },
-        Configurações: {
-            screen: Settings,
-            navigationOptions: ({ focused }) => ({
-                drawerIcon: (
-                    <Icon name="cog" size={20} color={focused ? '#fff' : '#000'} />
                 ),
             }),
         },
@@ -47,7 +62,7 @@ const DrawerNavigation = createDrawerNavigator(
                     <Icon name="plus" size={20} color={focused ? '#fff' : '#000'} />
                 ),
             }),
-        },
+        }
     },
     {
         overlayColor: 'rgba(0,0,0,0.4)',
@@ -55,7 +70,7 @@ const DrawerNavigation = createDrawerNavigator(
             activeTintColor: '#fff',
             activeBackgroundColor: '#009688',
         },
-        contentComponent: Logout,
+        contentComponent: DrawerContent,
     },
 );
 
