@@ -83,7 +83,7 @@ export default class Sugerir extends Component {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
-        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3}}>
+        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3, paddingTop: 20}}>
           <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>

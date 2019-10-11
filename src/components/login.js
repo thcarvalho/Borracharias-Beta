@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
+  StatusBar
 } from 'react-native';
 
 import Firebase from "../controller/Firebase";

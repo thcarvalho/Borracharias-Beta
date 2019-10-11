@@ -5,7 +5,7 @@ import { View,Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Logout extends Component {

@@ -104,7 +104,7 @@ export default class Maps extends Component {
         <TouchableOpacity
           style={styles.toggle}
           onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={20} color={'#ccc'} />
+          <Icon name="bars" size={20} color={'#00695c'} />
         </TouchableOpacity>
       </View>
     );

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import Cadastro from "../components/CadastrarUsuario";
-import EsqueceuSenha from "../components/EsqueceuSenha";
+import EsqueceuSenha from "../components/esqueceuSenha";
 import Login from '../components/login';
 
 const mainNavigation = createStackNavigator(

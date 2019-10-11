@@ -63,7 +63,6 @@ export default class CadastroUsuario extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
-          <Text style={styles.titulo}>Cadastro Usuario</Text>
           <View>
             <TextInput
               style={styles.caixasTexto}
