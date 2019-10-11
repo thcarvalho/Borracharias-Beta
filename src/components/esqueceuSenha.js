@@ -42,10 +42,8 @@ redefinirSenha(email){
     const {email} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.titulo}>Esqueceu a senha?</Text>
-        
-        <Text style={styles.texto}>Informe seu e-mail para que possa redefinir a senha</Text>
-        
+                
+       <Text style={{fontSize: 18, marginBottom: 20, color: '#00695c'}}>Infome seu e-mail para redefinir a senha</Text>         
         <TextInput 
           style={styles.caixasTexto} 
           underlineColorAndroid='transparent' 
@@ -56,7 +54,7 @@ redefinirSenha(email){
         
          <View>
             <TouchableOpacity onPress={() => {this.redefinirSenha(email)}} style={styles.botao}>
-		           <Text>Enviar</Text>
+		           <Text>ENVIAR</Text>
 	         </TouchableOpacity>
             </View>
       </View>
@@ -66,37 +64,29 @@ redefinirSenha(email){
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: '#009688',
+    backgroundColor: '#dcdcdc',
       flex: 1,
       alignItems: 'center',
+      justifyContent: 'center',
         },
-  titulo: {
-      marginTop: 150,
-      marginBottom: 30,
-      color: '#fff',
-      fontSize: 38,
-      fontFamily: 'Arial',
-      fontWeight: 'bold',
-  },
-  texto: {
-    fontSize: 18,
-    paddingHorizontal: 11,
-  },
   caixasTexto: {
-      width: 338,
-      borderRadius: 10,
-      backgroundColor: '#fff',
-      padding: 14,
-      marginBottom: 10,
-      marginTop: 30
+    width: 300,
+    borderRadius: 20,
+    padding: 14,
+    backgroundColor: '#fff',
+    padding: 8,
+    marginBottom: 10,
+    fontSize: 16,
   },
-    botao: {
-        alignItems: 'center',
-        width: 80,
-        borderRadius: 8,
-        backgroundColor: '#E0FFFF',
-        padding: 15,
-        marginTop: 25,
-    },
-    
+  botao: {
+    alignItems: 'center',
+    width: 300,
+    borderRadius: 20,
+    backgroundColor: '#00695c',
+    color: '#dcdcdc',
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 30,
+    fontSize:16,
+  },
 });

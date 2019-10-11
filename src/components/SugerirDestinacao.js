@@ -82,11 +82,13 @@ export default class Sugerir extends Component {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
-        <TouchableOpacity style={{ padding: 20, backgroundColor: '#009688' }} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={20} color={'#ddd'} />
-        </TouchableOpacity>
+        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3}}>
+          <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+            <Icon name="bars" size={20} color={'#fff'} />
+          </TouchableOpacity>
+          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20}}>Sugerir Novo Eco ponto</Text>
+        </View>
         <View style={styles.container}>
-          <Text style={{ textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20, fontSize: 24 }}>Sugerir novo eco ponto</Text>
 
           <TextInput
             style={styles.caixasTexto}
@@ -124,7 +126,7 @@ export default class Sugerir extends Component {
           <TextInput
             style={styles.caixasTexto}
             underlineColorAndroid="transparent"
-            placeholder="Numero"
+            placeholder="Número"
             onChangeText={(numero) => { this.setState({ numero }) }}
             value={numero}
           />
@@ -156,7 +158,7 @@ export default class Sugerir extends Component {
 
 
           <TouchableOpacity style={styles.botao} onPress={() => { this.enviarSugestao() }}>
-            <Text>Enviar</Text>
+            <Text style={{color: '#dcdcdc'}}>ENVIAR</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -167,24 +169,27 @@ export default class Sugerir extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#009688',
     flex: 1,
     alignItems: 'center',
+    marginTop: 30,
   },
   caixasTexto: {
-    width: 250,
-    borderRadius: 10,
+    width: 300,
+    borderRadius: 20,
+    padding: 14,
     backgroundColor: '#fff',
     padding: 8,
     marginBottom: 10,
+    fontSize: 16,
   },
   botao: {
     alignItems: 'center',
-    width: 80,
-    borderRadius: 8,
-    backgroundColor: '#E0FFFF',
-    padding: 10,
-    marginTop: 25,
-    marginBottom: 25,
+    width: 300,
+    borderRadius: 20,
+    backgroundColor: '#00695c',
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 30,
+    fontSize:16,
   },
 });

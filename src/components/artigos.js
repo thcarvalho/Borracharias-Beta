@@ -8,10 +8,12 @@ export default class Artigos extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <TouchableOpacity style={{padding: 20}} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={20} color={'#ddd'}/>
-        </TouchableOpacity>
-        <Text style={{textAlign: 'center', textAlignVertical: 'center'}}>Artigos</Text>
+        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3}}>
+          <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+            <Icon name="bars" size={20} color={'#fff'} />
+          </TouchableOpacity>
+          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20}}>Artigos</Text>
+        </View>
       </View>
     );
   }

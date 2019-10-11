@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 
 import Firebase from "../Firebase";
@@ -52,6 +53,10 @@ export default class Login extends Component {
     const { email, password } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar
+        backgroundColor= '#00695c'
+        barStyle='lightContent'
+        />
         <View style={styles.tela}>
           <Text style={styles.textoLogin}>Login</Text>
 
@@ -78,7 +83,7 @@ export default class Login extends Component {
           />
 
           <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} style={styles.botao}>
-            <Text>ENTRAR</Text>
+            <Text style={{color: '#dcdcdc'}}>ENTRAR</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.props.navigation.navigate('EsqueceuSenha'); }}>
@@ -97,44 +102,47 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#009688',
+    backgroundColor: '#dcdcdc',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   tela: {
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   textoLogin: {
     marginTop: 120,
     marginBottom: 30,
-    color: '#fff',
+    color: '#00695c',
     fontSize: 38,
     fontFamily: 'Arial',
     fontWeight: 'bold',
   },
   caixasTexto: {
-    width: 250,
-    borderRadius: 10,
+    width: 300,
+    borderRadius: 20,
+    padding: 14,
     backgroundColor: '#fff',
     padding: 8,
     marginBottom: 10,
+    fontSize: 16,
   },
   botao: {
     alignItems: 'center',
-    width: 80,
-    borderRadius: 8,
-    backgroundColor: '#E0FFFF',
-    padding: 10,
-    marginTop: 25,
-    marginBottom: 25,
+    width: 300,
+    borderRadius: 20,
+    backgroundColor: '#00695c',
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 26,
+    fontSize:16,
   },
   links: {
     paddingHorizontal: 10,
-    paddingVertical: 2,
+    paddingVertical: 5,
     fontSize: 16,
-    color: '#E0FFFF',
+    color: '#00695c',
   },
 });
 
