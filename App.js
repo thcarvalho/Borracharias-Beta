@@ -1,19 +1,9 @@
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import React from 'react';
 
-import Routes from './src/routes';
+import Routes from './src/navigation/routes';
 
 const App = () => {
   return <Routes />;
 };
-
-const styles = StyleSheet.create({});
 
 export default App;

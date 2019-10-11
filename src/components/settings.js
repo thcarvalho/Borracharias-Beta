@@ -4,14 +4,14 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 
 export default class Settings extends Component {
   Firebase = new Firebase()
   render() {
     return(
       <View style={{ flex: 1 }}>
-        <TouchableOpacity style={{padding: 20}} onPress={this.props.navigation.openDrawer}>
+        <TouchableOpacity style={{padding: 20, paddingTop: 30}} onPress={this.props.navigation.openDrawer}>
           <Icon name="bars" size={20} color={'#ddd'}/>
         </TouchableOpacity>
 

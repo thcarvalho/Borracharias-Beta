@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, StyleSheet, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Geocoder from 'react-native-geocoding';
@@ -9,56 +9,57 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 var cepPromise = require("cep-promise");
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
+import Ecoponto from "../model/Ecoponto";
 
 Geocoder.init("AIzaSyBGKCuuDcjsWjiXKPY27se2ShLmOgn-Y4Q", { language: "pt-br" });
 export default class Sugerir extends Component {
   state = {
-    ecoponto: '',
-    telefone: '',
-    endereco: '',
-    numero: '',
-    bairro: '',
-    cep: '',
-    cidade: '',
-    estado: '',
-    latitude: '',
-    longitude: '',
+      ecoponto: '',
+      telefone: '',
+      endereco: '',
+      numero: '',
+      bairro: '',
+      cep: '',
+      cidade: '',
+      estado: '',
+      latitude: '',
+      longitude: '',
   }
   Firebase = new Firebase();
-
+  
   enviarSugestao() {
-    const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
+    const { ecoponto,cep,endereco,bairro,numero,cidade,estado,telefone } = this.state;
     let latitude = '';
     let longitude = '';
     if (ecoponto === '' || endereco === '' || numero === '' || bairro === '' || cep === '' || cidade === '' || estado === '') {
-      alert('Faltam dados obrigatórios');
+      ToastAndroid.show('Faltam dados obrigatórios',ToastAndroid.SHORT);
     } else {
       let enderecoCompleto = endereco + ' ' + numero + ' ' + bairro + ' ' + cep + ' ' + cidade + ' ' + estado;
       Geocoder.from(enderecoCompleto)
-        .then(json => {
-          let location = json.results[0].geometry.location;
-          latitude = location.lat;
-          longitude = location.lng;
-          console.log(location);
-          console.log(enderecoCompleto);
-          this.Firebase.sugerirDestinacao(ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude)
+      .then(json => {
+        let location = json.results[0].geometry.location;
+        latitude = location.lat;
+        longitude = location.lng;
+        console.log(location);
+        console.log(enderecoCompleto);
+          const destinacao = new Ecoponto(ecoponto,cep,endereco,bairro,numero,cidade,estado,telefone,latitude,longitude);
+          this.Firebase.sugerirDestinacao(destinacao)
             .then(() => {
-              alert('Obrigado pela sugestão!');
+              ToastAndroid.show('Obrigado pela sugestão!',ToastAndroid.SHORT);
             })
             .catch((error) => console.log(error));
-          this.setState({
-            ecoponto: '',
-            telefone: '',
-            endereco: '',
-            numero: '',
-            bairro: '',
-            cep: '',
-            cidade: '',
-            estado: '',
-            latitude: '',
-            longitude: '',
-          })
+          this.setState({ecoponto: '',
+          cep: '',
+          endereco: '',
+          bairro: '',
+          numero: '',
+          cidade: '',
+          estado: '',
+          telefone: '',
+          latitude: '',
+          longitude: '',
+        });
         })
         .catch(error => console.log(error));
     }
@@ -69,10 +70,10 @@ export default class Sugerir extends Component {
     .then((CEP) => {
       console.log(CEP);
         this.setState({
-          estado: CEP.state,
-          cidade: CEP.city,
-          bairro: CEP.neighborhood,
-          endereco: CEP.street,
+            estado: CEP.state,
+            cidade: CEP.city,
+            bairro: CEP.neighborhood,
+            endereco: CEP.street,
         })
       })
       .catch(error => console.log(error))
@@ -82,9 +83,11 @@ export default class Sugerir extends Component {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
-        <TouchableOpacity style={{ padding: 20, backgroundColor: '#009688' }} onPress={this.props.navigation.openDrawer}>
-          <Icon name="bars" size={20} color={'#ddd'} />
-        </TouchableOpacity>
+        <View style={{backgroundColor: '#009688'}}>
+          <TouchableOpacity style={{ padding: 20, paddingTop: 30 }} onPress={this.props.navigation.openDrawer}>
+            <Icon name="bars" size={20} color={'#ddd'} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.container}>
           <Text style={{ textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20, fontSize: 24 }}>Sugerir novo eco ponto</Text>
 

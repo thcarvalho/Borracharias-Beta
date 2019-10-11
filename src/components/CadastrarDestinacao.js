@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, StyleSheet, FlatList, ActivityIndicator, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IconFA from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 export default class CadastrarDestinacao extends Component {
   state = {
     sugestoes: [],
@@ -52,9 +52,7 @@ export default class CadastrarDestinacao extends Component {
   }
 
   componentWillMount() {
-    this.Firebase.refDestinacoes
-      .where("visivel", "==", false)
-      .onSnapshot(snapshot => {
+    this.Firebase.recuperarDestinacao(false,snapshot => {
         this.setState({ sugestoes: [] });
         snapshot.forEach(doc => {
           console.log(doc.data());
@@ -88,8 +86,9 @@ export default class CadastrarDestinacao extends Component {
     const {sugestoes, isLoading} = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3}}>
-          <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+        <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content'/>
+        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3, paddingTop: 20}}>
+          <TouchableOpacity style={{ padding: 20}} onPress={this.props.navigation.openDrawer}>
             <IconFA name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
           <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20}}>Cadastrar Destinação</Text>

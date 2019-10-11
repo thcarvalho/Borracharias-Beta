@@ -8,30 +8,36 @@ class Firebase{
     this.refDestinacoes = firebase.firestore().collection('destinacoes');
   }
 
-  cadastrarUsuarioF = (nome, email) => {
+  cadastrarUsuarioF = (usuario) => {
     this.refUsuarios.add({
-      nome,
-      email,
+      nome: usuario.nome,
+      email: usuario.email,
+      userType: "Comum",
     });
   }
 
-  sugerirDestinacao = (ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, latitude, longitude) => 
+  sugerirDestinacao = (destinacao) => 
     this.refDestinacoes.add({
-      ecoponto,
-      telefone,
-      endereco,
-      numero,
-      bairro,
-      cep,
-      cidade,
-      estado,
-      latitude,
-      longitude,
+      ecoponto: destinacao.ecoponto,
+      cep: destinacao.cep,
+      bairro: destinacao.bairro,
+      endereco: destinacao.endereco,
+      numero: destinacao.numero,
+      estado: destinacao.estado,
+      cidade: destinacao.cidade,
+      telefone: destinacao.telefone,
+      latitude: destinacao.latitude,
+      longitude: destinacao.longitude,
       visivel: false,
     })
+
+  recuperarDestinacao = (visibilidade, snapshot) => 
+  this.refDestinacoes
+    .where("visivel", "==", visibilidade)
+    .onSnapshot(snapshot);
   
-  autenticarUsuarioF = (email, password) => 
-    this.auth.createUserWithEmailAndPassword(email, password)
+  autenticarUsuarioF = (email,password) => 
+    this.auth.createUserWithEmailAndPassword(email,password)
 
   logarUsuarioF = (email, password) => 
     this.auth.signInWithEmailAndPassword(email, password);

@@ -6,9 +6,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 
 export default class Login extends Component {
   state = {
@@ -25,24 +26,24 @@ export default class Login extends Component {
   }
 
   logarUsuario = (email, password) => {
-    if (email == '' || password == '') {
-      alert('Por favor, preencha os campos');
+    if (email === '' || password === '') {
+      ToastAndroid.show('Por favor, preencha os campos',ToastAndroid.SHORT);
     } else {
       this.Firebase.logarUsuarioF(email, password)
         .then(() => { this.props.navigation.navigate('Principal') })
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              alert('Senha incorreta');
+              ToastAndroid.show('Senha incorreta',ToastAndroid.SHORT);
               break;
             case 'auth/invalid-email':
-              alert('Esse email é invalido');
+              ToastAndroid.show('Esse email é invalido',ToastAndroid.SHORT);
               break;
             case 'auth/user-not-found':
-              alert('Usuario não encontrado');
+              ToastAndroid.show('Usuario não encontrado',ToastAndroid.SHORT);
               break;
             default:
-              alert('Erro ao realizar login');
+              ToastAndroid.show('Erro ao realizar login',ToastAndroid.SHORT);
           }
         });
     }

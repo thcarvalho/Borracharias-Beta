@@ -2,12 +2,13 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { SearchBar } from 'react-native-elements';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 
 export default class Lista extends Component {
   state = {
@@ -15,8 +16,20 @@ export default class Lista extends Component {
     isLoading: true,
     pesquisa: '',
   };
-
+  _menu = null;
   Firebase = new Firebase();
+
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
 
   listarDestinacoes(doc) {
     let id = doc.id;
@@ -35,14 +48,12 @@ export default class Lista extends Component {
   }
 
   componentWillMount() {
-    this.Firebase.refDestinacoes
-      .where("visivel", "==", true)
-      .onSnapshot(snapshot => {
-        this.setState({ destinacoes: [], isLoading: true });
-        snapshot.forEach(doc => {
-          this.listarDestinacoes(doc);
-        });
+    this.Firebase.recuperarDestinacao(true, snapshot => {
+      this.setState({ destinacoes: [], isLoading: true });
+      snapshot.forEach(doc => {
+        this.listarDestinacoes(doc);
       });
+    });
   }
 
   renderSeparator = () => {
@@ -58,7 +69,7 @@ export default class Lista extends Component {
     );
   };
 
-  
+
 
   renderFooter = () => {
     return (
@@ -69,10 +80,11 @@ export default class Lista extends Component {
   };
 
   render() {
-    const {destinacoes, pesquisa} = this.state;
+    const { destinacoes, pesquisa } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{backgroundColor: '#009688', flexDirection: 'row', elevation: 3}}>
+        <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content' />
+        <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
           <TouchableOpacity style={{ padding: 20, paddingVertical: 25 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
@@ -97,12 +109,25 @@ export default class Lista extends Component {
             }}
             // searchIcon={() => <Icon name="search" size={17} color={'#708b91'}/>}
             searchIcon={false}
-            onChangeText={(pesquisa) => this.setState({pesquisa})}
+            onChangeText={(pesquisa) => this.setState({ pesquisa })}
             value={pesquisa}
           />
-          <TouchableOpacity style={{ paddingVertical: 25}}>
-              <Icon name="sort-amount-up" size={20} color={'#fff'} />
-          </TouchableOpacity>
+
+          <Menu
+            ref={this.setMenuRef}
+            button={
+              <TouchableOpacity onPress={this.showMenu} style={{ paddingVertical: 25 }}>
+                <Icon name="sort-amount-up" size={20} color={'#fff'} />
+              </TouchableOpacity>
+            }
+          >
+            <MenuItem>Distância</MenuItem>
+            <MenuItem>Endereço</MenuItem>
+            <MenuItem>Bairro</MenuItem>
+          </Menu>
+
+
+
         </View>
         <FlatList
           data={destinacoes}
@@ -116,7 +141,7 @@ export default class Lista extends Component {
             </View>
           )}
         />
-        
+
       </View>
     );
   }

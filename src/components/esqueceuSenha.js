@@ -6,9 +6,10 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 
 export default class EsqueceuSenha extends React.Component {
 state = {
@@ -19,19 +20,19 @@ Firebase = new Firebase()
 redefinirSenha(email){
   this.Firebase.enviarRedefinicaoSenha(email)
     .then(() => {
-      alert("Cheque seu email")
+      ToastAndroid.show("Cheque seu email",ToastAndroid.SHORT)
       this.props.navigation.navigate("Login");
     })
     .catch((error) => {
       switch (error.code) {
         case 'auth/invalid-email':
-          alert("O email informado é invalido");
+          ToastAndroid.show("O email informado é invalido",ToastAndroid.SHORT);
           break;
         case 'auth/user-not-found':
-          alert("Email não cadastrado");
+          ToastAndroid.show("Email não cadastrado",ToastAndroid.SHORT);
           break;
         default:
-          alert("Não foi possivel enviar o email")
+          ToastAndroid.show("Não foi possivel enviar o email",ToastAndroid.SHORT)
           console.log(error.code);
           break;
       }

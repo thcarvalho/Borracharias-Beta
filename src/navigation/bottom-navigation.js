@@ -6,9 +6,9 @@ import {createAppContainer} from 'react-navigation';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import Artigos from './components/artigos';
-import Maps from './components/Maps';
-import Lista from './components/lista';
+import Artigos from '../components/artigos';
+import Maps from '../components/Maps';
+import Lista from '../components/lista';
 
 const bottomNavigation = createMaterialBottomTabNavigator(
   {

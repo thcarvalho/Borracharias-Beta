@@ -6,12 +6,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
-import Firebase from "../Firebase";
+import Firebase from "../controller/Firebase";
 
 export default class Maps extends Component {
   state = {
@@ -19,6 +20,7 @@ export default class Maps extends Component {
     region: null,
     markers: [],
   };
+
   Firebase = new Firebase();
 
 
@@ -30,7 +32,6 @@ export default class Maps extends Component {
     let title = doc.data().ecoponto;
     let telefone = (doc.data().telefone == '') ? ' ' : (' - Tel: ' + doc.data().telefone);
     let description = doc.data().endereco + ', ' + doc.data().numero + telefone;
-
     console.log(description);
 
     this.setState({
@@ -48,14 +49,12 @@ export default class Maps extends Component {
   }
 
   componentWillMount() {
-    this.Firebase.refDestinacoes
-      .where("visivel", "==", true)
-      .onSnapshot(snapshot => {
-        this.setState({ markers: [] });
-        snapshot.forEach(doc => {
-          this.mostrarDestinacoes(doc);
-        });
+    this.Firebase.recuperarDestinacao(true,snapshot => {
+      this.setState({ markers: [] });
+      snapshot.forEach(doc => {
+        this.mostrarDestinacoes(doc);
       });
+    })
   }
 
   async componentDidMount() {
@@ -83,6 +82,7 @@ export default class Maps extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content'/>
         <MapView
           style={styles.map}
           initialRegion={this.state.region}
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   toggle: {
     position: 'absolute',
     padding: 20,
+    paddingTop: 30,
   },
 });
 
