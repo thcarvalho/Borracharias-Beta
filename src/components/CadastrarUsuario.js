@@ -95,7 +95,7 @@ export default class CadastroUsuario extends Component {
 
             <View style={styles.centralizar}>
               <TouchableOpacity onPress={() => { this.cadastrarUsuario() }} style={styles.botao}>
-                <Text>Concluir</Text>
+                <Text style={{color: '#dcdcdc'}}>CONCLUIR</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -107,10 +107,10 @@ export default class CadastroUsuario extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#009688',
+    backgroundColor: '#dcdcdc',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   tela: {
     justifyContent: 'space-between',
@@ -120,28 +120,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  titulo: {
-    marginTop: 70,
-    marginBottom: 30,
-    color: '#fff',
-    fontSize: 38,
-    fontFamily: 'Arial',
-    fontWeight: 'bold',
-  },
   caixasTexto: {
-    width: 250,
-    borderRadius: 10,
+    width: 300,
+    borderRadius: 20,
+    padding: 14,
     backgroundColor: '#fff',
     padding: 8,
     marginBottom: 10,
+    fontSize: 16,
   },
   botao: {
     alignItems: 'center',
-    width: 80,
-    borderRadius: 8,
-    backgroundColor: '#E0FFFF',
+    width: 300,
+    borderRadius: 20,
+    backgroundColor: '#00695c',
     padding: 12,
-    marginTop: 25,
-    marginBottom: 25,
+    marginTop: 8,
+    marginBottom: 30,
+    fontSize:16,
   },
 });
