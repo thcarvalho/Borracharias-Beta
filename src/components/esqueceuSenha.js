@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
 
 import Firebase from "../controller/Firebase";
@@ -16,7 +17,13 @@ state = {
 }
 Firebase = new Firebase()
 
-redefinirSenha(email){
+redefinirSenha(){
+  const {email} = this.state;
+  if (email === '') {
+    ToastAndroid.show('Por favor informe um email',ToastAndroid.SHORT);
+  } else {
+    
+  }
   this.Firebase.enviarRedefinicaoSenha(email)
     .then(() => {
       alert("Cheque seu email")
@@ -25,13 +32,13 @@ redefinirSenha(email){
     .catch((error) => {
       switch (error.code) {
         case 'auth/invalid-email':
-          alert("O email informado é invalido");
+          ToastAndroid.show("O email informado é invalido",ToastAndroid.SHORT);
           break;
         case 'auth/user-not-found':
-          alert("Email não cadastrado");
+          ToastAndroid.show("Email não cadastrado",ToastAndroid.SHORT);
           break;
         default:
-          alert("Não foi possivel enviar o email")
+          ToastAndroid.show("Não foi possivel enviar o email",ToastAndroid.SHORT);
           console.log(error.code);
           break;
       }
