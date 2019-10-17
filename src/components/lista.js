@@ -6,6 +6,7 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconMA from 'react-native-vector-icons/MaterialIcons';
 import IconAD from 'react-native-vector-icons/AntDesign';
+
 import Geolocation from '@react-native-community/geolocation';
 
 import { ActionSheet } from "native-base";
@@ -38,6 +39,8 @@ export default class Lista extends Component {
   listarDestinacoes(doc) {
     let id = doc.id;
     let nome = doc.data().ecoponto;
+    let latitude = doc.data().latitude;
+    let longitude = doc.data().longitude;
     let descricao = doc.data().endereco + ', ' + doc.data().bairro + ', ' + doc.data().numero;
 
     this.setState({
@@ -45,6 +48,8 @@ export default class Lista extends Component {
         id,
         nome,
         descricao,
+        latitude,
+        longitude,
       }]),
       isLoading: false,
     });
@@ -54,11 +59,11 @@ export default class Lista extends Component {
     return deg * (Math.PI / 180);
   }
 
-  compare( a, b ) {
-    if ( a.distancia < b.distancia ){
+  compare(a, b) {
+    if (a.distancia < b.distancia) {
       return -1;
     }
-    if ( a.distancia > b.distancia ){
+    if (a.distancia > b.distancia) {
       return 1;
     }
     return 0;
@@ -69,30 +74,29 @@ export default class Lista extends Component {
     let nome = doc.data().ecoponto;
     let descricao = doc.data().endereco + ', ' + doc.data().bairro + ', ' + doc.data().numero;
 
-    let lat1 = doc.data().latitude;
-    let lon1 = doc.data().longitude;
+    let latitude = doc.data().latitude;
+    let longitude = doc.data().longitude;
     let lat2 = this.state.posicao.latitude;
     let lon2 = this.state.posicao.longitude;
 
     var R = 6371;
-    var deltaLat = this.deg2rad(lat2 - lat1);
-    var deltaLon = this.deg2rad(lon2 - lon1);
+    var deltaLat = this.deg2rad(lat2 - latitude);
+    var deltaLon = this.deg2rad(lon2 - longitude);
     var a =
       Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.cos(this.deg2rad(latitude)) * Math.cos(this.deg2rad(lat2)) *
       Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2)
       ;
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var distancia = R * c;
-
-    
-
 
     this.setState({
       destinacoes: this.state.destinacoes.concat([{
         id,
         nome,
         descricao,
+        latitude,
+        longitude,
         distancia,
       }]),
       isLoading: false,
@@ -102,18 +106,23 @@ export default class Lista extends Component {
       isLoading: false,
     });
     console.log(this.state.destinacoes);
-    
+
   }
+
   listarPesquisa(doc) {
     let id = doc.id;
     let nome = doc.data().ecoponto;
     let descricao = doc.data().endereco + ', ' + doc.data().bairro + ', ' + doc.data().numero;
+    let latitude = doc.data().latitude;
+    let longitude = doc.data().longitude;
 
     this.setState({
       resultado: this.state.resultado.concat([{
         id,
         nome,
         descricao,
+        latitude,
+        longitude,
       }]),
       isLoading: false,
     });
@@ -121,6 +130,7 @@ export default class Lista extends Component {
   }
 
   componentWillMount() {
+
     this.Firebase.recuperarDestinacao(true, snapshot => {
       this.setState({ destinacoes: [], isLoading: true });
       snapshot.forEach(doc => {
@@ -130,7 +140,7 @@ export default class Lista extends Component {
   }
 
   async componentDidMount() {
-    Geolocation.getCurrentPosition(
+    await Geolocation.getCurrentPosition(
       position => {
         this.setState({
           posicao: {
@@ -155,6 +165,7 @@ export default class Lista extends Component {
 
     if (filtro === 'Bairro') {
       this.Firebase.refDestinacoes
+        .where("visivel", "==", true)
         .where('bairro', '>=', pesquisa)
         .where('bairro', '<=', pesquisa + '\uf8ff')
         .onSnapshot(snapshot => {
@@ -166,6 +177,7 @@ export default class Lista extends Component {
 
     } else if (filtro === 'Endereco') {
       this.Firebase.refDestinacoes
+        .where("visivel", "==", true)
         .where('endereco', '>=', pesquisa)
         .where('endereco', '<=', pesquisa + '\uf8ff')
         .onSnapshot(snapshot => {
@@ -176,6 +188,7 @@ export default class Lista extends Component {
         })
     } else if (filtro === 'Ecoponto') {
       this.Firebase.refDestinacoes
+        .where("visivel", "==", true)
         .where('ecoponto', '>=', 'Ecoponto ' + pesquisa)
         .where('ecoponto', '<=', 'Ecoponto ' + pesquisa + '\uf8ff')
         .onSnapshot(snapshot => {
@@ -289,7 +302,7 @@ export default class Lista extends Component {
   };
 
   render() {
-    const { destinacoes, pesquisa, resultado, ordem, filtroPesquisa } = this.state;
+    const { destinacoes, pesquisa, resultado, filtroPesquisa } = this.state;
     return (
       <Provider>
         <View style={{ flex: 1 }}>
@@ -345,10 +358,21 @@ export default class Lista extends Component {
               ItemSeparatorComponent={this.renderSeparator}
               ListFooterComponent={this.renderFooter}
               renderItem={({ item }) => (
-                <View style={styles.container}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('Maps', {
+                      latitude: item.latitude,
+                      longitude: item.longitude,
+                    });
+                  }
+                  
+                }
+                  activeOpacity={0.5}
+                  style={styles.container}
+                >
                   <Text style={styles.titulo}>{item.nome}</Text>
                   <Text style={styles.subtitulo}>{item.descricao}</Text>
-                </View>
+                </TouchableOpacity>
               )}
             />
           ) : (
@@ -358,10 +382,20 @@ export default class Lista extends Component {
                 ItemSeparatorComponent={this.renderSeparator}
                 ListFooterComponent={this.renderFooter}
                 renderItem={({ item }) => (
-                  <View style={styles.container}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate('Maps', {
+                        latitude: item.latitude,
+                        longitude: item.longitude,
+                      });
+                    }
+                  }
+                    activeOpacity={0.5}
+                    style={styles.container}
+                  >
                     <Text style={styles.titulo}>{item.nome}</Text>
                     <Text style={styles.subtitulo}>{item.descricao}</Text>
-                  </View>
+                  </TouchableOpacity>
                 )}
               />
             )

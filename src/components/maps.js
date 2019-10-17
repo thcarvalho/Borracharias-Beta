@@ -6,10 +6,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  StatusBar
+  StatusBar,
+  TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import Firebase from "../controller/Firebase";
@@ -20,9 +21,9 @@ export default class Maps extends Component {
     region: null,
     markers: [],
   };
-
+  mapRef = null;
   Firebase = new Firebase();
-
+  coords = null;
 
 
   mostrarDestinacoes(doc) {
@@ -32,7 +33,7 @@ export default class Maps extends Component {
     let title = doc.data().ecoponto;
     let telefone = (doc.data().telefone == '') ? ' ' : (' - Tel: ' + doc.data().telefone);
     let description = doc.data().endereco + ', ' + doc.data().numero + telefone;
-    console.log(description);
+    console.log(id);
 
     this.setState({
       markers: this.state.markers.concat([{
@@ -48,8 +49,29 @@ export default class Maps extends Component {
 
   }
 
+  async componentWillReceiveProps(nextProps) {
+    console.log(nextProps.navigation.getParam('latitude'));
+    console.log(nextProps.navigation.getParam('longitude'));
+    this.coords = { latitude: nextProps.navigation.getParam('latitude'), longitude: nextProps.navigation.getParam('longitude'), latitudeDelta: 0.0462, longitudeDelta: 0.0261, };
+  }
+
+  centralizarMarker = (coordinates) => {
+    console.log(coordinates);
+    if (this.coords !== null) {
+      this.mapRef.animateToRegion(coordinates, 1);
+    }
+    this.coords = null;
+  }
+
   componentWillMount() {
-    this.Firebase.recuperarDestinacao(true,snapshot => {
+    this.listener = this.props.navigation.addListener('didFocus', () => {
+      if (this.coords === null) {
+        return null;
+      } else {
+        this.centralizarMarker(this.coords);
+      }
+    });
+    this.Firebase.recuperarDestinacao(true, snapshot => {
       this.setState({ markers: [] });
       snapshot.forEach(doc => {
         this.mostrarDestinacoes(doc);
@@ -57,7 +79,9 @@ export default class Maps extends Component {
     })
   }
 
+
   async componentDidMount() {
+    console.log(this.mapRef);
     Geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -82,8 +106,9 @@ export default class Maps extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content'/>
+        <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content' />
         <MapView
+          ref={(ref) => { this.mapRef = ref }}
           style={styles.map}
           initialRegion={this.state.region}
           region={this.state.region}
@@ -91,10 +116,11 @@ export default class Maps extends Component {
           showsUserLocation
           followUserLocation
           showsCompass={false}
-          ref={map => {this.map = map}}
         >
-          {this.state.markers.map(marker => (
+          {this.state.markers.map((marker, index) => (
             <Marker
+              key={marker.id}
+              // ref={(ref) => { this.markers[ref.id] = marker; }}
               coordinate={marker.coordinate}
               title={marker.title}
               description={marker.description}
