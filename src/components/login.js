@@ -7,7 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   ToastAndroid,
-  StatusBar
+  StatusBar,
+  ActivityIndicator
 } from 'react-native';
 
 import Firebase from "../controller/Firebase";
@@ -17,6 +18,7 @@ export default class Login extends Component {
     email: '',
     password: '',
     autenticado: null,
+    isLoading: false,
   }
   Firebase = new Firebase();
 
@@ -27,26 +29,29 @@ export default class Login extends Component {
   }
 
   logarUsuario = (email, password) => {
+    this.setState({ isLoading: true });
     if (email === '' || password === '') {
-      ToastAndroid.show('Por favor, preencha os campos',ToastAndroid.SHORT);
+      ToastAndroid.show('Por favor, preencha os campos', ToastAndroid.SHORT);
+      this.setState({ isLoading: false })
     } else {
       this.Firebase.logarUsuarioF(email, password)
         .then(() => { this.props.navigation.navigate('Principal') })
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              ToastAndroid.show('Senha incorreta',ToastAndroid.SHORT);
+              ToastAndroid.show('Senha incorreta', ToastAndroid.SHORT);
               break;
             case 'auth/invalid-email':
-              ToastAndroid.show('Esse email é invalido',ToastAndroid.SHORT);
+              ToastAndroid.show('Esse email é invalido', ToastAndroid.SHORT);
               break;
             case 'auth/user-not-found':
-              ToastAndroid.show('Usuario não encontrado',ToastAndroid.SHORT);
+              ToastAndroid.show('Usuario não encontrado', ToastAndroid.SHORT);
               break;
             default:
-              ToastAndroid.show('Erro ao realizar login',ToastAndroid.SHORT);
+              ToastAndroid.show('Erro ao realizar login', ToastAndroid.SHORT);
           }
-        });
+        })
+        .finally(() => this.setState({ isLoading: false }))
     }
   }
 
@@ -55,8 +60,8 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-        backgroundColor= '#00695c'
-        barStyle='lightContent'
+          backgroundColor='#00695c'
+          barStyle='lightContent'
         />
         <View style={styles.tela}>
           <Text style={styles.textoLogin}>Login</Text>
@@ -83,8 +88,15 @@ export default class Login extends Component {
             autoCorrect={false}
           />
 
-          <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} style={styles.botao}>
-            <Text style={{color: '#dcdcdc'}}>ENTRAR</Text>
+          <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
+            {
+              this.state.isLoading ?
+                (
+                  <ActivityIndicator animating size="small" color={'#fff'} />
+                ) : (
+                  <Text style={{ color: '#dcdcdc' }}>ENTRAR</Text>
+                )
+            }
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.props.navigation.navigate('EsqueceuSenha'); }}>
@@ -137,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginTop: 8,
     marginBottom: 26,
-    fontSize:16,
+    fontSize: 16,
   },
   links: {
     paddingHorizontal: 10,

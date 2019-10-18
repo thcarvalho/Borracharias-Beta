@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
   ToastAndroid,
 } from 'react-native';
 
@@ -18,43 +19,47 @@ export default class CadastroUsuario extends Component {
     nome: '',
     email: '',
     password: '',
+    isLoading: false,
   }
   Firebase = new Firebase();
 
   cadastrarUsuario() {
-    const {email, password, nome} = this.state;
+    this.setState({ isLoading: true });
+    const { email, password, nome } = this.state;
     if (email === '' || password === '' || nome === '') {
-      ToastAndroid.show("Faltam dados obrigatórios",ToastAndroid.SHORT);
+      ToastAndroid.show("Faltam dados obrigatórios", ToastAndroid.SHORT);
+      this.setState({ isLoading: false })
     } else {
-      const usuario = new Usuario(nome,email);
-      this.Firebase.autenticarUsuarioF(usuario.email,password)
+      const usuario = new Usuario(nome, email);
+      this.Firebase.autenticarUsuarioF(usuario.email, password)
         .then(() => {
           try {
-            ToastAndroid.show('Cadastro efetuado com sucesso!',ToastAndroid.SHORT);
+            ToastAndroid.show('Cadastro efetuado com sucesso!', ToastAndroid.SHORT);
             this.props.navigation.navigate('Login');
 
             //Adicionar ao banco
             this.Firebase.cadastrarUsuarioF(usuario);
           } catch (error) {
             console.log(error);
-            ToastAndroid.show('Não foi possivel efetuar o cadastro',ToastAndroid.SHORT);
+            ToastAndroid.show('Não foi possivel efetuar o cadastro', ToastAndroid.SHORT);
           }
         })
         .catch(error => {
           switch (error.code) {
             case 'auth/email-already-in-use':
-              ToastAndroid.show('Esse email já está cadastrado',ToastAndroid.SHORT);
+              ToastAndroid.show('Esse email já está cadastrado', ToastAndroid.SHORT);
               break;
             case 'auth/invalid-email':
-              ToastAndroid.show('Esse email é invalido',ToastAndroid.SHORT);
+              ToastAndroid.show('Esse email é invalido', ToastAndroid.SHORT);
               break;
             case 'auth/weak-password':
-              ToastAndroid.show('A senha deve ter no minimo 6 caracteres',ToastAndroid.SHORT);
+              ToastAndroid.show('A senha deve ter no minimo 6 caracteres', ToastAndroid.SHORT);
               break;
             default:
-              ToastAndroid.show('Erro ao realizar cadastro',ToastAndroid.SHORT);
+              ToastAndroid.show('Erro ao realizar cadastro', ToastAndroid.SHORT);
           }
-        });
+        })
+        .finally(() => this.setState({ isLoading: false }))
     }
   }
 
@@ -91,10 +96,16 @@ export default class CadastroUsuario extends Component {
               autoCapitalize="none"
               autoCorrect={false}
             />
-
             <View style={styles.centralizar}>
-              <TouchableOpacity onPress={() => { this.cadastrarUsuario() }} style={styles.botao}>
-                <Text style={{color: '#dcdcdc'}}>CONCLUIR</Text>
+              <TouchableOpacity onPress={() => { this.cadastrarUsuario(); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
+                {
+                  this.state.isLoading ?
+                    (
+                      <ActivityIndicator animating size="small" color={'#fff'} />
+                    ) : (
+                      <Text style={{ color: '#dcdcdc' }}>CONCLUIR</Text>
+                    )
+                }
               </TouchableOpacity>
             </View>
           </View>
@@ -124,7 +135,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 14,
     backgroundColor: '#fff',
-    padding: 8,
     marginBottom: 10,
     fontSize: 16,
   },
@@ -136,6 +146,6 @@ const styles = StyleSheet.create({
     padding: 12,
     marginTop: 8,
     marginBottom: 30,
-    fontSize:16,
+    fontSize: 16,
   },
 });
