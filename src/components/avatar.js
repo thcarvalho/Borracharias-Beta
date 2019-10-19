@@ -27,7 +27,7 @@ export default class Avatares extends Component {
 			<SafeAreaView style={{ flex: 1 }} forceInset={{ top: "always", horizontal: "never" }}>
 				<View style={styles.container}>
 					<View style={{ marginTop: 10, alignItems: 'center', justifyContent: 'center' }}>
-						<Image style={styles.imagem} source={require('./assest/avatar-perfil.png')} />
+						<Image style={styles.imagem} source={require('../assets/avatar-perfil.png')} />
 						<TouchableOpacity>
 							<Text style={styles.texto}>{this.state.user}</Text>
 						</TouchableOpacity>

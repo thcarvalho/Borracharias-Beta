@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   StatusBar,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 
 import Firebase from "../controller/Firebase";
@@ -111,7 +111,6 @@ export default class Login extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

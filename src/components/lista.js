@@ -140,7 +140,7 @@ export default class Lista extends Component {
   }
 
   async componentDidMount() {
-    await Geolocation.getCurrentPosition(
+    Geolocation.getCurrentPosition(
       position => {
         this.setState({
           posicao: {
@@ -154,8 +154,7 @@ export default class Lista extends Component {
         enableHighAccuracy: true,
         timeout: 20000,
         maximumAge: 1000,
-      },
-    );
+      });
 
   }
 
@@ -365,8 +364,8 @@ export default class Lista extends Component {
                       longitude: item.longitude,
                     });
                   }
-                  
-                }
+
+                  }
                   activeOpacity={0.5}
                   style={styles.container}
                 >
@@ -389,7 +388,7 @@ export default class Lista extends Component {
                         longitude: item.longitude,
                       });
                     }
-                  }
+                    }
                     activeOpacity={0.5}
                     style={styles.container}
                   >
