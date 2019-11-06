@@ -108,11 +108,11 @@ export default class CadastrarDestinacao extends Component {
                   <View style={styles.container}>
                     <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20}}>
                       <Text style={styles.titulo}>{item.nome}</Text>
-                      <Icon name="pluscircleo" size={27} color={'#000'} backgroundColor={'red'} onPress={() => {this.aceitarSugestao(item.id)}}/>
+                      <IconFA name="plus" size={27} color={'#00695c'} backgroundColor={'red'} onPress={() => {this.aceitarSugestao(item.id)}}/>
                     </View>
                     <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20, alignContent: 'flex-end', paddingTop: 4}}>
                       <Text style={styles.subtitulo}>{item.descricao}</Text>
-                      <Icon name="delete" size={27} color={'#000'} onPress={() => {this.recusarSugestao(item.id)}}/>
+                      <IconFA name="trash" size={27} color={'#00695c'} onPress={() => {this.recusarSugestao(item.id)}}/>
                     </View>
                   </View>
                 )}

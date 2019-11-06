@@ -91,75 +91,119 @@ export default class Sugerir extends Component {
           <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
-          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Sugerir Novo Eco ponto</Text>
+          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Sugerir Novo Ecoponto</Text>
         </View>
         <ScrollView>
           <View style={styles.container}>
+          <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Ecoponto</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marked-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Nome do Ecoponto"
+              underlineColorAndroid="#00695c"
               onChangeText={(ecoponto) => { this.setState({ ecoponto }) }}
               value={ecoponto}
             />
+          </View>
+        </View>
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>CEP</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="CEP"
+              underlineColorAndroid="#00695c"
               onChangeText={(cep) => { this.setState({ cep }) }}
               onBlur={() => { this.recuperarCEP(cep) }}
               value={cep}
-            />
+              keyboardType='numeric'
+          />
+          </View>
+        </View>
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Endereço</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Endereço"
-              onChangeText={(endereco) => { this.setState({ endereco }) }}
-              value={endereco}
-            />
+              underlineColorAndroid="#00695c"
+            onChangeText={(endereco) => { this.setState({ endereco }) }}
+            value={endereco}
+          />
+          </View>
+        </View>
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Bairro</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Bairro"
+              underlineColorAndroid="#00695c"
               onChangeText={(bairro) => { this.setState({ bairro }) }}
               value={bairro}
-            />
+          />
+          </View>
+        </View>
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Número</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Número"
+              underlineColorAndroid="#00695c"
               onChangeText={(numero) => { this.setState({ numero }) }}
               value={numero}
-            />
+              keyboardType='numeric'
+          />
+          </View>
+        </View>
 
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Cidade</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Cidade"
+              underlineColorAndroid="#00695c"
               onChangeText={(cidade) => { this.setState({ cidade }) }}
               value={cidade}
-            />
+          />
+          </View>
+          </View>
 
+          <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Estado</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'map-marker-alt'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Estado"
+              underlineColorAndroid="#00695c"
               onChangeText={(estado) => { this.setState({ estado }) }}
               value={estado}
-            />
+          />
+          </View>
+        </View>
 
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Telefone</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'phone'} size={24} color={'#00695c'}/>
             <TextInput
               style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Telefone"
+              underlineColorAndroid="#00695c"
               onChangeText={(telefone) => { this.setState({ telefone }) }}
               value={telefone}
-            />
+              keyboardType='phone-pad'
+          />
+          </View>
+        </View>
+
             <TouchableOpacity
               style={styles.botao}
               onPress={() => {
@@ -187,25 +231,27 @@ export default class Sugerir extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
     alignItems: 'center',
+    marginTop: 30,
+  },
+  icone: {
+    marginTop: 8
   },
   caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    padding: 8,
+    width: 280,
+    fontSize: 18,
     marginBottom: 10,
-    fontSize: 16,
   },
   botao: {
     alignItems: 'center',
+    justifyContent: 'center',
     width: 300,
-    borderRadius: 20,
+    borderRadius: 16,
     backgroundColor: '#00695c',
     padding: 12,
-    marginTop: 8,
-    marginBottom: 30,
-    fontSize: 16,
+    marginTop: 16,
+    marginBottom: 10,
+    fontSize:16,
+    flexDirection: 'row'
   },
 });

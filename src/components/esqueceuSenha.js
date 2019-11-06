@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   ActivityIndicator
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Firebase from "../controller/Firebase";
 
@@ -54,14 +55,19 @@ export default class EsqueceuSenha extends React.Component {
     return (
       <View style={styles.container}>
 
-        <Text style={{ fontSize: 18, marginBottom: 20, color: '#00695c' }}>Informe seu e-mail para redefinir a senha</Text>
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid='transparent'
-          placeholder='Email'
-          value={email}
-          onChangeText={(email) => { this.setState({ email }) }}
-        />
+<Text style={{fontSize: 18, marginBottom: 20, color: '#00695c'}}>Informe seu e-mail para redefinir a senha</Text>         
+       <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'envelope'} size={24} color={'#00695c'}/>
+          <TextInput
+            onChangeText={email => { this.setState({ email }) }}
+            value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            underlineColorAndroid={'#00695c'}
+	          style={styles.caixasTexto}
+          />     
+      </View>
         <View>
           <TouchableOpacity onPress={() => { this.redefinirSenha(email) }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
           {
@@ -82,28 +88,25 @@ export default class EsqueceuSenha extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#dcdcdc',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    padding: 14,
-    backgroundColor: '#fff',
-    padding: 8,
-    marginBottom: 10,
-    fontSize: 16,
-  },
-  botao: {
-    alignItems: 'center',
-    width: 300,
-    borderRadius: 20,
-    backgroundColor: '#00695c',
-    color: '#dcdcdc',
-    padding: 12,
-    marginTop: 8,
-    marginBottom: 30,
-    fontSize: 16,
-  },
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+        },
+        icone: {
+          marginTop: 8
+        },
+        caixasTexto: {
+          width: 280,
+          fontSize: 18,
+          marginBottom: 10,
+        },
+        botao: {
+          alignItems: 'center',
+          width: 300,
+          borderRadius: 16,
+          backgroundColor: '#00695c',
+          padding: 12,
+          marginTop: 16,
+          fontSize:16,
+        },
 });

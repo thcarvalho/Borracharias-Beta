@@ -10,6 +10,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Firebase from "../controller/Firebase";
 
@@ -19,6 +20,7 @@ export default class Login extends Component {
     password: '',
     autenticado: null,
     isLoading: false,
+    passwordShow: false,
   }
   Firebase = new Firebase();
 
@@ -54,9 +56,13 @@ export default class Login extends Component {
         .finally(() => this.setState({ isLoading: false }))
     }
   }
+  tooglePassword = () => {
+    const { passwordShow } = this.state;
+    this.setState({ passwordShow : !passwordShow});
+}
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, passwordShow } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -66,27 +72,46 @@ export default class Login extends Component {
         <View style={styles.tela}>
           <Text style={styles.textoLogin}>Login</Text>
 
+          <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Email</Text>
+        <View style={{flexDirection: 'row',}}>
+        	 <Icon style={styles.icone} name={'envelope'} size={24} color={'#00695c'}/>
           <TextInput
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Email"
             onChangeText={email => { this.setState({ email }) }}
             value={email}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
-          />
-
-          <TextInput
-            secureTextEntry={true}
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Senha"
+            underlineColorAndroid={'#00695c'}
+	          style={styles.caixaTexto}
+          />     
+    </View>
+      </View>
+        <View>
+        <Text style={{marginTop:10, marginLeft: 25, color: '#00695c', size: 18}}>Senha</Text>
+    <View style={{flexDirection: 'row',}}>
+	      <Icon style={styles.icone} name={'lock'} size={24} color={'#00695c'}/>
+        <TextInput
+            style={styles.caixaTextoSenha}
+            underlineColorAndroid={'#00695c'}
             onChangeText={password => { this.setState({ password }) }}
             value={password}
             autoCapitalize="none"
             autoCorrect={false}
-          />
+            secureTextEntry={passwordShow ? false : true}
+            />
+            <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+                {
+                    this.state.passwordShow ?
+                  (
+                      <Icon name={'eye-slash'} size={23} color={'#00695c'} style={styles.iconeEye} />
+                  ) : (
+                      <Icon name={'eye'} size={23} color={'#00695c'} style={styles.iconeEye}/>
+                  )
+                }
+            </TouchableOpacity>
+    </View>
+    </View>
 
           <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
             {
@@ -123,6 +148,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  icone: {
+    marginTop: 8
+  },
+  iconeEye:{
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    marginBottom: 5,
+},
   textoLogin: {
     marginTop: 120,
     marginBottom: 30,
@@ -131,28 +164,29 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontWeight: 'bold',
   },
-  caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    padding: 14,
-    backgroundColor: '#fff',
-    padding: 8,
+  caixaTexto: {
+    width: 280,
+    fontSize: 18,
     marginBottom: 10,
-    fontSize: 16,
+  },
+  caixaTextoSenha: {
+    width: 245,
+    fontSize: 18,
+    marginBottom: 10,
   },
   botao: {
     alignItems: 'center',
     width: 300,
-    borderRadius: 20,
+    borderRadius: 16,
     backgroundColor: '#00695c',
     padding: 12,
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 26,
-    fontSize: 16,
+    fontSize:16,
   },
   links: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 7,
     fontSize: 16,
     color: '#00695c',
   },
