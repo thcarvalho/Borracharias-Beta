@@ -15,22 +15,23 @@ import CadastrarDestinacao from "../components/CadastrarDestinacao";
 import Sugerir from "../components/SugerirDestinacao";
 import Logout from "../components/logout";
 import Avatares from "../components/avatar";
+import Perfil from '../components/editarPerfil';
 
 const DrawerContent = props => (
     <SafeAreaView style={{flex: 1 }}>
 
-        <SafeAreaView style={{flex: 1, backgroundColor: '#00695c',}} forceInset={{ top: "always", horizontal: "never" }}>
-        <View style={{flex: 1,marginTop: 40, justifyContent: "center"}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#00695c'}} forceInset={{ top: "always", horizontal: "never" }}>
+        <View style={{flex: 1, marginTop: 20,}}>
             <Avatares />
             </View>
         </SafeAreaView>
 
-        <ScrollView style={{marginTop: 120, }}>
+        <ScrollView style={{marginTop: 50, }}>
             <DrawerItems {...props} />
         </ScrollView>
 
         <SafeAreaView style={{flex: 1}} forceInset={{ bottom: "always", horizontal: "never" }}>
-        <View style={{flex: 1, marginTop: 55, justifyContent: "center"}}>
+        <View style={{flex: 1, marginTop: 70, justifyContent: "center"}}>
             <Logout />
         </View>
         </SafeAreaView>
@@ -52,6 +53,14 @@ const DrawerNavigation = createDrawerNavigator(
             navigationOptions: ({ focused }) => ({
                 drawerIcon: (
                     <Icon name="paper-plane" size={20} color={focused ? '#fff' : '#000'} />
+                ),
+            }),
+        },
+        Perfil: {
+            screen: Perfil,
+            navigationOptions: ({ focused }) => ({
+                drawerIcon: (
+                    <Icon name="user" size={20} color={focused ? '#fff' : '#000'} />
                 ),
             }),
         },
