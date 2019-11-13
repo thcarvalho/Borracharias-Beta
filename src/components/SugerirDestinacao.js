@@ -11,6 +11,7 @@ var cepPromise = require("cep-promise");
 
 import Firebase from "../controller/Firebase";
 import Ecoponto from "../model/Ecoponto";
+import { Hoshi } from 'react-native-textinput-effects';
 
 Geocoder.init("AIzaSyBGKCuuDcjsWjiXKPY27se2ShLmOgn-Y4Q", { language: "pt-br" });
 export default class Sugerir extends Component {
@@ -91,75 +92,119 @@ export default class Sugerir extends Component {
           <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
-          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Sugerir Novo Eco ponto</Text>
+          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Sugerir Novo Ecoponto</Text>
         </View>
         <ScrollView>
           <View style={styles.container}>
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Nome do Ecoponto"
+          <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Ecoponto'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={14}
+              autoCapitalize={'none'}
               onChangeText={(ecoponto) => { this.setState({ ecoponto }) }}
               value={ecoponto}
             />
+          </View>
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="CEP"
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'CEP'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
               onChangeText={(cep) => { this.setState({ cep }) }}
               onBlur={() => { this.recuperarCEP(cep) }}
               value={cep}
-            />
+              keyboardType='numeric'
+          />
+          </View>
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Endereço"
-              onChangeText={(endereco) => { this.setState({ endereco }) }}
-              value={endereco}
-            />
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Endereço'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
+            onChangeText={(endereco) => { this.setState({ endereco }) }}
+            value={endereco}
+          />
+          </View>
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Bairro"
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Bairro'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}             
               onChangeText={(bairro) => { this.setState({ bairro }) }}
               value={bairro}
-            />
+          />
+          </View>
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Número"
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Número'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
               onChangeText={(numero) => { this.setState({ numero }) }}
               value={numero}
-            />
+              keyboardType='numeric'
+          />
+          </View>
 
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Cidade"
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Cidade'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
               onChangeText={(cidade) => { this.setState({ cidade }) }}
               value={cidade}
-            />
+          />
+          </View>  
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Estado"
+          <View>
+          <Hoshi
+              style={styles.caixaTexto}
+              label={'Estado'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
               onChangeText={(estado) => { this.setState({ estado }) }}
               value={estado}
-            />
+          />
+          </View>
 
-            <TextInput
-              style={styles.caixasTexto}
-              underlineColorAndroid="transparent"
-              placeholder="Telefone"
+        <View>
+        <Hoshi
+              style={styles.caixaTexto}
+              label={'Telefone'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              autoCapitalize={'none'}
               onChangeText={(telefone) => { this.setState({ telefone }) }}
               value={telefone}
-            />
+              keyboardType='phone-pad'
+          />
+          </View>
+
             <TouchableOpacity
               style={styles.botao}
               onPress={() => {
@@ -187,25 +232,22 @@ export default class Sugerir extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
     alignItems: 'center',
+    marginTop: 30,
   },
-  caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    padding: 8,
+  caixaTexto: {
+    width: 310,
+    fontSize: 18,
     marginBottom: 10,
-    fontSize: 16,
   },
   botao: {
     alignItems: 'center',
     width: 300,
-    borderRadius: 20,
+    borderRadius: 200,
     backgroundColor: '#00695c',
     padding: 12,
-    marginTop: 8,
-    marginBottom: 30,
+    marginTop: 16,
+    marginBottom: 26,
     fontSize: 16,
   },
 });

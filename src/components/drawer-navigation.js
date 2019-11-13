@@ -15,28 +15,28 @@ import CadastrarDestinacao from "../components/CadastrarDestinacao";
 import Sugerir from "../components/SugerirDestinacao";
 import Logout from "../components/logout";
 import Avatares from "../components/avatar";
-import Perfil from "../components/editarPerfil";
+import Perfil from '../components/editarPerfil';
 
 const DrawerContent = props => (
-    <SafeAreaView style={{ flex: 1 }}>
-
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#00695c', }} forceInset={{ top: "always", horizontal: "never" }}>
-            <View style={{ flex: 1, marginTop: 40, justifyContent: "center" }}>
-                <Avatares />
+    <SafeAreaView style={{flex: 1 }}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#00695c'}} forceInset={{ top: "always", horizontal: "never" }}>
+        <View style={{flex: 1,marginTop: 20,}}>
+            <Avatares />
             </View>
         </SafeAreaView>
 
-        <ScrollView style={{ marginTop: 120, }}>
+        <ScrollView style={{marginTop: 30, }}>
             <DrawerItems {...props} />
         </ScrollView>
 
-        <SafeAreaView style={{ flex: 1 }} forceInset={{ bottom: "always", horizontal: "never" }}>
-            <View style={{ flex: 1, marginTop: 55, justifyContent: "center" }}>
-                <Logout />
-            </View>
+        <SafeAreaView style={{flex: 1}} forceInset={{ bottom: "always", horizontal: "never" }}>
+        <View style={{flex: 1, marginTop: 90, justifyContent: "center"}}>
+            <Logout />
+        </View>
         </SafeAreaView>
     </SafeAreaView>
 );
+
 const DrawerNavigation = createDrawerNavigator(
     {
         Principal: {

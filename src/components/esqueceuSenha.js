@@ -9,6 +9,8 @@ import {
   ToastAndroid,
   ActivityIndicator
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Hoshi } from 'react-native-textinput-effects';
 
 import Firebase from "../controller/Firebase";
 
@@ -54,15 +56,18 @@ export default class EsqueceuSenha extends React.Component {
     return (
       <View style={styles.container}>
 
-        <Text style={{ fontSize: 18, marginBottom: 20, color: '#00695c' }}>Informe seu e-mail para redefinir a senha</Text>
-        <TextInput
-          style={styles.caixasTexto}
-          underlineColorAndroid='transparent'
-          placeholder='Email'
-          value={email}
-          onChangeText={(email) => { this.setState({ email }) }}
-        />
-        <View>
+<Text style={{fontSize: 18, marginBottom: 20, color: '#00695c'}}>Informe seu e-mail para redefinir a senha</Text>         
+<View>            
+            <Hoshi
+             label={'Email'}
+             borderColor={'#00695c'}
+             borderHeight={3}
+             inputPadding={16}
+             onChangeText={email => { this.setState({ email }) }}
+             autoCapitalize={'none'}
+             style={styles.caixaTexto}
+             />
+          </View>
           <TouchableOpacity onPress={() => { this.redefinirSenha(email) }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
           {
               this.state.isLoading ?
@@ -74,7 +79,6 @@ export default class EsqueceuSenha extends React.Component {
             }
           </TouchableOpacity>
         </View>
-      </View>
     );
   }
 }
@@ -82,28 +86,26 @@ export default class EsqueceuSenha extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#dcdcdc',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    padding: 14,
-    backgroundColor: '#fff',
-    padding: 8,
-    marginBottom: 10,
-    fontSize: 16,
-  },
-  botao: {
-    alignItems: 'center',
-    width: 300,
-    borderRadius: 20,
-    backgroundColor: '#00695c',
-    color: '#dcdcdc',
-    padding: 12,
-    marginTop: 8,
-    marginBottom: 30,
-    fontSize: 16,
-  },
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+        },
+        icone: {
+          marginTop: 8
+        },
+        caixaTexto: {
+          width: 310,
+          fontSize: 18,
+          marginBottom: 10,
+        },
+        botao: {
+          alignItems: 'center',
+          width: 300,
+          borderRadius: 200,
+          backgroundColor: '#00695c',
+          padding: 12,
+          marginTop: 16,
+          marginBottom: 26,
+          fontSize: 16,
+        },
 });

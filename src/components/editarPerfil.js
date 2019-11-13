@@ -1,122 +1,150 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, TextInput, Text, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, TouchableOpacity, StyleSheet, TextInput, Text, Image, SafeAreaView, Modal } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
-//import Firebase from "../controller/Firebase";
+import Hr from "react-native-hr-component";
+import Firebase from "../controller/Firebase";
 
-export default class EditarPerfil extends Component{
-    state= {
-        usuarios: 'nome',
-        usuarios2: 'email',
-        usuarios3: 'senha',
+import ModalNome from "./Perfil/ModalNome";
+import ModalEmail from "./Perfil/ModalEmail";
+import ModalSenha from "./Perfil/ModalSenha";
+
+export default class EditarPerfil extends Component {
+    state = {
+        nome: '',
+        email: '',
+        modalVisibleNome: false,
+        ModalVisibleEmail: false,
+        ModalVisibleSenha: false,
     };
-    
-    render(){
-        return(
-        <View style={{flex: 1, backgroundColor: '#dcdcdc'}}>
-        
-        <View style = {styles.container}>
-        <View>
-        <TouchableOpacity>
-            <Image style={styles.imagem} source={require('../assets/avatar-perfil.png')} />
-        </TouchableOpacity>
-        </View>
-        
-    <View>
-            <Text>Nome perfil:</Text>
-        <TouchableOpacity style={{flexDirection: 'row',}}>
-            <TextInput
-            value={this.state.usuarios}
-            editable={true}
-            onChangeText={(usuarios) => this.setState({usuarios})}
-            autoCapitalize="none"
-            style={styles.entradaTexto}
-            underlineColorAndroid={'#00695c'}
-            autoCorrect={false}
-          />     
-          <Icon name="edit" size={20} color={'#00695c'} />
-          </TouchableOpacity>
 
-    </View>
-    <View>
-            <Text>E-mail:</Text>
-        <TouchableOpacity style={{flexDirection: 'row',}}>
-            <TextInput
-            value={this.state.usuarios2}
-            editable={true}
-            onChangeText={(usuarios2) => this.setState({usuarios2})}
-            autoCapitalize="none"
-            style={styles.entradaTexto}
-            underlineColorAndroid={'#00695c'}
-            keyboardType="email-address"
-            autoCorrect={false}
-          />     
-          <Icon name="edit" size={20} color={'#00695c'} />
-        </TouchableOpacity>
-    </View>
-    <View>
-            <Text>Senha:</Text>
-        <TouchableOpacity style={{flexDirection: 'row',}}>
-            <TextInput
-            value={this.state.usuarios3}
-            editable={true}
-            onChangeText={(usuarios3) => this.setState({usuarios3})}
-            autoCapitalize="none"
-            style={styles.entradaTexto}
-            autoCorrect={false}
-            underlineColorAndroid={'#00695c'}
-            secureTextEntry={true}
-          />     
-              <Icon name="edit" size={20} color={'#00695c'} />
-        </TouchableOpacity>
-    </View>
-        <TouchableOpacity style={styles.botao}>
-              <Text style={{color: '#fff', fontSize: 18}}>Concluir</Text>
-        </TouchableOpacity>
+    Firebase = new Firebase()
 
-        </View>
-            <TouchableOpacity style={styles.botaoExcluir}>
-              <Text style={{color: '#fff', fontSize: 18}}>Excluir conta</Text>
-            </TouchableOpacity>
-        </View>
+    componentDidMount() {
+        this.Firebase.refUsuarios
+            .where('email', '==', this.Firebase.auth.currentUser.email)
+            .onSnapshot(snapshot => {
+                snapshot.forEach(doc => {
+                    this.setState({ nome: doc.data().nome });
+                    this.setState({ email: doc.data().email });
+                })
+            })
+    }
+
+    modalNome = (bool) => {
+        this.setState({ modalVisibleNome: bool });
+    }
+    modalEmail = (bool) => {
+        this.setState({ ModalVisibleEmail: bool });
+    }
+    modalSenha = (bool) => {
+        this.setState({ ModalVisibleSenha: bool });
+    }
+
+    render() {
+        return (
+            <View style={{ flex: 1, backgroundColor: '#dcdcdc' }}>
+                <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
+                    <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
+                        <Icon name="bars" size={20} color={'#fff'} />
+                    </TouchableOpacity>
+                    <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Editar Perfil</Text>
+                </View>
+
+                <SafeAreaView style={styles.container}>
+                    <View style={styles.linha}>
+                        <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalNome(true) }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon name={'user'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                                <View>
+                                    <Text>Nome perfil:</Text>
+                                    <Text
+                                        onChangeText={(nome) => this.setState({ nome })}
+                                        style={styles.texto}
+                                    >{this.state.nome}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.linha}>
+                        <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalEmail(true) }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon name={'envelope'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                                <View>
+                                    <Text>E-mail:</Text>
+                                    <Text
+                                        onChangeText={(email) => this.setState({ email })}
+                                        style={styles.texto}
+                                    >{this.state.email}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ marginBottom: 42 }}>
+                        <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalSenha(true) }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon name={'lock'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                                <View>
+                                    <Text>Senha:</Text>
+                                    <Text
+                                        onChangeText={(senha) => this.setState({ senha })}
+                                        style={styles.texto}
+                                    >{this.state.senha}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Hr lineColor="#00695c" width={1} text="Conta" fontSize={12} textStyles={{ color: '#00695c' }} />
+                    <View style={styles.linha}>
+                        <TouchableOpacity style={styles.areaTexto}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon name={'trash'} size={24} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                                <View>
+                                    <Text style={styles.texto}>Excluir conta</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+                <Modal visible={this.state.modalVisibleNome} onRequestClose={() => { this.modalNome(false) }}
+                    animationType='slide' transparent>
+                    <ModalNome modalNome={this.modalNome} />
+                </Modal>
+
+                <Modal visible={this.state.ModalVisibleEmail} onRequestClose={() => { this.modalEmail(false) }}
+                    animationType='slide' transparent>
+                    <ModalEmail modalEmail={this.modalEmail} />
+                </Modal>
+
+                <Modal visible={this.state.ModalVisibleSenha} onRequestClose={() => { this.modalSenha(false) }}
+                    animationType='slide' transparent>
+                    <ModalSenha modalSenha={this.modalSenha} />
+                </Modal>
+            </View>
         );
     }
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        marginTop: 14,
     },
-    entradaTexto: {
-        width: 250,
-        fontSize: 18,
-        marginBottom: 8,
+    texto: {
+        color: '#00695c',
+        fontSize: 20,
     },
-    botao: {
-        width: 250,
-        marginTop: 12,
-        padding: 10,
-        borderRadius: 40,
-        backgroundColor: '#00695c',
-        alignItems: 'center'
+    areaTexto: {
+        marginTop: 4,
+        padding: 22,
+        width: 320,
     },
-    botaoExcluir:{
-        width: '100%',
-        backgroundColor: '#00695c',
-        alignItems: 'center',
-        padding: 10,
-        marginTop: 10,
-    },
-    imagem: {
-        marginBottom: 40,
-		width: 160,
-		height: 160,
-		borderRadius: 80,
-		alignItems: 'center',
-		paddingLeft: 10,
-	},
+    linha: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    }
 });

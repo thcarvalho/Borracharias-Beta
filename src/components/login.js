@@ -10,6 +10,8 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Hoshi } from 'react-native-textinput-effects';
 
 import Firebase from "../controller/Firebase";
 
@@ -19,6 +21,7 @@ export default class Login extends Component {
     password: '',
     autenticado: null,
     isLoading: false,
+    passwordShow: false,
   }
   Firebase = new Firebase();
 
@@ -54,9 +57,13 @@ export default class Login extends Component {
         .finally(() => this.setState({ isLoading: false }))
     }
   }
+  tooglePassword = () => {
+    const { passwordShow } = this.state;
+    this.setState({ passwordShow: !passwordShow });
+  }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, passwordShow } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -66,27 +73,41 @@ export default class Login extends Component {
         <View style={styles.tela}>
           <Text style={styles.textoLogin}>Login</Text>
 
-          <TextInput
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Email"
-            onChangeText={email => { this.setState({ email }) }}
-            value={email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-
-          <TextInput
-            secureTextEntry={true}
-            style={styles.caixasTexto}
-            underlineColorAndroid="transparent"
-            placeholder="Senha"
-            onChangeText={password => { this.setState({ password }) }}
-            value={password}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
+          <View>            
+            <Hoshi
+             label={'Email'}
+             borderColor={'#00695c'}
+             borderHeight={3}
+             inputPadding={16}
+             onChangeText={email => { this.setState({ email }) }}
+             autoCapitalize={'none'}
+             style={styles.caixaTexto}
+             />
+          </View>
+          <View>
+            <View style={{ flexDirection: 'row', marginTop: 4}}>
+            <Hoshi
+             label={'Senha'}
+             borderColor={'#00695c'}
+             borderHeight={3}
+             inputPadding={16}
+             onChangeText={password => { this.setState({ password }) }}
+             autoCapitalize={'none'}
+             style={styles.caixaTextoSenha}
+            secureTextEntry={passwordShow ? false : true}
+              />
+              <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+                {
+                  this.state.passwordShow ?
+                    (
+                      <Icon name={'eye'} size={23} color={'#00695c'} style={styles.iconeEye} />
+                    ) : (
+                      <Icon name={'eye-slash'} size={23} color={'#00695c'} style={styles.iconeEye} />
+                    )
+                }
+              </TouchableOpacity>
+            </View>
+          </View>
 
           <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
             {
@@ -103,9 +124,12 @@ export default class Login extends Component {
             <Text style={styles.links}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{paddingVertical: 7,fontSize: 16, color:'#009688' }}>Não possui conta?</Text>
           <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cadastro'); }}>
-            <Text style={styles.links}>Cadastre-se</Text>
+            <Text style={styles.links}>Cadastre-se!</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -123,6 +147,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  iconeEye: {
+    paddingHorizontal: 8,
+    paddingTop: 6,
+    marginTop: 10,
+  },
   textoLogin: {
     marginTop: 120,
     marginBottom: 30,
@@ -131,28 +160,29 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontWeight: 'bold',
   },
-  caixasTexto: {
-    width: 300,
-    borderRadius: 20,
-    padding: 14,
-    backgroundColor: '#fff',
-    padding: 8,
+  caixaTexto: {
+    width: 310,
+    fontSize: 18,
     marginBottom: 10,
-    fontSize: 16,
+  },
+  caixaTextoSenha: {
+    width: 264,
+    fontSize: 18,
+    marginBottom: 10,
   },
   botao: {
     alignItems: 'center',
     width: 300,
-    borderRadius: 20,
+    borderRadius: 200,
     backgroundColor: '#00695c',
     padding: 12,
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 26,
     fontSize: 16,
   },
   links: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 7,
     fontSize: 16,
     color: '#00695c',
   },

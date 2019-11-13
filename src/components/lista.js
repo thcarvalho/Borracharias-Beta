@@ -204,7 +204,7 @@ export default class Lista extends Component {
   }
 
   ordenar(ordem) {
-    this.setState({ ordem })
+    this.setState({ ordem, isLoading: true })
     console.log(ordem);
     switch (ordem) {
       case 0:
@@ -347,56 +347,66 @@ export default class Lista extends Component {
               <Menu.Item onPress={() => this.filtrar('Bairro')} title="Bairro" />
               <Menu.Item onPress={() => this.filtrar('Ecoponto')} title="Ecoponto" />
               <Menu.Item onPress={() => this.filtrar('Endereco')} title="Endereço" />
-
             </Menu>
           </View>
-          {pesquisa !== '' ? (
-            <FlatList
-              data={resultado}
-              keyExtractor={item => item.id}
-              ItemSeparatorComponent={this.renderSeparator}
-              ListFooterComponent={this.renderFooter}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('Maps', {
-                      latitude: item.latitude,
-                      longitude: item.longitude,
-                    });
-                  }
-
-                  }
-                  activeOpacity={0.5}
-                  style={styles.container}
-                >
-                  <Text style={styles.titulo}>{item.nome}</Text>
-                  <Text style={styles.subtitulo}>{item.descricao}</Text>
-                </TouchableOpacity>
-              )}
-            />
+          {this.state.isLoading ? (
+            <ActivityIndicator style={{ paddingTop: 200 }} animating size="large" color={'#009688'} />
           ) : (
-              <FlatList
-                data={destinacoes}
-                keyExtractor={item => item.id}
-                ItemSeparatorComponent={this.renderSeparator}
-                ListFooterComponent={this.renderFooter}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.props.navigation.navigate('Maps', {
-                        latitude: item.latitude,
-                        longitude: item.longitude,
-                      });
-                    }
-                    }
-                    activeOpacity={0.5}
-                    style={styles.container}
-                  >
-                    <Text style={styles.titulo}>{item.nome}</Text>
-                    <Text style={styles.subtitulo}>{item.descricao}</Text>
-                  </TouchableOpacity>
-                )}
-              />
+              resultado !== '' ? (
+                pesquisa !== '' ? (
+                  <FlatList
+                    data={resultado}
+                    keyExtractor={item => item.id}
+                    ItemSeparatorComponent={this.renderSeparator}
+                    ListFooterComponent={this.renderFooter}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.navigation.navigate('Maps', {
+                            latitude: item.latitude,
+                            longitude: item.longitude,
+                            id: item.id,
+                          });
+                        }}
+                        activeOpacity={0.5}
+                        style={styles.container}
+                      >
+                        <Text style={styles.titulo}>{item.nome}</Text>
+                        <Text style={styles.subtitulo}>{item.descricao}</Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                ) : (
+                    <FlatList
+                      data={destinacoes}
+                      keyExtractor={item => item.id}
+                      ItemSeparatorComponent={this.renderSeparator}
+                      ListFooterComponent={this.renderFooter}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.props.navigation.navigate('Maps', {
+                              latitude: item.latitude,
+                              longitude: item.longitude,
+                              id: item.id,
+                            });
+                          }
+                          }
+                          activeOpacity={0.5}
+                          style={styles.container}
+                        >
+                          <Text style={styles.titulo}>{item.nome}</Text>
+                          <Text style={styles.subtitulo}>{item.descricao}</Text>
+                        </TouchableOpacity>
+                      )}
+                    />
+                  )
+              ) : (
+                  <View>
+                    <Text>Nenhum resultado encontrado :(</Text>
+                  </View>
+                )
+
             )
           }
           <TouchableOpacity
