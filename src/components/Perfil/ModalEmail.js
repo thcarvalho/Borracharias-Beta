@@ -46,7 +46,7 @@ export default class ModalEmail extends Component {
 
   updateEmail = (senha, email) => {
     this.setState({ isLoading: true });
-    if (senha == null || email == '') {
+    if (senha == null || senha === '' || email == '') {
       ToastAndroid.show('Faltam dados obrigatórios!', ToastAndroid.SHORT);
       this.setState({ isLoading: false });
 

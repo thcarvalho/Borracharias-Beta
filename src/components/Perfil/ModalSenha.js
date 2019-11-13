@@ -61,7 +61,7 @@ export default class ModalSenha extends Component {
   updatePassword(senhaNova, senhaAtual) {
     this.setState({ isLoading: true })
     try {
-      if (senhaNova == null || senhaAtual == null) {
+      if (senhaNova == null || senhaAtual == null || senhaNova === '' || senhaAtual === '') {
         this.setState({ isLoading: false })
         ToastAndroid.show('Faltam dados obrigatórios!', ToastAndroid.SHORT);
       } else {
