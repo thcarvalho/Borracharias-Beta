@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'BorrachariasBeta' do
-  # Pods for BorrachariasBeta
+target 'ReTire' do
+  # Pods for ReTire
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -40,7 +40,7 @@ target 'BorrachariasBeta' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
-  target 'BorrachariasBetaTests' do
+  target 'ReTireTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -48,10 +48,10 @@ target 'BorrachariasBeta' do
   use_native_modules!
 end
 
-target 'BorrachariasBeta-tvOS' do
-  # Pods for BorrachariasBeta-tvOS
+target 'ReTire-tvOS' do
+  # Pods for ReTire-tvOS
 
-  target 'BorrachariasBeta-tvOSTests' do
+  target 'ReTire-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
