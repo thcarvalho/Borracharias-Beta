@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
-
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, TextInput, Text, Image, SafeAreaView, Modal } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, TextInput, Text, Image, SafeAreaView, Modal, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
 import Hr from "react-native-hr-component";
@@ -10,15 +9,26 @@ import Firebase from "../controller/Firebase";
 import ModalNome from "./Perfil/ModalNome";
 import ModalEmail from "./Perfil/ModalEmail";
 import ModalSenha from "./Perfil/ModalSenha";
+import ModalExcluirConta from "./Perfil/ModalExcluirConta";
+import ModalConfirmacao from "./Perfil/ConfirmacaoExclusao";
 
 export default class EditarPerfil extends Component {
-    state = {
-        nome: '',
-        email: '',
-        modalVisibleNome: false,
-        ModalVisibleEmail: false,
-        ModalVisibleSenha: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            width: Dimensions.get('window').width,
+            nome: '',
+            email: '',
+            modalVisibleNome: false,
+            ModalVisibleEmail: false,
+            ModalVisibleSenha: false,
+            ModalVisibleExcluir: false,
+            modalVisibleConfirmacao: false,
+        };
+        Dimensions.addEventListener('change', (e) => {
+            this.setState(e.window);
+        });
+    }
 
     Firebase = new Firebase()
 
@@ -41,6 +51,17 @@ export default class EditarPerfil extends Component {
     }
     modalSenha = (bool) => {
         this.setState({ ModalVisibleSenha: bool });
+    }
+    modalExcluirConta = (bool) => {
+        this.setState({ ModalVisibleExcluir: bool });
+    }
+
+    modalConfirmacao = (bool) => {
+        this.setState({ modalVisibleConfirmacao: bool });
+    }
+
+    closeModal = (bool) => {
+        this.setState({ modalVisibleConfirmacao: bool });
     }
 
     render() {
@@ -97,8 +118,9 @@ export default class EditarPerfil extends Component {
                         </TouchableOpacity>
                     </View>
                     <Hr lineColor="#00695c" width={1} text="Conta" fontSize={12} textStyles={{ color: '#00695c' }} />
+
                     <View style={styles.linha}>
-                        <TouchableOpacity style={styles.areaTexto}>
+                        <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalExcluirConta(true) }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Icon name={'trash'} size={24} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
                                 <View>
@@ -121,6 +143,11 @@ export default class EditarPerfil extends Component {
                 <Modal visible={this.state.ModalVisibleSenha} onRequestClose={() => { this.modalSenha(false) }}
                     animationType='slide' transparent>
                     <ModalSenha modalSenha={this.modalSenha} />
+                </Modal>
+
+                <Modal visible={this.state.ModalVisibleExcluir} onRequestClose={() => { this.modalExcluirConta(false) }}
+                    animationType='slide' transparent>
+                    <ModalExcluirConta modalExcluirConta={this.modalExcluirConta} />
                 </Modal>
             </View>
         );
@@ -146,5 +173,47 @@ const styles = StyleSheet.create({
     linha: {
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-    }
+    },
+
+
+    containerExcluir: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modal: {
+        height: 140,
+        paddingTop: 10,
+        alignSelf: 'center',
+        textAlign: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+    },
+    entradaTexto: {
+        width: '96%',
+        fontSize: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textoExcluir: {
+        fontSize: 22,
+        marginLeft: 8,
+        color: '#009688',
+        paddingVertical: 4,
+    },
+    btnCancel: {
+        alignItems: 'flex-start'
+    },
+    btnSalvar: {
+        borderLeftWidth: 1,
+        borderLeftColor: '#dcdcdc',
+        alignItems: 'flex-end'
+    },
+    textoBotao: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingVertical: 6,
+        paddingHorizontal: 24,
+        color: '#009688',
+    },
 });
