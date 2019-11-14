@@ -64,6 +64,7 @@ export default class EsqueceuSenha extends React.Component {
             inputPadding={16}
             onChangeText={email => { this.setState({ email }) }}
             autoCapitalize={'none'}
+            labelStyle={{color: '#00695c'}}
             value={email}
             style={styles.caixaTexto}
           />

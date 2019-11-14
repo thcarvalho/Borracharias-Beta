@@ -137,12 +137,12 @@ export default class ModalEmail extends Component {
                       editable={true}
                       onChangeText={senha => this.setState({ senha })}
                       autoCapitalize="none"
-                      style={styles.entradaTextoSenha}
+                      style={styles.entradaTexto}
                       autoCorrect={false}
                       underlineColorAndroid={'#00695c'}
                       secureTextEntry={passwordShow ? false : true}
                     />
-                    <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+                    <TouchableOpacity style={{position: "absolute", right: 0, bottom: 10}} onPress={this.tooglePassword} activeOpacity={0.8}>
                       {
                         this.state.passwordShow ?
                           (

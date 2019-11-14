@@ -70,6 +70,7 @@ export default class Lista extends Component {
   }
 
   listarDestinacoesPorDistancia(doc) {
+
     let id = doc.id;
     let nome = doc.data().ecoponto;
     let descricao = doc.data().endereco + ', ' + doc.data().bairro + ', ' + doc.data().numero;
@@ -139,7 +140,7 @@ export default class Lista extends Component {
     });
   }
 
-  async componentDidMount() {
+  recuperarLocalizacao() {
     Geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -153,9 +154,11 @@ export default class Lista extends Component {
       {
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 1000,
       });
+  }
 
+  async componentDidMount() {
+    this.recuperarLocalizacao();
   }
 
   pesquisar(filtro, pesquisa) {
@@ -218,15 +221,21 @@ export default class Lista extends Component {
           });
         break;
       case 1:
-        this.Firebase.refDestinacoes
-          .where("visivel", "==", true)
-          .onSnapshot(snapshot => {
-            this.setState({ destinacoes: [], isLoading: true });
-            snapshot.forEach(doc => {
-              this.listarDestinacoesPorDistancia(doc);
+        this.recuperarLocalizacao();
+        if (this.state.posicao === null) {
+          alert("Para utilizar esta função, por favor habilite a geolocalização")
+          break;
+        } else {
+          this.Firebase.refDestinacoes
+            .where("visivel", "==", true)
+            .onSnapshot(snapshot => {
+              this.setState({ destinacoes: [], isLoading: true });
+              snapshot.forEach(doc => {
+                this.listarDestinacoesPorDistancia(doc);
+              });
             });
-          });
-        break;
+          break;
+        }
       case 2:
         this.Firebase.refDestinacoes
           .where("visivel", "==", true)

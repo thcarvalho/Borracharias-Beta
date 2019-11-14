@@ -89,7 +89,7 @@ export default class ModalConfirmacao extends Component {
                   underlineColorAndroid={'#00695c'}
                   secureTextEntry={passwordShow ? false : true}
                 />
-                <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+                <TouchableOpacity style={{position: "absolute", right: 0, bottom: 10}} onPress={this.tooglePassword} activeOpacity={0.8}>
                   {
                     this.state.passwordShow ?
                       (

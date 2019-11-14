@@ -68,15 +68,15 @@ export default class CadastroUsuario extends Component {
 
   tooglePassword = () => {
     const { passwordShow } = this.state;
-    this.setState({ passwordShow : !passwordShow});
-}
+    this.setState({ passwordShow: !passwordShow });
+  }
 
   render() {
     const { nome, email, password, passwordShow } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.tela}>
-        <View>
+          <View>
             <Hoshi
               style={styles.caixaTexto}
               label={'Nome'}
@@ -85,58 +85,62 @@ export default class CadastroUsuario extends Component {
               inputPadding={16}
               value={nome}
               autoCapitalize={'none'}
+              labelStyle={{color: '#00695c'}}
               onChangeText={(nome) => { this.setState({ nome }) }}
             />
-            </View>
-           <View>
-           <Hoshi
-             label={'Email'}
-             borderColor={'#00695c'}
-             borderHeight={3}
-             inputPadding={16}
-             onChangeText={email => { this.setState({ email }) }}
-             autoCapitalize={'none'}
-             style={styles.caixaTexto}
-             />
           </View>
-        <View>
-        <View style={{ flexDirection: 'row', marginTop: 4}}>
+          <View>
             <Hoshi
-             label={'Senha'}
-             borderColor={'#00695c'}
-             borderHeight={3}
-             inputPadding={16}
-             onChangeText={password => { this.setState({ password }) }}
-             autoCapitalize={'none'}
-             style={styles.caixaTextoSenha}
-            secureTextEntry={passwordShow ? false : true}
+              label={'Email'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              onChangeText={email => { this.setState({ email }) }}
+              autoCapitalize={'none'}
+              keyboardType={"email-address"}
+              labelStyle={{color: '#00695c'}}
+              style={styles.caixaTexto}
+            />
+          </View>
+          <View>
+            <View style={{ flexDirection: 'row', marginTop: 4 }}>
+              <Hoshi
+                label={'Senha'}
+                borderColor={'#00695c'}
+                borderHeight={3}
+                inputPadding={16}
+                onChangeText={password => { this.setState({ password }) }}
+                autoCapitalize={'none'}
+                style={styles.caixaTexto}
+                labelStyle={{color: '#00695c'}}
+                secureTextEntry={passwordShow ? false : true}
               />
-            <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+              <TouchableOpacity style={{position: "absolute", right: 0, bottom: 25}} onPress={this.tooglePassword} activeOpacity={0.8}>
                 {
-                    this.state.passwordShow ?
-                  (
-                      <Icon name={'eye'} size={23} color={'#00695c'} style={styles.iconeEye} />
-                  ) : (
-                      <Icon name={'eye-slash'} size={23} color={'#00695c'} style={styles.iconeEye}/>
-                  )
-                }
-            </TouchableOpacity>
-    </View>
-    </View>
-            <View style={styles.centralizar}>
-              <TouchableOpacity onPress={() => { this.cadastrarUsuario(); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
-                {
-                  this.state.isLoading ?
+                  this.state.passwordShow ?
                     (
-                      <ActivityIndicator animating size="small" color={'#fff'} />
+                      <Icon name={'eye'} size={23} color={'#00695c'} style={styles.iconeEye} />
                     ) : (
-                      <Text style={{ color: '#dcdcdc' }}>CONCLUIR</Text>
+                      <Icon name={'eye-slash'} size={23} color={'#00695c'} style={styles.iconeEye} />
                     )
                 }
               </TouchableOpacity>
             </View>
           </View>
+          <View style={styles.centralizar}>
+            <TouchableOpacity onPress={() => { this.cadastrarUsuario(); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
+              {
+                this.state.isLoading ?
+                  (
+                    <ActivityIndicator animating size="small" color={'#fff'} />
+                  ) : (
+                    <Text style={{ color: '#dcdcdc' }}>CONCLUIR</Text>
+                  )
+              }
+            </TouchableOpacity>
+          </View>
         </View>
+      </View>
     );
   }
 }

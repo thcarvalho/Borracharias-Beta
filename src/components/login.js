@@ -11,7 +11,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Hoshi } from 'react-native-textinput-effects';
+import IconIco from 'react-native-vector-icons/Ionicons';
+import { Hoshi, Sae } from 'react-native-textinput-effects';
 
 import Firebase from "../controller/Firebase";
 
@@ -73,30 +74,33 @@ export default class Login extends Component {
         <View style={styles.tela}>
           <Text style={styles.textoLogin}>Login</Text>
 
-          <View>            
+          <View>
             <Hoshi
-             label={'Email'}
-             borderColor={'#00695c'}
-             borderHeight={3}
-             inputPadding={16}
-             onChangeText={email => { this.setState({ email }) }}
-             autoCapitalize={'none'}
-             style={styles.caixaTexto}
-             />
+              label={'Email'}
+              borderColor={'#00695c'}
+              borderHeight={3}
+              inputPadding={16}
+              onChangeText={email => { this.setState({ email }) }}
+              autoCapitalize={'none'}
+              keyboardType={"email-address"}
+              labelStyle={{color: '#00695c'}}
+              style={styles.caixaTexto}
+            />
           </View>
           <View>
-            <View style={{ flexDirection: 'row', marginTop: 4}}>
-            <Hoshi
-             label={'Senha'}
-             borderColor={'#00695c'}
-             borderHeight={3}
-             inputPadding={16}
-             onChangeText={password => { this.setState({ password }) }}
-             autoCapitalize={'none'}
-             style={styles.caixaTextoSenha}
-            secureTextEntry={passwordShow ? false : true}
+            <View style={{ marginTop: 4 }}>
+              <Hoshi
+                label={'Senha'}
+                borderColor={'#00695c'}
+                borderHeight={3}
+                inputPadding={16}
+                onChangeText={password => { this.setState({ password }) }}
+                autoCapitalize={'none'}
+                labelStyle={{color: '#00695c'}}
+                style={styles.caixaTexto}
+                secureTextEntry={passwordShow ? false : true}
               />
-              <TouchableOpacity onPress={this.tooglePassword} activeOpacity={0.8}>
+              <TouchableOpacity style={{position: "absolute", right: 0, bottom: 25}} onPress={this.tooglePassword} activeOpacity={0.8}>
                 {
                   this.state.passwordShow ?
                     (
@@ -124,11 +128,11 @@ export default class Login extends Component {
             <Text style={styles.links}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{paddingVertical: 7,fontSize: 16, color:'#009688' }}>Não possui conta?</Text>
-          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cadastro'); }}>
-            <Text style={styles.links}>Cadastre-se!</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={{ paddingVertical: 7, fontSize: 16, color: '#009688' }}>Não possui conta?</Text>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cadastro'); }}>
+              <Text style={styles.links}>Cadastre-se!</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

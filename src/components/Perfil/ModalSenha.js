@@ -124,7 +124,7 @@ export default class ModalSenha extends Component {
                   underlineColorAndroid={'#00695c'}
                   secureTextEntry={passwordShowAtual ? false : true}
                 />
-                <TouchableOpacity onPress={this.tooglePasswordAtual} activeOpacity={0.8}>
+                <TouchableOpacity style={{position: "absolute", right: 0, bottom: 10}} onPress={this.tooglePasswordAtual} activeOpacity={0.8}>
                   {
                     this.state.passwordShowAtual ?
                       (
@@ -149,7 +149,7 @@ export default class ModalSenha extends Component {
                   underlineColorAndroid={'#00695c'}
                   secureTextEntry={passwordShowNova ? false : true}
                 />
-                <TouchableOpacity onPress={this.tooglePasswordNew} activeOpacity={0.8}>
+                <TouchableOpacity style={{position: "absolute", right: 0, bottom: 10}} onPress={this.tooglePasswordNew} activeOpacity={0.8}>
                   {
                     this.state.passwordShowNova ?
                       (
