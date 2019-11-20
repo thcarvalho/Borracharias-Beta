@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableHighlight, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid, ActivityIndicator } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign';
 import Firebase from "../../controller/Firebase";
 
 import firebase from "react-native-firebase";
@@ -131,7 +130,7 @@ export default class ModalEmail extends Component {
               <View>
                 <Text style={styles.texto}>Senha Atual:</Text>
                 <View style={styles.cont}>
-                  <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                  <View style={styles.posicaoIcone}>
                     <TextInput
                       value={senha}
                       editable={true}
@@ -142,7 +141,7 @@ export default class ModalEmail extends Component {
                       underlineColorAndroid={'#00695c'}
                       secureTextEntry={passwordShow ? false : true}
                     />
-                    <TouchableOpacity style={{position: "absolute", right: 0, bottom: 10}} onPress={this.tooglePassword} activeOpacity={0.8}>
+                    <TouchableOpacity style={styls.alinhamentoIcone} onPress={this.tooglePassword} activeOpacity={0.8}>
                       {
                         this.state.passwordShow ?
                           (
@@ -160,7 +159,7 @@ export default class ModalEmail extends Component {
               (
                 <ActivityIndicator animating style={{ paddingTop: 20 }} size="small" color={'#009688'} />
               ) : (
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={styles.alinhamentoBotoes}>
                   <TouchableOpacity onPress={() => { this.closeModal() }} style={styles.btnCancel}>
                     <Text style={styles.textoBotao}>Cancelar</Text>
                   </TouchableOpacity>
@@ -207,16 +206,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   entradaTextoSenha: {
-    width: '86%',
+    width: '96%',
     fontSize: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 3,
   },
+  posicaoIcone: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  alinhamentoIcone: {
+    position: "absolute",
+    right: 0,
+    bottom: 10,
+  },
   icone: {
     paddingHorizontal: 6,
     paddingVertical: 6,
     marginBottom: 5,
+  },
+  alinhamentoBotoes: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnCancel: {
     alignItems: 'flex-start'

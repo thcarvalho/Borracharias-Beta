@@ -1,10 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableHighlight, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid, ActivityIndicator } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign';
 import Firebase from "../../controller/Firebase";
-
 import firebase from "react-native-firebase";
 
 export default class ModalSenha extends Component {
@@ -26,17 +24,7 @@ export default class ModalSenha extends Component {
     const { passwordShowNova } = this.state;
     this.setState({ passwordShowNova: !passwordShowNova });
   }
-
-  /*componentDidMount() {
-  this.Firebase.refUsuarios
-          .where('email', '==', this.Firebase.auth.currentUser.email)
-    .onSnapshot(snapshot => {
-      snapshot.forEach(doc => {
-                  this.setState({ senha: doc.data().password });
-      })
-    })
-  }*/
-
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -206,7 +194,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   entradaTexto: {
-    width: '86%',
+    width: '96%',
     fontSize: 20,
     justifyContent: 'center',
     alignItems: 'center',

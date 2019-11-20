@@ -24,7 +24,7 @@ class SplashScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content' />
-        <Image style={{ width: 300, height: 200 }} source={require('../assets/logo.png')} />
+        <Image style={styles.logo} source={require('../assets/logo.png')} />
         <ActivityIndicator style={styles.carregamento} size="large" color={'#dcdcdc'} />
       </View>
     );
@@ -42,6 +42,10 @@ const styles = {
     color: '#dcdcdc',
     fontSize: 40,
     fontWeight: 'bold'
+  },
+  logo: {
+    width: 300,
+    height: 200,
   },
   carregamento: {
     marginTop: 40,

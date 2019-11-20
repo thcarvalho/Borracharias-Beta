@@ -4,15 +4,13 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   ToastAndroid,
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconIco from 'react-native-vector-icons/Ionicons';
-import { Hoshi, Sae } from 'react-native-textinput-effects';
+import { Hoshi } from 'react-native-textinput-effects';
 
 import Firebase from "../controller/Firebase";
 
@@ -100,7 +98,7 @@ export default class Login extends Component {
                 style={styles.caixaTexto}
                 secureTextEntry={passwordShow ? false : true}
               />
-              <TouchableOpacity style={{position: "absolute", right: 0, bottom: 25}} onPress={this.tooglePassword} activeOpacity={0.8}>
+              <TouchableOpacity style={styles.alinharIcone} onPress={this.tooglePassword} activeOpacity={0.8}>
                 {
                   this.state.passwordShow ?
                     (
@@ -129,7 +127,7 @@ export default class Login extends Component {
           </TouchableOpacity>
 
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ paddingVertical: 7, fontSize: 16, color: '#009688' }}>Não possui conta?</Text>
+            <Text style={styles.texto}>Não possui conta?</Text>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cadastro'); }}>
               <Text style={styles.links}>Cadastre-se!</Text>
             </TouchableOpacity>
@@ -150,6 +148,11 @@ const styles = StyleSheet.create({
   tela: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  alinharIcone: {
+    position: "absolute",
+    right: 0,
+    bottom: 25,
   },
   iconeEye: {
     paddingHorizontal: 8,
@@ -183,6 +186,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 26,
     fontSize: 16,
+  },
+  texto: { 
+    paddingVertical: 7,
+    fontSize: 16,
+    color: '#009688',
   },
   links: {
     paddingHorizontal: 5,

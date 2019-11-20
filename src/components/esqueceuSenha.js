@@ -4,12 +4,10 @@ import {
   Text,
   View,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   ToastAndroid,
   ActivityIndicator
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Hoshi } from 'react-native-textinput-effects';
 
 import Firebase from "../controller/Firebase";
@@ -54,8 +52,7 @@ export default class EsqueceuSenha extends React.Component {
     const { email } = this.state;
     return (
       <View style={styles.container}>
-
-        <Text style={{ fontSize: 18, marginBottom: 20, color: '#00695c' }}>Informe seu e-mail para redefinir a senha</Text>
+        <Text style={styles.texto}>Informe seu e-mail para redefinir a senha</Text>
         <View>
           <Hoshi
             label={'Email'}
@@ -90,6 +87,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  texto: {
+    fontSize: 18,
+    marginBottom: 20,
+    color: '#00695c',
   },
   icone: {
     marginTop: 8

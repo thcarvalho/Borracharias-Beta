@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableHighlight, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid } from 'react-native';
-import IconFA from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { TouchableOpacity, Dimensions, StyleSheet, View, Text, TextInput, ToastAndroid } from 'react-native';
 import Firebase from "../../controller/Firebase";
 import { ActivityIndicator } from 'react-native-paper';
 
@@ -85,7 +83,7 @@ export default class ModalNome extends Component {
               (
                 <ActivityIndicator animating style={{paddingTop: 20}} size="small" color={'#009688'} />
               ) : (
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={styles.alinhamentoBotoes}>
                   <TouchableOpacity onPress={() => { this.closeModal() }} style={styles.btnCancel}>
                     <Text style={styles.textoBotao}>Cancelar</Text>
                   </TouchableOpacity>
@@ -130,6 +128,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  alinhamentoBotoes: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnCancel: {
     alignItems: 'flex-start'

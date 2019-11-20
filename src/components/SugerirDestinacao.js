@@ -88,11 +88,11 @@ export default class Sugerir extends Component {
     const { ecoponto, telefone, endereco, numero, bairro, cep, cidade, estado, isLoading } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
+        <View style={styles.iconeDrawer}>
           <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
-          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Sugerir Novo Ecoponto</Text>
+          <Text style={styles.tituloDrawer}>Sugerir Novo Ecoponto</Text>
         </View>
         <ScrollView>
           <View style={styles.container}>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 16,
   },
   caixaTexto: {
     width: 310,
@@ -250,4 +250,16 @@ const styles = StyleSheet.create({
     marginBottom: 26,
     fontSize: 16,
   },
+  tituloDrawer:{
+    paddingLeft: 10,
+    textAlignVertical: 'center',
+    color: '#fff',
+    fontSize: 20
+},
+  iconeDrawer:{
+    backgroundColor:'#009688',
+    flexDirection: 'row',
+    elevation: 3,
+    paddingTop: 20,
+},
 });

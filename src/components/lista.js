@@ -303,7 +303,7 @@ export default class Lista extends Component {
 
   renderFooter = () => {
     return (
-      <View style={{ paddingVertical: 20, borderTopWidth: 1, borderTopColor: '#CED0CE' }}>
+      <View style={styles.indicador}>
         <ActivityIndicator animating={this.state.isLoading ? true : false} size="large" />
       </View>
     );
@@ -315,7 +315,7 @@ export default class Lista extends Component {
       <Provider>
         <View style={{ flex: 1 }}>
           <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content' />
-          <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
+          <View style={styles.barraDrawer}>
             <TouchableOpacity style={{ padding: 20, paddingVertical: 25 }} onPress={this.props.navigation.openDrawer}>
               <Icon name="bars" size={20} color={'#fff'} />
             </TouchableOpacity>
@@ -456,6 +456,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#009688',
     elevation: 5,
+  },
+  indicador: {
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#CED0CE'
+  },
+  barraDrawer: {
+    backgroundColor: '#009688',
+    flexDirection: 'row',
+    elevation: 3,
+    paddingTop: 20,
   },
   container: {
     marginLeft: 8,

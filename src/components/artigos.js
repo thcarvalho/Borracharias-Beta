@@ -12,7 +12,7 @@ export default class Artigos extends Component {
         url: "https://www.vgresiduos.com.br/blog/reciclagem-de-pneu-velho/",
       },
       {
-        titulo: "Reciclagem de Pneus Velhos: 30 Modelos",
+        titulo: "Reciclagem de pneus velhos: 30 modelos",
         url: "https://www.artesanatopassoapassoja.com.br/reciclagem-de-pneus/",
       },
       {
@@ -20,7 +20,7 @@ export default class Artigos extends Component {
         url: "http://www1.sp.senac.br/hotsites/blogs/revistainiciacao/wp-content/uploads/2017/11/1-238_IC_ArtigoRevisado.pdf",
       },
       {
-        titulo: "Como Reciclar Pneus",
+        titulo: "Como reciclar pneus",
         url: "https://www.pneusfacil.com.br/info/como_reciclar_pneu",
       },
       {
@@ -28,7 +28,7 @@ export default class Artigos extends Component {
         url: "https://www.sestsenat.org.br/imprensa/noticia/cerca-de-450-mil-toneladas-de-pneus-sao-descartados-por-ano-no-brasil",
       },
       {
-        titulo: "40 IDEIAS DE ARTESANATOS COM RECICLAGEM DE PNEUS USADOS",
+        titulo: "40 ideias de artesanatos com reciclagem de pneus usados",
         url: "https://artesanatobrasil.net/reciclagem-de-pneus-usados/",
       },
       {
@@ -36,7 +36,7 @@ export default class Artigos extends Component {
         url: "https://www.dinamicambiental.com.br/blog/reciclagem/voce-decomposicao-pneus-entenda-importancia-reciclagem/",
       },
       {
-        titulo: "PNEUS VELHOS: 8 FORMAS PARA RECICLAR",
+        titulo: "Pneus velhos: 8 formas para reciclar",
         url: "https://www.greenme.com.br/consumir/reutilizacao-e-reciclagem/1300-8-formas-reciclar-pneus-velhos",
       },
       {
@@ -48,7 +48,7 @@ export default class Artigos extends Component {
         url: "https://www.akatu.org.br/noticia/descarte-inadequado-de-pneus-gera-prejuizos-a-sociedade/",
       },
       {
-        titulo: "VOCÊ SABE COMO RECICLAR UM PNEU?",
+        titulo: "Você sabe como reciclar um pneu?",
         url: "https://www.bigtires.com.br/index.php?spsr=blog/post&post_id=35",
       },
       {
@@ -64,7 +64,7 @@ export default class Artigos extends Component {
         url: "https://incrivel.club/criatividade-casa/aprenda-a-reaproveitar-pneus-velhos-na-decoracao-da-casa-111360/",
       },
       {
-        titulo: "Artesanato com Pneus: +40 Exemplos Para Você se Inspirar",
+        titulo: "Artesanato com Pneus: +40 exemplos para você se inspirar",
         url: "https://www.vivadecora.com.br/revista/artesanato-com-pneus/",
       },
       {
@@ -101,11 +101,11 @@ export default class Artigos extends Component {
     const { artigos } = this.state
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
+        <View style={styles.iconeDrawer}>
           <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
             <Icon name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
-          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Artigos</Text>
+          <Text style={styles.tituloDrawer}>Artigos</Text>
         </View>
         <FlatList
           data={artigos}
@@ -123,14 +123,25 @@ export default class Artigos extends Component {
 }
 const styles = StyleSheet.create({
   titulo: {
-    //color: "#00695c",
     fontSize: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 5,
   },
   container: {
     marginLeft: 8,
     marginTop: 5,
     paddingVertical: 5,
+  },
+  iconeDrawer: {
+    backgroundColor: '#009688',
+    flexDirection: 'row',
+    elevation: 3,
+    paddingTop: 20
+  },
+  tituloDrawer: {
+    paddingLeft: 10,
+    textAlignVertical: 'center',
+    color: '#fff',
+    fontSize: 20,
   },
 })

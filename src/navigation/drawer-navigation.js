@@ -30,8 +30,8 @@ const DrawerContent = props => (
             <DrawerItems {...props} />
         </ScrollView>
 
-        <SafeAreaView style={{flex: 1}} forceInset={{ bottom: "always", horizontal: "never" }}>
-        <View style={{flex: 1, marginTop: 70, justifyContent: "center"}}>
+        <SafeAreaView style={{flex: 1}} forceInset={{ bottom: "always", horizontal: "never" }} elevation={7}>
+        <View style={{flex: 1, marginTop: 60, justifyContent: "center"}}>
             <Logout />
         </View>
         </SafeAreaView>

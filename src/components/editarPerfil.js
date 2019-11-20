@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, TextInput, Text, Image, SafeAreaView, Modal, Dimensions } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text, SafeAreaView, Modal, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { ScrollView } from 'react-native-gesture-handler';
 import Hr from "react-native-hr-component";
 import Firebase from "../controller/Firebase";
 
@@ -10,7 +9,6 @@ import ModalNome from "./Perfil/ModalNome";
 import ModalEmail from "./Perfil/ModalEmail";
 import ModalSenha from "./Perfil/ModalSenha";
 import ModalExcluirConta from "./Perfil/ModalExcluirConta";
-import ModalConfirmacao from "./Perfil/ConfirmacaoExclusao";
 
 export default class EditarPerfil extends Component {
     constructor(props) {
@@ -67,18 +65,18 @@ export default class EditarPerfil extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#dcdcdc' }}>
-                <View style={{ backgroundColor: '#009688', flexDirection: 'row', elevation: 3, paddingTop: 20 }}>
+                <View style={styles.iconeDrawer}>
                     <TouchableOpacity style={{ padding: 20 }} onPress={this.props.navigation.openDrawer}>
                         <Icon name="bars" size={20} color={'#fff'} />
                     </TouchableOpacity>
-                    <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20 }}>Editar Perfil</Text>
+                    <Text style={styles.tituloDrawer}>Editar Perfil</Text>
                 </View>
 
                 <SafeAreaView style={styles.container}>
                     <View style={styles.linha}>
                         <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalNome(true) }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Icon name={'user'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                            <View style={styles.alinhamentos}>
+                                <Icon name={'user'} size={25} color={'#00695c'} style={styles.icones} />
                                 <View>
                                     <Text>Nome perfil:</Text>
                                     <Text
@@ -91,8 +89,8 @@ export default class EditarPerfil extends Component {
                     </View>
                     <View style={styles.linha}>
                         <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalEmail(true) }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Icon name={'envelope'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                            <View style={styles.alinhamentos}>
+                                <Icon name={'envelope'} size={25} color={'#00695c'} style={styles.icones} />
                                 <View>
                                     <Text>E-mail:</Text>
                                     <Text
@@ -105,8 +103,8 @@ export default class EditarPerfil extends Component {
                     </View>
                     <View style={{ marginBottom: 42 }}>
                         <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalSenha(true) }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Icon name={'lock'} size={25} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                            <View style={styles.alinhamentos}>
+                                <Icon name={'lock'} size={25} color={'#00695c'} style={styles.icones} />
                                 <View>
                                     <Text>Senha:</Text>
                                     <Text
@@ -121,8 +119,8 @@ export default class EditarPerfil extends Component {
 
                     <View style={styles.linha}>
                         <TouchableOpacity style={styles.areaTexto} onPress={() => { this.modalExcluirConta(true) }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Icon name={'trash'} size={24} color={'#00695c'} style={{ marginRight: 10, marginLeft: -8 }} />
+                            <View style={styles.alinhamentos}>
+                                <Icon name={'trash'} size={24} color={'#00695c'} style={styles.icones} />
                                 <View>
                                     <Text style={styles.texto}>Excluir conta</Text>
                                 </View>
@@ -161,6 +159,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         marginTop: 14,
     },
+    iconeDrawer: {
+        backgroundColor: '#009688',
+        flexDirection: 'row',
+        elevation: 3,
+        paddingTop: 20
+    },
+    tituloDrawer: {
+        paddingLeft: 10,
+        textAlignVertical: 'center',
+        color: '#fff',
+        fontSize: 20 
+    },
     texto: {
         color: '#00695c',
         fontSize: 20,
@@ -170,50 +180,16 @@ const styles = StyleSheet.create({
         padding: 22,
         width: 320,
     },
+    icones:{
+        marginRight: 10,
+        marginLeft: -8 
+    },
+    alinhamentos: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     linha: {
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-    },
-
-
-    containerExcluir: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    modal: {
-        height: 140,
-        paddingTop: 10,
-        alignSelf: 'center',
-        textAlign: 'center',
-        backgroundColor: '#fff',
-        borderRadius: 10,
-    },
-    entradaTexto: {
-        width: '96%',
-        fontSize: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    textoExcluir: {
-        fontSize: 22,
-        marginLeft: 8,
-        color: '#009688',
-        paddingVertical: 4,
-    },
-    btnCancel: {
-        alignItems: 'flex-start'
-    },
-    btnSalvar: {
-        borderLeftWidth: 1,
-        borderLeftColor: '#dcdcdc',
-        alignItems: 'flex-end'
-    },
-    textoBotao: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        paddingVertical: 6,
-        paddingHorizontal: 24,
-        color: '#009688',
     },
 });

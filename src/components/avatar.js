@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, Text, Image } from 'react-native';
 import { SafeAreaView, DrawerItems } from "react-navigation";
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Firebase from "../controller/Firebase";
 
@@ -27,7 +26,7 @@ export default class Avatares extends Component {
 			<SafeAreaView style={{ flex: 1 }} forceInset={{ top: "always", horizontal: "never" }}>
 				<View style={styles.container}>
 					<View>
-						<View style={{ marginTop: 10, alignItems: 'center', justifyContent: 'center' }}>
+						<View style={styles.area}>
 							<Text style={styles.texto}>{this.state.user}</Text>
 						</View>
 					</View>
@@ -41,6 +40,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	area:{
+	marginTop: 10,
+	alignItems: 'center',
+	justifyContent: 'center'
+ },
 	texto: {
 		fontSize: 30,
 		alignItems: 'center',

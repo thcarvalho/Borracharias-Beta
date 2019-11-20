@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
   ToastAndroid,
 } from 'react-native';
@@ -115,7 +113,7 @@ export default class CadastroUsuario extends Component {
                 labelStyle={{color: '#00695c'}}
                 secureTextEntry={passwordShow ? false : true}
               />
-              <TouchableOpacity style={{position: "absolute", right: 0, bottom: 25}} onPress={this.tooglePassword} activeOpacity={0.8}>
+              <TouchableOpacity style={styles.alinharIcone} onPress={this.tooglePassword} activeOpacity={0.8}>
                 {
                   this.state.passwordShow ?
                     (
@@ -159,7 +157,13 @@ const styles = StyleSheet.create({
   centralizar: {
     justifyContent: 'space-between',
     alignItems: 'center',
-  }, iconeEye: {
+  }, 
+  alinharIcone: {
+    position: "absolute",
+    right: 0,
+    bottom: 25
+  },
+  iconeEye: {
     paddingHorizontal: 8,
     paddingTop: 6,
     marginTop: 10,

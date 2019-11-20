@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 
-import { View, TouchableOpacity, Text, TextInput, StyleSheet, FlatList, ActivityIndicator, StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { View, TouchableOpacity, Text, StyleSheet, FlatList, ActivityIndicator, StatusBar } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../controller/Firebase";
+
 export default class CadastrarDestinacao extends Component {
   state = {
     sugestoes: [],
@@ -76,7 +76,7 @@ export default class CadastrarDestinacao extends Component {
   
   renderFooter = () => {
     return (
-      <View style={{ paddingVertical: 20, borderTopWidth: 1, borderTopColor: '#CED0CE' }}>
+      <View style={styles.indicador}>
         <ActivityIndicator animating={this.state.isLoading ? true : false} size="large" />
       </View>
     );
@@ -87,11 +87,11 @@ export default class CadastrarDestinacao extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar translucent={true} backgroundColor='transparent' barStyle='dark-content'/>
-        <View style={{backgroundColor:'#009688', flexDirection: 'row', elevation: 3, paddingTop: 20}}>
+        <View style={styles.iconeDrawer}>
           <TouchableOpacity style={{ padding: 20}} onPress={this.props.navigation.openDrawer}>
             <IconFA name="bars" size={20} color={'#fff'} />
           </TouchableOpacity>
-          <Text style={{ paddingLeft: 10, textAlignVertical: 'center', color: '#fff', fontSize: 20}}>Cadastrar Destinação</Text>
+          <Text style={styles.tituloDrawer}>Cadastrar Destinação</Text>
         </View>
         {
           sugestoes.length === 0 && isLoading === false
@@ -106,11 +106,11 @@ export default class CadastrarDestinacao extends Component {
                 ListFooterComponent={this.renderFooter}
                 renderItem={({ item }) => (
                   <View style={styles.container}>
-                    <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20}}>
+                    <View style={styles.alinharIconeAdicionar}>
                       <Text style={styles.titulo}>{item.nome}</Text>
                       <IconFA name="plus" size={27} color={'#00695c'} backgroundColor={'red'} onPress={() => {this.aceitarSugestao(item.id)}}/>
                     </View>
-                    <View style={{flexDirection:'row', alignItems: 'baseline', justifyContent: 'space-between', marginRight: 20, alignContent: 'flex-end', paddingTop: 4}}>
+                    <View style={styles.alinharIconeExcluir}>
                       <Text style={styles.subtitulo}>{item.descricao}</Text>
                       <IconFA name="trash" size={27} color={'#00695c'} onPress={() => {this.recusarSugestao(item.id)}}/>
                     </View>
@@ -131,7 +131,20 @@ const styles = StyleSheet.create({
       marginLeft: 8,
       marginTop: 8,
       paddingVertical: 5,
+      paddingHorizontal: 8,
   },
+  tituloDrawer:{
+    paddingLeft: 10,
+    textAlignVertical: 'center',
+    color: '#fff',
+    fontSize: 20
+},
+  iconeDrawer:{
+    backgroundColor:'#009688',
+    flexDirection: 'row',
+    elevation: 3,
+    paddingTop: 20,
+},
   titulo: {
     fontSize: 22,
   },
@@ -140,5 +153,26 @@ const styles = StyleSheet.create({
     color: '#696969',
     width: '92%',
     height: '90%'
-  }
+  },
+  indicador:{ 
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#CED0CE',
+    justifyContent:'center',
+    alignItems: 'center'
+   },
+   alinharIconeAdicionar: {
+    flexDirection:'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    marginRight: 20,
+  },
+  alinharIconeExcluir: {
+    flexDirection:'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    marginRight: 20,
+    alignContent: 'flex-end',
+    paddingTop: 4
+  },
 });

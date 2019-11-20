@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconMA from 'react-native-vector-icons/MaterialIcons';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import Detalhes from "./detalhes";

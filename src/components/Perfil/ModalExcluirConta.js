@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableHighlight, Dimensions, StyleSheet, View, Text, Modal, TextInput } from 'react-native';
-import IconFA from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { TouchableOpacity, Dimensions, StyleSheet, View, Text, Modal } from 'react-native';
 import Firebase from "../../controller/Firebase";
 
 import ModalConfirmacao from "./ConfirmacaoExclusao";
@@ -34,13 +32,12 @@ export default class ModalExcluirConta extends Component {
         <TouchableOpacity activeOpacity={1} disable={true} >
           <View style={[styles.modal, { width: this.state.width - 55 }]}>
             <Text style={styles.texto}>Deseja realmente excluir a conta?</Text>
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={StyleSheet.alinhamentoBotoes}>
               <TouchableOpacity onPress={() => { this.closeModal() }} style={styles.btnCancel}>
                 <Text style={styles.textoBotao}>Não</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnSalvar} onPress={() => {
                 this.modalConfirmacao();
-                // this.props.modalExcluirConta(false)
               }}>
                 <Text style={styles.textoBotao}>Sim</Text>
               </TouchableOpacity>
@@ -70,17 +67,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
   },
-  entradaTexto: {
-    width: '96%',
-    fontSize: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   texto: {
     fontSize: 22,
     marginLeft: 8,
     color: '#009688',
     paddingVertical: 4,
+  },
+  alinhamentoBotoes: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnCancel: {
     alignItems: 'flex-start'
