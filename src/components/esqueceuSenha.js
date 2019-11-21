@@ -15,6 +15,9 @@ import Firebase from "../controller/Firebase";
 export default class EsqueceuSenha extends React.Component {
   state = {
     email: '',
+    erro: false,
+    borda: '#00695c',
+    mensagem: '',
     isLoading: false,
   }
   Firebase = new Firebase()
@@ -22,8 +25,8 @@ export default class EsqueceuSenha extends React.Component {
   redefinirSenha(email) {
     this.setState({ isLoading: true });
     if (email === '') {
-      this.setState({ isLoading: false });
-      ToastAndroid.show('Por favor informe um email', ToastAndroid.SHORT);
+      this.setState({ isLoading: false, erro: true, borda: "#870303", mensagem: 'Por favor informe um email' })
+      // ToastAndroid.show('Por favor informe um email', ToastAndroid.SHORT);
     } else {
       this.Firebase.enviarRedefinicaoSenha(email)
         .then(() => {
@@ -33,10 +36,12 @@ export default class EsqueceuSenha extends React.Component {
         .catch((error) => {
           switch (error.code) {
             case 'auth/invalid-email':
-              ToastAndroid.show("O email informado é invalido", ToastAndroid.SHORT);
+              // ToastAndroid.show("O email informado é invalido", ToastAndroid.SHORT);
+              this.setState({ erro: true, borda: "#870303", mensagem: 'O email informado é invalido' })
               break;
             case 'auth/user-not-found':
-              ToastAndroid.show("Email não cadastrado", ToastAndroid.SHORT);
+                this.setState({ erro: true, borda: "#870303", mensagem: 'Email não cadastrado' })
+                // ToastAndroid.show("Email não cadastrado", ToastAndroid.SHORT);
               break;
             default:
               ToastAndroid.show("Não foi possivel enviar o email", ToastAndroid.SHORT);
@@ -56,15 +61,20 @@ export default class EsqueceuSenha extends React.Component {
         <View>
           <Hoshi
             label={'Email'}
-            borderColor={'#00695c'}
+            borderColor={this.state.borda}
             borderHeight={3}
             inputPadding={16}
-            onChangeText={email => { this.setState({ email }) }}
+            onChangeText={email => { this.setState({ email, erro: false, borda: '#00695c' }) }}
             autoCapitalize={'none'}
-            labelStyle={{color: '#00695c'}}
+            labelStyle={{ color: this.state.borda }}
             value={email}
             style={styles.caixaTexto}
           />
+          {
+            this.state.erro && (
+              <Text style={{ color: '#870303', fontSize: 12 }}>{this.state.mensagem}</Text>
+            )
+          }
         </View>
         <TouchableOpacity onPress={() => { this.redefinirSenha(email) }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
           {

@@ -32,7 +32,7 @@ export default class ModalExcluirConta extends Component {
         <TouchableOpacity activeOpacity={1} disable={true} >
           <View style={[styles.modal, { width: this.state.width - 55 }]}>
             <Text style={styles.texto}>Deseja realmente excluir a conta?</Text>
-            <View style={StyleSheet.alinhamentoBotoes}>
+            <View style={styles.alinhamentoBotoes}>
               <TouchableOpacity onPress={() => { this.closeModal() }} style={styles.btnCancel}>
                 <Text style={styles.textoBotao}>Não</Text>
               </TouchableOpacity>

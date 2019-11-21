@@ -27,15 +27,14 @@ export default class Logout extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: -20,
     marginBottom: 10,
     borderTopWidth: 1,
     borderColor: '#dcdcdc',
   },
   botao: {
     flexDirection: 'row',
-    marginBottom: -30,
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   texto: {
     fontSize: 16,

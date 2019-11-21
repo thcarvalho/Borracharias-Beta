@@ -110,7 +110,7 @@ export default class EditarPerfil extends Component {
                                     <Text
                                         onChangeText={(senha) => this.setState({ senha })}
                                         style={styles.texto}
-                                    >{this.state.senha}</Text>
+                                    >******</Text>
                                 </View>
                             </View>
                         </TouchableOpacity>

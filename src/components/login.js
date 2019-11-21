@@ -21,6 +21,12 @@ export default class Login extends Component {
     autenticado: null,
     isLoading: false,
     passwordShow: false,
+    erro: false,
+    erroSenha: false,
+    borda: '#00695c',
+    bordaSenha: '#00695c',
+    mensagem: '',
+    mensagemSenha: '',
   }
   Firebase = new Firebase();
 
@@ -33,21 +39,29 @@ export default class Login extends Component {
   logarUsuario = (email, password) => {
     this.setState({ isLoading: true });
     if (email === '' || password === '') {
-      ToastAndroid.show('Por favor, preencha os campos', ToastAndroid.SHORT);
-      this.setState({ isLoading: false })
+      if (email === '') {
+        this.setState({ isLoading: false, erro: true, borda: "#870303", mensagem: 'Campo Obrigatório' })
+      }
+      if (password === '') {
+        this.setState({ isLoading: false, erroSenha: true, bordaSenha: "#870303", mensagemSenha: 'Campo Obrigatório' })
+      }
+      // ToastAndroid.show('Por favor, preencha os campos', ToastAndroid.SHORT);
     } else {
       this.Firebase.logarUsuarioF(email, password)
         .then(() => { this.props.navigation.navigate('Principal') })
         .catch(error => {
           switch (error.code) {
             case 'auth/wrong-password':
-              ToastAndroid.show('Senha incorreta', ToastAndroid.SHORT);
+              // ToastAndroid.show('Senha incorreta', ToastAndroid.SHORT);
+              this.setState({ erroSenha: true, bordaSenha: "#870303", mensagemSenha: 'Senha incorreta' })
               break;
             case 'auth/invalid-email':
-              ToastAndroid.show('Esse email é invalido', ToastAndroid.SHORT);
+              // ToastAndroid.show('Esse email é invalido', ToastAndroid.SHORT);
+              this.setState({ erro: true, borda: "#870303", mensagem: 'Esse email é invalido' })
               break;
             case 'auth/user-not-found':
-              ToastAndroid.show('Usuario não encontrado', ToastAndroid.SHORT);
+              // ToastAndroid.show('Usuario não encontrado', ToastAndroid.SHORT);
+              this.setState({ erro: true, borda: "#870303", mensagem: 'Usuario não encontrado' })
               break;
             default:
               ToastAndroid.show('Erro ao realizar login', ToastAndroid.SHORT);
@@ -75,26 +89,32 @@ export default class Login extends Component {
           <View>
             <Hoshi
               label={'Email'}
-              borderColor={'#00695c'}
+              borderColor={this.state.borda}
               borderHeight={3}
               inputPadding={16}
-              onChangeText={email => { this.setState({ email }) }}
+              onChangeText={email => this.setState({ email, erro: false, borda: '#00695c' })}
+              // onBlur={() => { this.state.vazio ? this.setState({ borda: "#870303" }) : this.setState({ borda: '#00695c' }) }}
               autoCapitalize={'none'}
               keyboardType={"email-address"}
-              labelStyle={{color: '#00695c'}}
+              labelStyle={{ color: this.state.borda }}
               style={styles.caixaTexto}
             />
+            {
+              this.state.erro && (
+                <Text style={{ color: '#870303', fontSize: 12 }}>{this.state.mensagem}</Text>
+              )
+            }
           </View>
           <View>
             <View style={{ marginTop: 4 }}>
               <Hoshi
                 label={'Senha'}
-                borderColor={'#00695c'}
+                borderColor={this.state.bordaSenha}
                 borderHeight={3}
                 inputPadding={16}
-                onChangeText={password => { this.setState({ password }) }}
+                onChangeText={password => { this.setState({ password, erroSenha: false, bordaSenha: '#00695c' }) }}
                 autoCapitalize={'none'}
-                labelStyle={{color: '#00695c'}}
+                labelStyle={{ color: this.state.bordaSenha }}
                 style={styles.caixaTexto}
                 secureTextEntry={passwordShow ? false : true}
               />
@@ -109,6 +129,11 @@ export default class Login extends Component {
                 }
               </TouchableOpacity>
             </View>
+            {
+              this.state.erroSenha && (
+                <Text style={{ color: '#870303', fontSize: 12 }}>{this.state.mensagemSenha}</Text>
+              )
+            }
           </View>
 
           <TouchableOpacity onPress={() => { this.logarUsuario(email, password); }} activeOpacity={0.8} disabled={this.state.isLoading} style={styles.botao}>
@@ -171,6 +196,7 @@ const styles = StyleSheet.create({
     width: 310,
     fontSize: 18,
     marginBottom: 10,
+    borderColor: '#00695c'
   },
   caixaTextoSenha: {
     width: 264,
@@ -187,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 26,
     fontSize: 16,
   },
-  texto: { 
+  texto: {
     paddingVertical: 7,
     fontSize: 16,
     color: '#009688',

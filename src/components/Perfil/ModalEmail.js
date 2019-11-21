@@ -141,7 +141,7 @@ export default class ModalEmail extends Component {
                       underlineColorAndroid={'#00695c'}
                       secureTextEntry={passwordShow ? false : true}
                     />
-                    <TouchableOpacity style={styls.alinhamentoIcone} onPress={this.tooglePassword} activeOpacity={0.8}>
+                    <TouchableOpacity style={styles.alinhamentoIcone} onPress={this.tooglePassword} activeOpacity={0.8}>
                       {
                         this.state.passwordShow ?
                           (
