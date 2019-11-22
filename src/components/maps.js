@@ -49,8 +49,6 @@ export default class Maps extends Component {
       this.setState({ geolocalizacao: false })
     }
 
-
-
     // PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
     //   .then(result => {
     //     if (result) {
@@ -133,8 +131,8 @@ export default class Maps extends Component {
     })
   }
 
-  recuperarLocalização() {
-    Geolocation.getCurrentPosition(
+  async recuperarLocalização() {
+    await Geolocation.getCurrentPosition(
       position => {
         this.setState({
           userRegion: {
@@ -156,9 +154,9 @@ export default class Maps extends Component {
         this.setState({ geolocalizacao: false })
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 20000,
-        maximumAge: 1000,
+        maximumAge: 0,
       },
     );
   }
