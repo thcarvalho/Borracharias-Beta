@@ -8,36 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:724721781102:android:d6bafcca15700b183f597f",
-        "android_client_info": {
-          "package_name": "com.borrachariasbeta"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "724721781102-3omuon33sfoqtg371vqu29e6edomabpl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDeNItnSa7YoeL-EJ5BTBXenPDdG8jZna0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "724721781102-3omuon33sfoqtg371vqu29e6edomabpl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:724721781102:android:9d23091e20a76d173f597f",
+        "mobilesdk_app_id": "1:724721781102:android:2717b628404f3ea33f597f",
         "android_client_info": {
           "package_name": "com.retire"
         }

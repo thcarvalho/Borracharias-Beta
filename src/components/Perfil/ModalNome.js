@@ -50,7 +50,6 @@ export default class ModalNome extends Component {
           this.closeModal();
         })
         .catch(error => {
-          console.log(error)
           ToastAndroid.show('Não foi possivel alterar seu nome', ToastAndroid.SHORT);
           this.setState({ isLoading: false })
         })

@@ -106,7 +106,6 @@ export default class Lista extends Component {
       destinacoes: this.state.destinacoes.sort(this.compare),
       isLoading: false,
     });
-    console.log(this.state.destinacoes);
 
   }
 
@@ -150,7 +149,7 @@ export default class Lista extends Component {
           },
         });
       },
-      error => console.log(error),
+      error => alert("Erro ao recuperar geolocalização: "+error),
       {
         enableHighAccuracy: true,
         timeout: 20000,
@@ -163,8 +162,6 @@ export default class Lista extends Component {
 
   pesquisar(filtro, pesquisa) {
     this.setState({ pesquisa });
-    console.log(pesquisa);
-
     if (filtro === 'Bairro') {
       this.Firebase.refDestinacoes
         .where("visivel", "==", true)
@@ -208,7 +205,6 @@ export default class Lista extends Component {
 
   ordenar(ordem) {
     this.setState({ ordem, isLoading: true })
-    console.log(ordem);
     switch (ordem) {
       case 0:
         this.Firebase.refDestinacoes
@@ -428,7 +424,6 @@ export default class Lista extends Component {
                   title: 'Ordenar por...',
                 },
                 buttonIndex => {
-                  console.log(buttonIndex);
                   this.ordenar(buttonIndex);
                 }
               );

@@ -58,7 +58,6 @@ export default class CadastroUsuario extends Component {
             //Adicionar ao banco
             this.Firebase.cadastrarUsuarioF(usuario);
           } catch (error) {
-            console.log(error);
             ToastAndroid.show('Não foi possivel efetuar o cadastro', ToastAndroid.SHORT);
           }
         })

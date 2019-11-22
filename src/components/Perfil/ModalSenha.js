@@ -88,7 +88,6 @@ export default class ModalSenha extends Component {
       }
     } catch (error) {
       ToastAndroid.show('Erro ao solicitar troca de senha', ToastAndroid.SHORT);
-      console.log(error);
       this.setState({ isLoading: false })
     }
 

@@ -45,7 +45,6 @@ export default class EsqueceuSenha extends React.Component {
               break;
             default:
               ToastAndroid.show("Não foi possivel enviar o email", ToastAndroid.SHORT);
-              console.log(error.code);
               break;
           }
         })

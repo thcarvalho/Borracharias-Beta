@@ -44,14 +44,12 @@ export default class Sugerir extends Component {
           let location = json.results[0].geometry.location;
           latitude = location.lat;
           longitude = location.lng;
-          console.log(location);
-          console.log(enderecoCompleto);
           const destinacao = new Ecoponto(ecoponto, cep, endereco, bairro, numero, cidade, estado, telefone, latitude, longitude);
           this.Firebase.sugerirDestinacao(destinacao)
             .then(() => {
               ToastAndroid.show('Obrigado pela sugestão!', ToastAndroid.SHORT);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => alert("Não foi possivel concluir sua sugestão: "+error));
           this.setState({
             ecoponto: '',
             cep: '',
@@ -66,14 +64,13 @@ export default class Sugerir extends Component {
             isLoading: false,
           });
         })
-        .catch(error => console.log(error));
+        .catch(error => alert("Não foi possivel concluir sua sugestão: "+error));
     }
   }
 
   recuperarCEP(cep) {
     cepPromise(cep)
       .then((CEP) => {
-        console.log(CEP);
         this.setState({
           estado: CEP.state,
           cidade: CEP.city,
@@ -81,7 +78,7 @@ export default class Sugerir extends Component {
           endereco: CEP.street,
         })
       })
-      .catch(error => console.log(error))
+      .catch(error => alert("Erro ao recuperar CEP: "+error))
   }
 
   render() {

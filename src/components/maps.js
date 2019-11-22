@@ -43,11 +43,9 @@ export default class Maps extends Component {
         buttonPositive: 'OK',
       })
     if (geolocalizacao === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log("Liberado");
       this.setState({ geolocalizacao: true })
       this.recuperarLocalização();
     } else {
-      console.log("Recusada");
       this.setState({ geolocalizacao: false })
     }
 
@@ -80,8 +78,6 @@ export default class Maps extends Component {
     let cidade = doc.data().cidade;
     let estado = doc.data().estado;
 
-    console.log(id);
-
     this.setState({
       markers: this.state.markers.concat([{
         id,
@@ -103,15 +99,12 @@ export default class Maps extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    console.log(nextProps.navigation.getParam('latitude'));
-    console.log(nextProps.navigation.getParam('longitude'));
     this.coords = { latitude: nextProps.navigation.getParam('latitude'), longitude: nextProps.navigation.getParam('longitude'), latitudeDelta: 0.0462, longitudeDelta: 0.0261, };
     this.idMarker = nextProps.navigation.getParam('id');
   }
 
   centralizarMarker = (coordinates) => {
     const { markers } = this.state;
-    console.log(coordinates);
     if (this.coords !== null) {
       this.mapRef.animateToRegion(coordinates, 1);
       for (let i = 0; i < markers.length; i++) {
@@ -161,22 +154,20 @@ export default class Maps extends Component {
       },
       error => {
         this.setState({ geolocalizacao: false })
-        console.log(error)
       },
       {
         enableHighAccuracy: true,
         timeout: 20000,
+        maximumAge: 1000,
       },
     );
   }
 
   async componentDidMount() {
-    console.log(this.mapRef);
     this.recuperarLocalização();
   }
 
   openModal = (id) => {
-    console.log(id);
     this.setState({
       detalhar: true,
       // region: {
@@ -267,7 +258,6 @@ export default class Maps extends Component {
             } else {
               this.mapRef.animateToRegion(userRegion, 1000);
             }
-            console.log(region);
           }}
         >
           <IconMA name="my-location" size={30} color={'#00695c'} />

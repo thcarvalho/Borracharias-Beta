@@ -24,7 +24,7 @@ export default class CadastrarDestinacao extends Component {
       .then(() => {
         alert("Sugestao aceita");
       })
-      .catch((error) => console.log(error))
+      .catch((error) => alert("Não foi possivel concluir essa operação"+error))
   }
   recusarSugestao(id) {
     this.Firebase.refDestinacoes
@@ -33,7 +33,7 @@ export default class CadastrarDestinacao extends Component {
       .then(() => {
         alert("Sugestao recusada");
       })
-      .catch((error) => console.log(error))
+      .catch((error) => alert("Não foi possivel concluir essa operação"+error))
   }
 
 
@@ -55,7 +55,6 @@ export default class CadastrarDestinacao extends Component {
     this.Firebase.recuperarDestinacao(false,snapshot => {
         this.setState({ sugestoes: [] });
         snapshot.forEach(doc => {
-          console.log(doc.data());
           this.mostrarSugestoes(doc);
         });
       });

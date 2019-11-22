@@ -66,7 +66,6 @@ export default class ModalEmail extends Component {
                   this.setState({ isLoading: false });
                 })
                 .catch(error => {
-                  console.log(error)
                   ToastAndroid.show('Não foi possivel alterar seu nome', ToastAndroid.SHORT);
                   this.setState({ isLoading: false });
                 })
